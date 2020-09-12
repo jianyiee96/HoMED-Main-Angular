@@ -1,0 +1,25 @@
+<body>
+    <img id="logo" src="../../assets/images/MHA-logo.png" alt="MHA-logo" height="500" width="500">   
+    <button id="loginButton" type="button" (click)="showModalDialog()" pButton icon="pi pi-external-link" label="Click to Login"></button>
+    <div class="img-overlay">
+        <p-dialog header="Enter your details" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}" [baseZIndex]="10000"
+            [draggable]="false" [resizable]="false">
+            <div class="p-field p-grid">
+                <label for="username" class="p-col-fixed" style="width:10px">NRIC</label>
+                <div class="p-col">
+                    <input id="username" type="text" pInputText #username> 
+                </div>
+            </div>
+            <div class="p-field p-grid">
+                <label for="password" class="p-col-fixed" style="width:10px">Password</label>
+                <div class="p-col">
+                    <input id="password" type="password" pInputText #password> 
+                </div>
+            </div>
+                <p-footer>
+                    <button type="button" pButton icon="pi pi-check" (click)="displayModal=false" label="Login now"></button>
+                    <button type="button" pButton icon="pi pi-times" (click)="clearUsername(username)" (click)="clearPassword(password)" label="Clear" class="ui-button-secondary"></button>
+                </p-footer>
+        </p-dialog>      
+    </div>
+</body>
