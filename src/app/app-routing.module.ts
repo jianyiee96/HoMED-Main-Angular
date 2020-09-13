@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./screens/login-screen/login-screen.module').then(m => m.LoginScreenComponentModule),
     canActivate: [AuthGuard] 
   },
+  { 
+    path: 'home-screen', 
+    loadChildren: () => import('./screens/home-screen/home-screen.module').then(m => m. HomeScreenComponentModule),
+    canActivate: [AuthGuard] 
+  },
 ];
 
 @NgModule({
