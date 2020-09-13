@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginScreenComponent } from './login-screen/login-screen.component';
+import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login-screen', pathMatch: "full" },
-  { path: "login-screen", component: LoginScreenComponent },
+  { 
+    path: '', 
+    redirectTo: 'login-screen', 
+    pathMatch: 'full' 
+  },
+  { 
+    path: 'login-screen', 
+    loadChildren: () => import('./screens/login-screen/login-screen.module').then(m => m.LoginScreenComponentModule),
+    canActivate: [AuthGuard] 
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
