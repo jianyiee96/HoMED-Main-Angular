@@ -12,7 +12,6 @@ import { AppNavbarComponent } from './layout/app-navbar/app-navbar.component';
 import { AppBreadcrumbComponent } from './layout/app-breadcrumb/app-breadcrumb.component';
 import { AppMainComponent } from './layout/app-main/app-main.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +27,6 @@ import { AppMainComponent } from './layout/app-main/app-main.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,   
-
   ],
   providers: [],
   bootstrap: [AppComponent]
