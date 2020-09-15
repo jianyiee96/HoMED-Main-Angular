@@ -19,6 +19,7 @@ import { LoginScreenComponent } from './login-screen.component';
     InputTextModule,
     LoginScreenComponentRoutingModule
   ],
-  declarations: [LoginScreenComponent]
+  declarations: [LoginScreenComponent],
+
 })
 export class LoginScreenComponentModule {}

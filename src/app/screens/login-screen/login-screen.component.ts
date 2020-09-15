@@ -10,18 +10,12 @@ import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 @Component({
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
-  styleUrls: ['./login-screen.component.css']
+  styleUrls: ['./login-screen.component.css'] 
 })
 export class LoginScreenComponent implements OnInit {
 
   nric: string = "s9876543z"
   password: string = "password"
-
-  displayModal: boolean;
-
-  showModalDialog() {
-    this.displayModal = true;
-  }
 
   
   constructor(

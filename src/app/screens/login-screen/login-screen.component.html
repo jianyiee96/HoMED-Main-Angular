@@ -1,34 +1,35 @@
-<body>
-    <img id="logo" src="../../assets/images/MHA-logo.png" alt="MHA-logo" height="500" width="500">   
-
-    <button id="loginButton" type="button" (click)="showModalDialog()" pButton icon="pi pi-external-link" label="Click to Login"></button>
-
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" >
-    <div class="img-overlay">
-        <p-dialog header="Enter your details" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}" [baseZIndex]="10000"
-            [draggable]="false" [resizable]="false">
-
-            <div class="p-field p-grid">
-                <label for="nric" class="p-col-fixed" style="width:10px" position="floating">NRIC</label>
-                <div class="p-col">
-                    <input name="nric" type="text" pInputText [(ngModel)]="nric" minlength="9" maxlength="9" required> 
+<div class="login-body">
+    <div class="login-panel ui-fluid">
+        <div class="login-panel-header">
+            <img src="./assets/layout/images/logo-slim.png">
+        </div>
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" >
+        <div class="login-panel-content">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <h1>Sign-in to HoMED Serviceman Application</h1>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input type="text" pInputText name="nric" [(ngModel)]="nric" minlength="9" maxlength="9" required>
+                        <label>NRIC</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input type="text" name="password" [(ngModel)]="password" type="password" required pInputText>
+                        <label>Password</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Sign In" icon="ui-icon-person"></button>
+                </div>
+                <div class="ui-g-12">
+                    Forgot your password? <a href="#">Click here</a>
                 </div>
             </div>
-
-            <div class="p-field p-grid">
-                <label for="password" class="p-col-fixed" style="width:10px" position="floating">Password</label>
-                <div class="p-col">
-                    <input name="password" [(ngModel)]="password" type="password" required pInputText> 
-                </div>
-            </div>
-
-                <p-footer>
-                    <button type="button" pButton icon="pi pi-check" [disabled]="loginForm.invalid" type="submit" label="Login now"></button>
-                    <button type="button" pButton icon="pi pi-times" (click)="clear()" label="Clear" class="ui-button-secondary"></button>
-                </p-footer>
-
-        </p-dialog>      
+        </div>
+        </form>
     </div>
-    </form>
-    
-</body>
+</div>
+
