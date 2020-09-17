@@ -4,6 +4,7 @@
             <h1>Account details</h1>
             <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
                 <div class="ui-g">
+<<<<<<< HEAD
                     <div class="ui-g-6">
                         <h4>Name:</h4>
                         <input name="name" type="text" pInputText [(ngModel)]="name" [readonly]=true/>
@@ -11,6 +12,52 @@
                     <div class="ui-g-6">
                         <h4>NRIC:</h4>
                         <input name="nric" type="text" pInputText [(ngModel)]="nric"  [readonly]=true>
+=======
+                    
+                    <div class="ui-g-12">
+                        
+                        <h5>Name:</h5>
+                        <input type="text" pInputText [(ngModel)]="name"/>
+                        
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            Nric: 
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+                        <div class="ui-g-4">
+                            Password:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            Email:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+                        <div class="ui-g-4">
+                            Phone:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
+
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            ROD:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
+                        <div class="ui-g-4">
+                            Address:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
+>>>>>>> 047e1448a876381a31d45f63f85ebe4deeb31e98
 
                     </div>
                     <div class="ui-g-6">
@@ -57,6 +104,7 @@
                     <button id="updateButton" type="button" pButton icon="pi pi-check" type="submit" label="Update" [disabled]="updateForm.invalid"></button>
                     <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="editForm()"></button>
                 </div>
+<<<<<<< HEAD
             </div>
                 <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
             </form>   
@@ -105,3 +153,9 @@
         </div>
     </form>
 </div>
+=======
+            </form>
+        </div>
+    </div>
+</div>
+>>>>>>> 047e1448a876381a31d45f63f85ebe4deeb31e98
