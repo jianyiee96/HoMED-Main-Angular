@@ -7,7 +7,7 @@ import { AppMainComponent } from './layout/app-main/app-main.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home-screen',
+    redirectTo: 'login-screen',
     pathMatch: 'full'
   },
   {
@@ -17,14 +17,14 @@ const routes: Routes = [
       {
         path: 'home-screen',
         loadChildren: () => import('./screens/home-screen/home-screen.module').then(m => m.HomeScreenComponentModule),
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
       }
     ]
   },
   {
     path: 'login-screen',
     loadChildren: () => import('./screens/login-screen/login-screen.module').then(m => m.LoginScreenComponentModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
 ];
 

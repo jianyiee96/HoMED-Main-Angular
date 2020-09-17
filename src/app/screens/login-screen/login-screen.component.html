@@ -3,33 +3,69 @@
         <div class="login-panel-header">
             <img src="./assets/layout/images/logo-slim.png">
         </div>
-        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" >
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" name="loginForm" >
         <div class="login-panel-content">
+
             <div class="ui-g">
                 <div class="ui-g-12">
                     <h1>Sign-in to HoMED Serviceman Application</h1>
                 </div>
                 <div class="ui-g-12">
                     <span class="md-inputfield">
-                        <input type="text" pInputText name="nric" [(ngModel)]="nric" minlength="9" maxlength="9" required>
-                        <label>NRIC</label>
-                    </span>
+                        <input type="text" id="nric" pInputText  name="nric" [(ngModel)]="nric" minlength="9" maxlength="9" required >
+                        <label>NRIC</label>                                 
+                    </span>          
                 </div>
+
                 <div class="ui-g-12">
                     <span class="md-inputfield">
                         <input type="text" name="password" [(ngModel)]="password" type="password" required pInputText>
-                        <label>Password</label>
+                        <label id="lblName"> {{label}}</label>                     
                     </span>
                 </div>
+
                 <div class="ui-g-12">
-                    <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Sign In" icon="ui-icon-person"></button>
+                    <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Login" icon="ui-icon-person"></button>
                 </div>
-                <div class="ui-g-12">
-                    Forgot your password? <a href="#">Click here</a>
+                <div class="ui-g-12" >
+                    {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
+                    <!-- Forgot your password? <a href="javascript:void(0)" (click)="openModal()">Click here</a>  -->
                 </div>
+
             </div>
+            <p-messages [value]="msgs" ></p-messages>
+            <!-- <p-toast key="tst" position="center" [style]="{marginTop: '180px'}"></p-toast> -->
         </div>
         </form>
     </div>
+
+    <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)" >
+    <div class="ui-g form-group"  >
+        <p-dialog header="Activate Your Account First" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"  [draggable]="false" [closable] = "false" [resizable]="false" >
+            <div class="ui-g-12" >
+                <span class="md-inputfield md-inputfield-box">
+                    <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"  pInputText >
+                    <label>Enter New Password</label>             
+                </span>
+            </div>
+
+            <div class="ui-g-12">
+                <span class="md-inputfield md-inputfield-box">
+                    <input type="text" name="newPasswordRe" [(ngModel)]="newPasswordRe"  type="password" pInputText>
+                    <label>Re-Enter New Password</label>
+                </span>
+            </div>
+            
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                    <button type="button" pButton icon="pi pi-check" type="submit" label="Activate now"  ></button>
+                    <!-- <button type="button" pButton icon="pi pi-times" label="Clear" (click)="clear()"  class="ui-button-secondary"></button> -->
+                </div>
+            </p-footer>  
+            <p-messages [value]="msgForDialog" ></p-messages>
+        </p-dialog> 
+    </div>
+    </form>
+
 </div>
 

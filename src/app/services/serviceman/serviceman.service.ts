@@ -17,10 +17,26 @@ export class ServicemanService {
 
   constructor(private httpClient: HttpClient) {}
 
-  servicemanLogin(nric: string, password: string): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + "/servicemanLogin", {nric : nric, password : password}).pipe(
+  login(nric: string, password: string): Observable<any> {
+    let loginReq = {
+      "nric": nric,
+      "password": password
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + "/login", loginReq).pipe(
       catchError(this.handleError)
     )
+  }
+
+  changePassword(nric: string, oldPassword: string, newPassword: string) {
+    let changePasswordReq = {
+      "nric": nric,
+      "oldPassword": oldPassword,
+      "newPassword": newPassword
+    }
+    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -32,9 +48,8 @@ export class ServicemanService {
     else {
       errorMessage = "A HTTP error has occurred: " + `HTTP ${error.status}: ${error.error.message}`;
     }
-
     console.error(errorMessage);
-
     return throwError(errorMessage);
   }
+  
 }
