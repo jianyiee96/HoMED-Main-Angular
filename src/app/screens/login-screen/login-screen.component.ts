@@ -87,14 +87,18 @@ export class LoginScreenComponent implements OnInit {
   }
 
   activate(activationForm: NgForm) {
-
-    if (this.newPassword != this.newPasswordRe) {
+    
+    if ((this.newPassword == "" && this.newPasswordRe == "")) {
+      this.msgForDialog = []
+      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
+    }
+    else if (this.newPassword != this.newPasswordRe) {
       this.msgForDialog = []
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Passwords do not match' })
     }
-    else if (this.newPassword == "" || this.newPasswordRe =="" || this.newPassword == "" && this.newPasswordRe =="" ) {
+    else if (this.newPassword.length < 8) {
       this.msgForDialog = []
-      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
+      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
     }
     else {
       this.msgs = [];
@@ -110,10 +114,10 @@ export class LoginScreenComponent implements OnInit {
         this.displayModal = false
         this.label = "Password"
         this.activated = "First time here?"
-        this.password=""   
+        this.password = ""   
       }, error => {
         this.msgForDialog = []
-        this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any field blank' })
+        this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please redo activation' })
       }
     );
   }
@@ -124,18 +128,26 @@ export class LoginScreenComponent implements OnInit {
         this.label = "Password"
         this.activated = "First time here?"
         this.msgs = [];
-        this.password=""
+        this.password = ""
       }
       else {
         this.label = "One Time Password"
         this.activated = "Been here before?"
         this.msgs = [];
-        this.password=""
+        this.password = ""
       }
   }
 
   openModal() {
     this.displayModal = true  
+  }
+
+
+  clearDialog(){
+    this.newPassword = ""
+    this.newPasswordRe = ""
+    this.msgForDialog = []
+    this.displayModal = false
   }
       
 } 

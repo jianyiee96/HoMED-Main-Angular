@@ -19,7 +19,7 @@
 
                 <div class="ui-g-12">
                     <span class="md-inputfield">
-                        <input type="text" name="password" [(ngModel)]="password" type="password" required pInputText>
+                        <input type="text" name="password" [(ngModel)]="password" type="password" minlength="8" maxlength="64" required pInputText>
                         <label id="lblName"> {{label}}</label>                     
                     </span>
                 </div>
@@ -29,19 +29,19 @@
                 </div>
                 <div class="ui-g-12" >
                     {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
-                    <!-- Forgot your password? <a href="javascript:void(0)" (click)="openModal()">Click here</a>  -->
                 </div>
 
             </div>
-            <p-messages [value]="msgs" ></p-messages>
-            <!-- <p-toast key="tst" position="center" [style]="{marginTop: '180px'}"></p-toast> -->
+            <p-messages [closable] = "false" [value]="msgs" ></p-messages>
+
         </div>
         </form>
     </div>
 
     <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)" >
-    <div class="ui-g form-group"  >
-        <p-dialog header="Activate Your Account First" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"  [draggable]="false" [closable] = "false" [resizable]="false" >
+    <div class="ui-g form-group ui-fluid"  >
+        <p-dialog header="Activate Your Account First" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"  
+                    [draggable]="false" [closable] = "false" [resizable]="false">
             <div class="ui-g-12" >
                 <span class="md-inputfield md-inputfield-box">
                     <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"  pInputText >
@@ -57,12 +57,12 @@
             </div>
             
             <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button type="button" pButton icon="pi pi-check" type="submit" label="Activate now"  ></button>
-                    <!-- <button type="button" pButton icon="pi pi-times" label="Clear" (click)="clear()"  class="ui-button-secondary"></button> -->
+                <div class="ui-dialog-buttonpane ui-helper-clearfix ui-g" >
+                    <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit" label="Activate"  ></button>
+                    <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearDialog()" label="Cancel"  ></button>
                 </div>
             </p-footer>  
-            <p-messages [value]="msgForDialog" ></p-messages>
+            <p-messages [closable] = "false" [value]="msgForDialog" ></p-messages>
         </p-dialog> 
     </div>
     </form>

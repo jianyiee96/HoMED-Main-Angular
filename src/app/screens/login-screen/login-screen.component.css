@@ -1,0 +1,11 @@
+#activationButton {
+    width: 120px;
+    display: block;
+    margin-left:70px;
+}
+
+#cancelButton {
+    width: 100px;
+    display: block;
+    margin-left:20px;
+}
