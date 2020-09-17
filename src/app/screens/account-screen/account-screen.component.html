@@ -4,11 +4,54 @@
             <h1>Account details</h1>
             <form #updateForm="ngForm" name="form" (ngSubmit)="updateForm.form.valid" novalidate>
                 <div class="ui-g">
-                    <div class="ui-g-6">
+                    
+                    <div class="ui-g-12">
+                        
+                        <h5>Name:</h5>
+                        <input type="text" pInputText [(ngModel)]="name"/>
+                        
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            Nric: 
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+                        <div class="ui-g-4">
+                            Password:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            Email:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+                        </div>
+                        <div class="ui-g-4">
+                            Phone:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
+
+                    </div>
+                    <div class="ui-g-12">
+
+                        <div class="ui-g-4">
+                            ROD:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
+                        <div class="ui-g-4">
+                            Address:
+                            <input type="text" pInputText [(ngModel)]="name"/>
+
+                        </div>
 
                     </div>
                 </div>
-            </form>   
+            </form>
         </div>
     </div>
 </div>
