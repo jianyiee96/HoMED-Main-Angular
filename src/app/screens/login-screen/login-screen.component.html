@@ -3,69 +3,79 @@
         <div class="login-panel-header">
             <img src="./assets/layout/images/logo-slim.png">
         </div>
-        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" name="loginForm" >
-        <div class="login-panel-content">
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" name="loginForm">
+            <div class="login-panel-content">
 
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <h1>Sign-in to HoMED Serviceman Application</h1>
-                </div>
-                <div class="ui-g-12">
-                    <span class="md-inputfield">
-                        <input type="text" id="nric" pInputText  name="nric" [(ngModel)]="nric" minlength="9" maxlength="9" required >
-                        <label>NRIC</label>                                 
-                    </span>          
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <h1>Sign-in to HoMED Serviceman Application</h1>
+
+                        <p-messages [closable]="false" [value]="msgs"></p-messages>
+
+                    </div>
+
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input type="text" id="nric" pInputText name="nric" [(ngModel)]="nric" minlength="9"
+                                maxlength="9" required>
+                            <label>NRIC</label>
+                        </span>
+                    </div>
+
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input type="text" name="password" [(ngModel)]="password" type="password" minlength="8"
+                                maxlength="64" required pInputText>
+                            <label id="lblName"> {{label}}</label>
+                        </span>
+                    </div>
+
+                    <div class="ui-g-12">
+                        <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Login"
+                            icon="ui-icon-person"></button>
+                    </div>
+                    <div class="ui-g-12">
+                        {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
+                    </div>
+
                 </div>
 
+            </div>
+        </form>
+    </div>
+
+    <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)">
+        <div class="ui-g form-group ui-fluid">
+            <p-dialog header="Account Activation" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
+                [draggable]="false" [closable]="false" [resizable]="false">
+
+                <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
+
                 <div class="ui-g-12">
-                    <span class="md-inputfield">
-                        <input type="text" name="password" [(ngModel)]="password" type="password" minlength="8" maxlength="64" required pInputText>
-                        <label id="lblName"> {{label}}</label>                     
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"
+                            pInputText>
+                        <label>Enter New Password</label>
                     </span>
                 </div>
 
                 <div class="ui-g-12">
-                    <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Login" icon="ui-icon-person"></button>
-                </div>
-                <div class="ui-g-12" >
-                    {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" name="newPasswordRe" [(ngModel)]="newPasswordRe" type="password" pInputText>
+                        <label>Re-Enter New Password</label>
+                    </span>
                 </div>
 
-            </div>
-            <p-messages [closable] = "false" [value]="msgs" ></p-messages>
-
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit"
+                        label="Activate"></button>
+                </div>
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearDialog()"
+                        label="Cancel"></button>
+                </div>
+            </p-dialog>
         </div>
-        </form>
-    </div>
-
-    <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)" >
-    <div class="ui-g form-group ui-fluid"  >
-        <p-dialog header="Activate Your Account First" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}"  
-                    [draggable]="false" [closable] = "false" [resizable]="false">
-            <div class="ui-g-12" >
-                <span class="md-inputfield md-inputfield-box">
-                    <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"  pInputText >
-                    <label>Enter New Password</label>             
-                </span>
-            </div>
-
-            <div class="ui-g-12">
-                <span class="md-inputfield md-inputfield-box">
-                    <input type="text" name="newPasswordRe" [(ngModel)]="newPasswordRe"  type="password" pInputText>
-                    <label>Re-Enter New Password</label>
-                </span>
-            </div>
-            
-            <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix ui-g" >
-                    <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit" label="Activate"  ></button>
-                    <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearDialog()" label="Cancel"  ></button>
-                </div>
-            </p-footer>  
-            <p-messages [closable] = "false" [value]="msgForDialog" ></p-messages>
-        </p-dialog> 
-    </div>
     </form>
 
 </div>
-
