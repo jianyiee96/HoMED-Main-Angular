@@ -14,6 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ServicemanService {
+  
 
   baseUrl: string = "/api/Serviceman"
 
@@ -29,7 +30,7 @@ export class ServicemanService {
       catchError(this.handleError)
     )
   }
-
+  
   changePassword(nric: string, oldPassword: string, newPassword: string) {
     let changePasswordReq = {
       "nric": nric,
@@ -40,6 +41,7 @@ export class ServicemanService {
       catchError(this.handleError)
     );
   }
+  
 
   updateAccount(accountToUpdate: Serviceman): Observable<any> {
     let updateAccountReq = {

@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Message } from 'primeng/primeng';
-import { MessageService } from 'primeng/api';
 
 import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 import { SessionService } from 'src/app/services/session/session.service';
@@ -13,14 +12,14 @@ import { Serviceman } from 'src/app/classes/serviceman/serviceman';
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
   styleUrls: ['./login-screen.component.css'],
-  providers: [MessageService] 
+  providers: [] 
 })
 export class LoginScreenComponent implements OnInit {
 
   nric: string 
   password: string 
   newPassword:  string
-  newPasswordRe: string
+  confirmNewPassword: string
   msgs: Message[] = []
   msgForDialog: Message[] = []
   displayModal: boolean
@@ -32,10 +31,12 @@ export class LoginScreenComponent implements OnInit {
     private router: Router,
     private servicemanService: ServicemanService, 
     private sessionService: SessionService,
-    private service: MessageService) { 
+  ) { 
   }
 
   ngOnInit() {
+    this.newPassword = ""
+    this.confirmNewPassword = ""
   }
 
   login(loginForm: NgForm) {
@@ -88,11 +89,11 @@ export class LoginScreenComponent implements OnInit {
 
   activate(activationForm: NgForm) {
     
-    if ((this.newPassword == "" && this.newPasswordRe == "")) {
+    if ((this.newPassword == "" && this.confirmNewPassword == "" && this.password =="")) {
       this.msgForDialog = []
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
     }
-    else if (this.newPassword != this.newPasswordRe) {
+    else if (this.newPassword != this.confirmNewPassword) {
       this.msgForDialog = []
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Passwords do not match' })
     }
@@ -145,7 +146,7 @@ export class LoginScreenComponent implements OnInit {
 
   clearDialog(){
     this.newPassword = ""
-    this.newPasswordRe = ""
+    this.confirmNewPassword = ""
     this.msgForDialog = []
     this.displayModal = false
   }
