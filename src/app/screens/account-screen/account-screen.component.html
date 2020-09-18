@@ -24,7 +24,7 @@
                     
                     <div class="ui-g-6">
                         <h4>Phone Number:</h4>
-                        <input name="phoneNumber" id = "value" type="tel" minlength="8" maxlength="8" 
+                        <input name="phoneNumber" id = "value" type="tel" minlength="8" maxlength="8" icon=" ui-icon-create" class="editable" 
                                 pattern="[0-9]*"  pInputText [(ngModel)]="phoneNumber" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
 
                         <div *ngIf="phoneNumberError">
@@ -35,7 +35,7 @@
 
                     <div class="ui-g-6">
                         <h4>Email:</h4>
-                        <input name="email"  id = "value" pInputText [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
+                        <input name="email"  id = "value" class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
                         <div *ngIf="emailError">
                             <p-message severity="error" text="Email already in use"></p-message>
                         </div>
@@ -45,7 +45,7 @@
                 
                     <div class="ui-g-6">
                         <h4>Address:</h4>
-                        <input name="address" id = "value" type="text" pInputText [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
+                        <input name="address" id = "value" class="editable" type="text" pInputText icon=" ui-icon-create" [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
                     </div>
 
                     <div class="ui-g-6">
@@ -55,7 +55,7 @@
                 </div>
                 <br/><br/><br/>
                 <div *ngIf="!editFields" style="margin: 0 auto; width:30%;">
-                    <button id="editButton" type="button" pButton icon="pi pi-check" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
+                    <button id="editButton" type="button" pButton icon=" ui-icon-build" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
                 </div>
                  
                 <div style="margin: 0 auto; width:30%;">

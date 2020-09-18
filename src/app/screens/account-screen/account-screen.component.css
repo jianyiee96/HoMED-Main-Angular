@@ -1,4 +1,7 @@
 #value {
     font-size: large;
-    color: #00416d;
+}
+
+.editable {
+    font-weight: bold;
 }
