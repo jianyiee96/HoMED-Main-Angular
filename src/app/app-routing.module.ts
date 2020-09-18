@@ -18,6 +18,11 @@ const routes: Routes = [
         path: 'home-screen',
         loadChildren: () => import('./screens/home-screen/home-screen.module').then(m => m.HomeScreenComponentModule),
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'account-screen',
+        loadChildren: () => import('./screens/account-screen/account-screen.module').then(m => m.AccountScreenComponentModule),
+        canActivate: [AuthGuard]
       }
     ]
   },
@@ -33,4 +38,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

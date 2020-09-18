@@ -1,0 +1,138 @@
+<div class="ui-fluid">
+    <div class="card">
+        <h1>Account details</h1>
+        <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>Name:</h4>
+                    <input name="name" id="value" type="text" pInputText [(ngModel)]="name" [disabled]=true />
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>NRIC:</h4>
+                    <input name="nric" id="value" type="text" pInputText [(ngModel)]="nric" [disabled]=true>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>Password:</h4>
+                    <button type="button" (click)="openModal()" expand="block" pButton icon="ui-icon-open-in-new"
+                        label="Change Password"></button>
+                    <div *ngIf="passwordError">
+                        <p-message severity="error" text="Wrong Current Password entered"></p-message>
+                    </div>
+                </div>
+
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>Phone Number:</h4>
+                    <input name="phoneNumber" id="value" type="tel" minlength="8" maxlength="8" icon=" ui-icon-create"
+                        class="editable" pattern="[0-9]*" pInputText [(ngModel)]="phoneNumber" [disabled]="!editFields"
+                        required (ngModelChange)="fieldChange()">
+
+                    <div *ngIf="phoneNumberError">
+                        <p-message severity="error" text="Phone number is already in use"></p-message>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>Email:</h4>
+                    <input name="email" id="value" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                        class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"
+                        [disabled]="!editFields" (ngModelChange)="fieldChange()">
+                    <div *ngIf="emailError">
+                        <p-message severity="error" text="Email already used."></p-message>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>Address:</h4>
+                    <input name="address" id="value" class="editable" type="text" pInputText icon=" ui-icon-create"
+                        [(ngModel)]="address" minlength="8" [disabled]="!editFields" required
+                        (ngModelChange)="fieldChange()">
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-4">
+                    <h4>ROD:</h4>
+                    <input name="rod" id="value" pInputText [(ngModel)]="rod" [disabled]=true>
+                </div>
+            </div>
+
+            <br /><br />
+
+            <div class="p-grid">
+
+                <div class="p-col-12 p-md-12 p-lg-3" *ngIf="!editFields">
+                    
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-2" *ngIf="!editFields">
+                    <button id="editButton" type="button" pButton icon=" ui-icon-build" expand="block"
+                        (click)="updateProfile()" label="Edit Account Details"></button>
+                </div>
+
+                
+                <div class="p-col-0 p-md-0 p-lg-2" *ngIf="editFields">
+                    
+                </div>
+
+                <div class="p-col-12 p-md-12 p-lg-2" *ngIf="editFields">
+                    <button id="updateButton" type="button" pButton icon="pi pi-check" expand="block" type="submit"
+                        label="Update" [disabled]="updateForm.invalid || !fieldsUpdated"></button>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-2" *ngIf="editFields">
+                    <button id="cancelButton" type="button" pButton icon="pi pi-times" expand="block" label="Cancel"
+                        (click)="updateProfile()"></button>
+                </div>
+            </div>
+
+            <p-toast key="tst" position="bottom-center"></p-toast>
+        </form>
+    </div>
+
+
+    <form #changePasswordForm="ngForm" (ngSubmit)="change(changePasswordForm)">
+        <div class="ui-g form-group ui-fluid">
+            <p-dialog header="Change Password" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
+                [draggable]="false" [closable]="false" [resizable]="false">
+
+                <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" id="password" name="password" [(ngModel)]="password" type="password"
+                            pInputText>
+                        <label>Enter Current Password</label>
+                    </span>
+                </div>
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"
+                            pInputText>
+                        <label>Enter New Password</label>
+                    </span>
+                </div>
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" name="confirmNewPassword" [(ngModel)]="confirmNewPassword" type="password"
+                            pInputText>
+                        <label>Re-Enter New Password</label>
+                    </span>
+                </div>
+
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit"
+                        label="Change Password"></button>
+                </div>
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="cancelDialogButton" type="button" pButton icon="pi pi-times" label="Cancel"
+                        (click)="clearDialog()"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </form>
+</div>

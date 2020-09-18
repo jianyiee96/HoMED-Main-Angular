@@ -16,9 +16,9 @@ export class AppMenuComponent {
         this.model = [
             {label: 'Home Page', icon: 'home', routerLink: ['/home-screen']},
             {
-                label: 'My Information', icon: 'list',  routerLink: ['/components'], badgeStyleClass: 'orange-badge',
+                label: 'My Information', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
                 items: [
-                    {label: 'Account Information', icon: 'account_circle', routerLink: ['']},
+                    {label: 'Account Information', icon: 'account_circle', routerLink: ['/account-screen']},
                     {label: 'Medical Information', icon: 'local_hospital', routerLink: ['']}
                 ]
             },

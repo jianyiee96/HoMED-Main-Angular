@@ -1,11 +1,15 @@
 import { Component, OnDestroy, Renderer2, OnInit, NgZone } from '@angular/core';
 
-import {MenuService} from '../../services/app.menu.service';
+
+
+import { MenuService } from '../../services/app.menu.service';
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './app-main.component.html',
-  styleUrls: ['./app-main.component.css']
+  styleUrls: ['./app-main.component.css'],
+  providers: []
 })
 export class AppMainComponent implements OnDestroy, OnInit {
 
@@ -48,6 +52,8 @@ export class AppMainComponent implements OnDestroy, OnInit {
       ngOnInit() {
           this.zone.runOutsideAngular(() => {this.bindRipple(); });
       }
+
+      
 
       bindRipple() {
           this.rippleInitListener = this.init.bind(this);

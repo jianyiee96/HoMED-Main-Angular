@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { Serviceman } from 'src/app/classes/serviceman/serviceman';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -12,6 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ServicemanService {
+  
 
   baseUrl: string = "/api/Serviceman"
 
@@ -23,18 +26,41 @@ export class ServicemanService {
       "password": password
     }
 
-    return this.httpClient.post<any>(this.baseUrl + "/login", loginReq).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/login", loginReq, httpOptions).pipe(
       catchError(this.handleError)
     )
   }
-
+  
+  
   changePassword(nric: string, oldPassword: string, newPassword: string) {
     let changePasswordReq = {
       "nric": nric,
       "oldPassword": oldPassword,
       "newPassword": newPassword
     }
-    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  resetPassword(nric: string, email: string) {
+    let resetPasswordReq = {
+      "nric": nric,
+      "email": email
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + "/resetPassword", resetPasswordReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+
+  updateAccount(accountToUpdate: Serviceman): Observable<any> {
+    let updateAccountReq = {
+      "serviceman": accountToUpdate
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + "/updateServiceman", updateAccountReq, httpOptions).pipe(
       catchError(this.handleError)
     );
   }
