@@ -23,7 +23,12 @@ const routes: Routes = [
         path: 'account-screen',
         loadChildren: () => import('./screens/account-screen/account-screen.module').then(m => m.AccountScreenComponentModule),
         canActivate: [AuthGuard]
-      }
+      },
+      {
+        path: 'error-screen',
+        loadChildren: () => import('./screens/error-screen/error-screen.module').then(m => m.ErrorScreenComponentModule),
+        canActivate: [AuthGuard]
+      }    
     ]
   },
   {
