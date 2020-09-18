@@ -15,7 +15,7 @@
                     </div>
                     <div class="ui-g-6">
                         <h4>Password:</h4>
-                        <button type="button" (click)="openModal()" pButton icon="ui-icon-open-in-new" label="Change Password" class="ng-dirty ng-invalid"></button>
+                        <button type="button" (click)="openModal()" pButton icon="ui-icon-open-in-new" label="Change Password" class="ng-dirty ng-invalid" style="text-align: center; width:40%;"></button>
                         <div *ngIf="passwordError">
                             <p-message severity="error" text="Wrong Current Password entered"></p-message>
                         </div>
@@ -31,11 +31,11 @@
                             <p-message severity="error" text="Phone number is already in use"></p-message>
                         </div>
                     </div>
-
+                    
 
                     <div class="ui-g-6">
                         <h4>Email:</h4>
-                        <input name="email" id = "value" pInputText [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
+                        <input name="email"  id = "value" pInputText [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
                         <div *ngIf="emailError">
                             <p-message severity="error" text="Email already in use"></p-message>
                         </div>
@@ -45,23 +45,23 @@
                 
                     <div class="ui-g-6">
                         <h4>Address:</h4>
-                        <textarea name="address" id = "value" type="text" pInputText [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()"> </textarea>
+                        <input name="address" id = "value" type="text" pInputText [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
                     </div>
 
                     <div class="ui-g-6">
                         <h4>ROD:</h4>
-                        <input name="rod"  pInputText [(ngModel)]="rod" [readonly]=true>
+                        <input name="rod" id = "value" pInputText [(ngModel)]="rod" [readonly]=true>
                     </div> 
                 </div>
-
-                <div *ngIf="!editFields" style="text-align: center; width:80%;">
+                <br/><br/><br/>
+                <div *ngIf="!editFields" style="margin: 0 auto; width:30%;">
                     <button id="editButton" type="button" pButton icon="pi pi-check" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
                 </div>
-
-                    
-                <div style="text-align: center; width:80%;">
+                 
+                <div style="margin: 0 auto; width:30%;">
                     <div *ngIf="editFields">
                         <button id="updateButton" type="button" pButton icon="pi pi-check" type="submit" label="Update" [disabled]="updateForm.invalid || !fieldsUpdated"></button>
+                        <br/><br/><br/>
                         <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="updateProfile()"></button>
                     </div>
                 </div>
