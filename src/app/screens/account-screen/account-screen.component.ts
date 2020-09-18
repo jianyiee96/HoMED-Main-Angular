@@ -31,12 +31,15 @@ export class AccountScreenComponent implements OnInit {
   newPassword: string
   confirmNewPassword: string
   msgForDialog: Message[] = []
+  refreshPass: string
   displayModal: boolean
 
-  edit: boolean
+  editFields: boolean
   fieldsUpdated: boolean
 
+  phoneNumberError = false
   emailError = false
+  passwordError = false
 
 
 
@@ -63,7 +66,7 @@ export class AccountScreenComponent implements OnInit {
     this.newPassword=""
     this.confirmNewPassword=""
     this.fieldsUpdated = false
-    this.edit = false
+    this.editFields = false
 
   }
 
@@ -73,13 +76,15 @@ export class AccountScreenComponent implements OnInit {
 
     if (updateForm.valid) {
 
-
+      this.serviceman.phoneNumber = this.phoneNumber
+      this.serviceman.email = this.email
+      this.serviceman.address = this.address
 
       this.servicemanService.updateAccount(this.serviceman).subscribe(
         response => {
           this.serviceman = response.serviceman
           this.sessionService.setCurrentServiceman(this.serviceman)
-          this.editForm()
+          this.updateProfile()
           this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Account Updated Successfully' });
         },
         error => {
@@ -88,7 +93,7 @@ export class AccountScreenComponent implements OnInit {
             this.emailError = true
           }
           if (error.includes("for key 'PHONENUMBER'")) {
-
+            this.phoneNumberError = true
           }
         }
       )
@@ -97,8 +102,8 @@ export class AccountScreenComponent implements OnInit {
 
   }
 
-  editForm() {
-    this.edit = !this.edit
+  updateProfile() {
+    this.editFields = !this.editFields
     this.clearErrors()
     this.fieldsUpdated = false
     this.phoneNumber = this.serviceman.phoneNumber    
@@ -111,7 +116,7 @@ export class AccountScreenComponent implements OnInit {
   }
 
   change(changePasswordForm: NgForm) {
-    
+
     if ((this.newPassword == "" && this.confirmNewPassword == "")) {
       this.msgForDialog = []
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
@@ -137,33 +142,38 @@ export class AccountScreenComponent implements OnInit {
 
 
   updatePassword(nric: string, oldPassword: string, newPassword: string) {
-    console.log(oldPassword)
     this.servicemanService.changePassword(nric, oldPassword, newPassword).subscribe(
       response => {
         this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Password changed successfully' });
+        this.refreshPass = ""
       }, error => {
           if (error.includes("password do not match password associated with account")) {
-
+            this.passwordError = true
           }
         }       
     );
   }
 
   clearErrors() {
+    this.phoneNumberError = false
     this.emailError = false
+    this.passwordError = false
   }
 
   parseDate(date: any) {
-    console.log(date)
     return date.toString().replace('[UTC]', '');
   }
 
   clearDialog(){
-    this.password =""
     this.newPassword = ""
     this.confirmNewPassword = ""
     this.msgForDialog = []
     this.displayModal = false
+  }
+
+  openModal(){
+    this.passwordError = false
+    this.displayModal = true
   }
 
 }

@@ -35,13 +35,8 @@ export class LoginScreenComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
     this.newPassword = ""
     this.confirmNewPassword = ""
-=======
-    this.newPassword = "";
-    this.newPasswordRe = "";
->>>>>>> 047e1448a876381a31d45f63f85ebe4deeb31e98
   }
 
   login(loginForm: NgForm) {

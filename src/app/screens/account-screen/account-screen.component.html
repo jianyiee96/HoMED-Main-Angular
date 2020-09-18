@@ -1,91 +1,51 @@
-<div class="ui-g">
+<div class="ui-g ui-fluid">
     <div class="ui-g-12">
         <div class="card">
             <h1>Account details</h1>
             <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
                 <div class="ui-g">
-<<<<<<< HEAD
-                    <div class="ui-g-6">
+                    <div class="ui-g-6 ">
                         <h4>Name:</h4>
-                        <input name="name" type="text" pInputText [(ngModel)]="name" [readonly]=true/>
+                        <input name="name" id = "value" type="text" pInputText [(ngModel)]="name" [readonly]=true/>
                     </div>
                     <div class="ui-g-6">
                         <h4>NRIC:</h4>
-                        <input name="nric" type="text" pInputText [(ngModel)]="nric"  [readonly]=true>
-=======
-                    
-                    <div class="ui-g-12">
-                        
-                        <h5>Name:</h5>
-                        <input type="text" pInputText [(ngModel)]="name"/>
-                        
-                    </div>
-                    <div class="ui-g-12">
-
-                        <div class="ui-g-4">
-                            Nric: 
-                            <input type="text" pInputText [(ngModel)]="name"/>
-                        </div>
-                        <div class="ui-g-4">
-                            Password:
-                            <input type="text" pInputText [(ngModel)]="name"/>
-                        </div>
-
-                    </div>
-                    <div class="ui-g-12">
-
-                        <div class="ui-g-4">
-                            Email:
-                            <input type="text" pInputText [(ngModel)]="name"/>
-                        </div>
-                        <div class="ui-g-4">
-                            Phone:
-                            <input type="text" pInputText [(ngModel)]="name"/>
-
-                        </div>
-
-                    </div>
-                    <div class="ui-g-12">
-
-                        <div class="ui-g-4">
-                            ROD:
-                            <input type="text" pInputText [(ngModel)]="name"/>
-
-                        </div>
-                        <div class="ui-g-4">
-                            Address:
-                            <input type="text" pInputText [(ngModel)]="name"/>
-
-                        </div>
->>>>>>> 047e1448a876381a31d45f63f85ebe4deeb31e98
+                        <input name="nric" id = "value" type="text" pInputText [(ngModel)]="nric"  [readonly]=true>
 
                     </div>
                     <div class="ui-g-6">
                         <h4>Password:</h4>
-                        <button type="button" (click)="displayModal=true" pButton icon="ui-icon-open-in-new" label="Change Password"></button>
+                        <button type="button" (click)="openModal()" pButton icon="ui-icon-open-in-new" label="Change Password" class="ng-dirty ng-invalid"></button>
+                        <div *ngIf="passwordError">
+                            <p-message severity="error" text="Wrong Current Password entered"></p-message>
+                        </div>
                     </div>
 
                     
                     <div class="ui-g-6">
                         <h4>Phone Number:</h4>
-                        <input name="phoneNumber" type="tel" minlength="8" maxlength="8" 
-                                pattern="[0-9]*"  pInputText [(ngModel)]="phoneNumber" [readonly]="!edit" required (ngModelChange)="fieldChange()">
+                        <input name="phoneNumber" id = "value" type="tel" minlength="8" maxlength="8" 
+                                pattern="[0-9]*"  pInputText [(ngModel)]="phoneNumber" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
+
+                        <div *ngIf="phoneNumberError">
+                            <p-message severity="error" text="Phone number is already in use"></p-message>
+                        </div>
                     </div>
 
 
                     <div class="ui-g-6">
                         <h4>Email:</h4>
-                        <input name="email" pInputText [(ngModel)]="email" type="email"  [readonly]="!edit" (ngModelChange)="fieldChange()">
+                        <input name="email" id = "value" pInputText [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
+                        <div *ngIf="emailError">
+                            <p-message severity="error" text="Email already in use"></p-message>
+                        </div>
                     </div>
 
-                    <div *ngIf="emailError" class="invalid-feedback">
-                        <Label>Title is required</Label>
-                    </div>
                     
-
+                
                     <div class="ui-g-6">
                         <h4>Address:</h4>
-                        <textarea name="address" type="text" pInputText [(ngModel)]="address" minlength="8" [readonly]="!edit" required (ngModelChange)="fieldChange()"> </textarea>
+                        <textarea name="address" id = "value" type="text" pInputText [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()"> </textarea>
                     </div>
 
                     <div class="ui-g-6">
@@ -94,19 +54,18 @@
                     </div> 
                 </div>
 
-                <div *ngIf="!edit" style="text-align: center; width:80%;">
-                    <button id="editButton" type="button" pButton icon="pi pi-check" expand="block" (click)="editForm()" label="Edit Account Details"></button>
+                <div *ngIf="!editFields" style="text-align: center; width:80%;">
+                    <button id="editButton" type="button" pButton icon="pi pi-check" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
                 </div>
 
-                
+                    
                 <div style="text-align: center; width:80%;">
-                <div *ngIf="edit">
-                    <button id="updateButton" type="button" pButton icon="pi pi-check" type="submit" label="Update" [disabled]="updateForm.invalid"></button>
-                    <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="editForm()"></button>
+                    <div *ngIf="editFields">
+                        <button id="updateButton" type="button" pButton icon="pi pi-check" type="submit" label="Update" [disabled]="updateForm.invalid || !fieldsUpdated"></button>
+                        <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="updateProfile()"></button>
+                    </div>
                 </div>
-<<<<<<< HEAD
-            </div>
-                <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
+                <p-toast key="tst" position="bottom-center" style="margin-top:50px;"></p-toast>
             </form>   
         </div>
     </div>
@@ -153,9 +112,3 @@
         </div>
     </form>
 </div>
-=======
-            </form>
-        </div>
-    </div>
-</div>
->>>>>>> 047e1448a876381a31d45f63f85ebe4deeb31e98
