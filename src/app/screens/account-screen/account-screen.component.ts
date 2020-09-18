@@ -134,8 +134,8 @@ export class AccountScreenComponent implements OnInit {
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
     }
     else {
-      this.clearDialog()
       this.updatePassword(this.nric, this.password, this.newPassword)
+      this.clearDialog()
     }
           
   }
@@ -172,6 +172,9 @@ export class AccountScreenComponent implements OnInit {
   }
 
   openModal(){
+    this.password = ""
+    this.newPassword = ""
+    this.confirmNewPassword = ""
     this.passwordError = false
     this.displayModal = true
   }

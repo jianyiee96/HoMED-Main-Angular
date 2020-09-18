@@ -6,11 +6,11 @@
                 <div class="ui-g">
                     <div class="ui-g-6 ">
                         <h4>Name:</h4>
-                        <input name="name" id = "value" type="text" pInputText [(ngModel)]="name" [readonly]=true/>
+                        <input name="name" id = "value" type="text" pInputText [(ngModel)]="name" [disabled]=true/>
                     </div>
                     <div class="ui-g-6">
                         <h4>NRIC:</h4>
-                        <input name="nric" id = "value" type="text" pInputText [(ngModel)]="nric"  [readonly]=true>
+                        <input name="nric" id = "value" type="text" pInputText [(ngModel)]="nric"  [disabled]=true>
 
                     </div>
                     <div class="ui-g-6">
@@ -25,7 +25,7 @@
                     <div class="ui-g-6">
                         <h4>Phone Number:</h4>
                         <input name="phoneNumber" id = "value" type="tel" minlength="8" maxlength="8" icon=" ui-icon-create" class="editable" 
-                                pattern="[0-9]*"  pInputText [(ngModel)]="phoneNumber" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
+                                pattern="[0-9]*"  pInputText [(ngModel)]="phoneNumber" [disabled]="!editFields" required (ngModelChange)="fieldChange()">
 
                         <div *ngIf="phoneNumberError">
                             <p-message severity="error" text="Phone number is already in use"></p-message>
@@ -35,7 +35,7 @@
 
                     <div class="ui-g-6">
                         <h4>Email:</h4>
-                        <input name="email"  id = "value" class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"  [readonly]="!editFields" (ngModelChange)="fieldChange()">
+                        <input name="email"  id = "value" class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"  [disabled]="!editFields" (ngModelChange)="fieldChange()">
                         <div *ngIf="emailError">
                             <p-message severity="error" text="Email already in use"></p-message>
                         </div>
@@ -45,12 +45,12 @@
                 
                     <div class="ui-g-6">
                         <h4>Address:</h4>
-                        <input name="address" id = "value" class="editable" type="text" pInputText icon=" ui-icon-create" [(ngModel)]="address" minlength="8" [readonly]="!editFields" required (ngModelChange)="fieldChange()">
+                        <input name="address" id = "value" class="editable" type="text" pInputText icon=" ui-icon-create" [(ngModel)]="address" minlength="8" [disabled]="!editFields" required (ngModelChange)="fieldChange()">
                     </div>
 
                     <div class="ui-g-6">
                         <h4>ROD:</h4>
-                        <input name="rod" id = "value" pInputText [(ngModel)]="rod" [readonly]=true>
+                        <input name="rod" id = "value" pInputText [(ngModel)]="rod" [disabled]=true>
                     </div> 
                 </div>
                 <br/><br/><br/>
@@ -65,7 +65,7 @@
                         <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="updateProfile()"></button>
                     </div>
                 </div>
-                <p-toast key="tst" position="bottom-center" style="margin-top:50px;"></p-toast>
+                <p-toast key="tst" position="bottom-center"></p-toast>
             </form>   
         </div>
     </div>
