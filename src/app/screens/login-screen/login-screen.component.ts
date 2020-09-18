@@ -61,7 +61,7 @@ export class LoginScreenComponent implements OnInit {
 
             if (serviceman.isActivated) {
               if (this.label == "One Time Password") {
-                this.msgs = [];
+                this.clearLoginMessage()
                 this.msgs.push({ severity: 'error', summary: '', detail: 'Account has already been activated.' })
                 this.password = ""
                 this.changeLabelName()
@@ -73,7 +73,7 @@ export class LoginScreenComponent implements OnInit {
               }
             } else {
                 if (this.label == "Password")  {
-                  this.msgs = [];
+                  this.clearLoginMessage()
                   this.msgs.push({ severity: 'error', summary: '', detail: 'Account has not been activated.' })
                   this.changeLabelName()
                   
@@ -83,12 +83,12 @@ export class LoginScreenComponent implements OnInit {
                 }                     
             }
           } else {
-            this.msgs = [];
+            this.clearLoginMessage()
             this.msgs.push({ severity: 'error', summary: '', detail: 'Serviceman account does not exist.' })
           }
         },
         error => {
-          this.msgs = [];
+          this.clearLoginMessage()
           this.msgs.push({ severity: 'error', summary: '', detail: 'Wrong NRIC or Password' })         
         }
       )
@@ -115,7 +115,7 @@ export class LoginScreenComponent implements OnInit {
       this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'New password must be different from OTP.' })
     }
     else {
-      this.msgs = [];
+      this.clearLoginMessage()
       this.msgs.push({ severity: 'success', summary: '', detail: 'Activated! Please log in now' })
       this.activateAccount(this.nric, this.password, this.newPassword)
     }
@@ -160,7 +160,6 @@ export class LoginScreenComponent implements OnInit {
     this.servicemanService.resetPassword(nric, email).subscribe(
       response => {
         this.clearResetDialog()
-        this.msgs = [];
         this.msgs.push({ severity: 'success', summary: '', detail: 'OTP Sent. Please check your email.' })
       }, error => {
         this.msgForForgetPasswordDialog = []
@@ -175,13 +174,11 @@ export class LoginScreenComponent implements OnInit {
       if (this.activated == "Account activated?") {
         this.label = "Password"
         this.activated = "Account not activated?"
-        this.msgs = [];
         this.password = ""
       }
       else {
         this.label = "One Time Password"
         this.activated = "Account activated?"
-        this.msgs = [];
         this.password = ""
       }
   }
@@ -199,12 +196,14 @@ export class LoginScreenComponent implements OnInit {
     this.confirmNewPassword = ""
     this.msgForActivationDialog = []
     this.displayModal = false
+    this.clearLoginMessage()
   }
 
   clearResetDialog() {
     this.resetFields() 
     this.msgForForgetPasswordDialog = []
     this.displayResetPasswordModal = false
+    this.clearLoginMessage()
   }
 
   resetFields() {
@@ -212,6 +211,10 @@ export class LoginScreenComponent implements OnInit {
     this.nricResetPass = ""
     this.nric = ""
     this.password = ""
+  }
+
+  clearLoginMessage() {
+    this.msgs = []
   }
 
      
