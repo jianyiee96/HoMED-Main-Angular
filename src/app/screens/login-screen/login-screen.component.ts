@@ -7,6 +7,8 @@ import { Message } from 'primeng/primeng';
 import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 import { SessionService } from 'src/app/services/session/session.service';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
+import { MessageService } from 'primeng/api';
+import { AppComponent } from '../../app.component'
 
 @Component({
   selector: 'app-login-screen',
@@ -35,8 +37,7 @@ export class LoginScreenComponent implements OnInit {
     private router: Router,
     private servicemanService: ServicemanService, 
     private sessionService: SessionService,
-  ) { 
-  }
+    private app: AppComponent) {}
 
   ngOnInit() {
     this.newPassword = ""
@@ -69,6 +70,7 @@ export class LoginScreenComponent implements OnInit {
               else {
                 this.sessionService.setIsLogin(true)
                 this.sessionService.setCurrentServiceman(serviceman)
+                this.app.startTimer()
                 this.router.navigate(['/home-screen'])
               }
             } else {
@@ -83,9 +85,9 @@ export class LoginScreenComponent implements OnInit {
                 }                     
             }
           } else {
-            this.clearLoginMessage()
-            this.msgs.push({ severity: 'error', summary: '', detail: 'Serviceman account does not exist.' })
-          }
+              this.clearLoginMessage()
+              this.msgs.push({ severity: 'error', summary: '', detail: 'Serviceman account does not exist.' })
+            }
         },
         error => {
           this.clearLoginMessage()
