@@ -90,10 +90,11 @@ export class AccountScreenComponent implements OnInit {
         },
         error => {
           this.serviceman = this.sessionService.getCurrentServiceman()
-          if (error.includes("for key 'EMAIL'")) {
+
+          if (error.includes('serviceman.EMAIL')) {
             this.emailError = true
           }
-          if (error.includes("for key 'PHONENUMBER'")) {
+          if (error.includes('serviceman.PHONENUMBER')) {
             this.phoneNumberError = true
           }
         }
