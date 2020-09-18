@@ -82,10 +82,11 @@ export class AccountScreenComponent implements OnInit {
 
       this.servicemanService.updateAccount(this.serviceman).subscribe(
         response => {
-          this.serviceman = response.serviceman
-          this.sessionService.setCurrentServiceman(this.serviceman)
-          this.updateProfile()
-          this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Account Updated Successfully' });
+            this.serviceman = response.serviceman
+            this.sessionService.setCurrentServiceman(this.serviceman)
+            this.updateProfile()
+            this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Account Updated Successfully' });
+       
         },
         error => {
           this.serviceman = this.sessionService.getCurrentServiceman()
@@ -154,11 +155,13 @@ export class AccountScreenComponent implements OnInit {
     );
   }
 
+
   clearErrors() {
     this.phoneNumberError = false
     this.emailError = false
     this.passwordError = false
   }
+
 
   parseDate(date: any) {
     return date.toString().replace('[UTC]', '');

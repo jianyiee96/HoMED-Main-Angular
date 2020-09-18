@@ -1,5 +1,4 @@
-<div class="ui-g ui-fluid">
-    <div class="ui-g-12">
+<div class="ui-fluid">
         <div class="card">
             <h1>Account details</h1>
             <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
@@ -11,17 +10,18 @@
                     <div class="ui-g-6">
                         <h4>NRIC:</h4>
                         <input name="nric" id = "value" type="text" pInputText [(ngModel)]="nric"  [disabled]=true>
-
                     </div>
-                    <div class="ui-g-6">
+                </div>
+
+                <div class="ui-g">
+                    <div class="ui-g-6 ">
                         <h4>Password:</h4>
-                        <button type="button" (click)="openModal()" pButton icon="ui-icon-open-in-new" label="Change Password" class="ng-dirty ng-invalid" style="text-align: center; width:40%;"></button>
+                        <button type="button" (click)="openModal()" expand="block" pButton icon="ui-icon-open-in-new" label="Change Password"  style="margin: 0 auto;width:30%;"></button>
                         <div *ngIf="passwordError">
                             <p-message severity="error" text="Wrong Current Password entered"></p-message>
                         </div>
                     </div>
 
-                    
                     <div class="ui-g-6">
                         <h4>Phone Number:</h4>
                         <input name="phoneNumber" id = "value" type="tel" minlength="8" maxlength="8" icon=" ui-icon-create" class="editable" 
@@ -31,44 +31,47 @@
                             <p-message severity="error" text="Phone number is already in use"></p-message>
                         </div>
                     </div>
-                    
+                </div>
 
+                <div class="ui-g">
                     <div class="ui-g-6">
                         <h4>Email:</h4>
-                        <input name="email"  id = "value" class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"  [disabled]="!editFields" (ngModelChange)="fieldChange()">
+                        <input name="email"  id = "value" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" 
+                                class="editable" pInputText icon="ui-icon-create" [(ngModel)]="email" type="email"  [disabled]="!editFields" (ngModelChange)="fieldChange()">
                         <div *ngIf="emailError">
-                            <p-message severity="error" text="Email already in use"></p-message>
+                            <p-message severity="error" text="Email already used."></p-message>
                         </div>
-                    </div>
-
-                    
-                
+                    </div>           
                     <div class="ui-g-6">
                         <h4>Address:</h4>
-                        <input name="address" id = "value" class="editable" type="text" pInputText icon=" ui-icon-create" [(ngModel)]="address" minlength="8" [disabled]="!editFields" required (ngModelChange)="fieldChange()">
+                        <input name="address" id = "value" class="editable" type="text" pInputText icon=" ui-icon-create" [(ngModel)]="address" minlength="8" [disabled]="!editFields"  required (ngModelChange)="fieldChange()">
                     </div>
+                </div>
 
+                <div class="ui-g">
                     <div class="ui-g-6">
                         <h4>ROD:</h4>
                         <input name="rod" id = "value" pInputText [(ngModel)]="rod" [disabled]=true>
                     </div> 
                 </div>
-                <br/><br/><br/>
-                <div *ngIf="!editFields" style="margin: 0 auto; width:30%;">
-                    <button id="editButton" type="button" pButton icon=" ui-icon-build" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
-                </div>
-                 
-                <div style="margin: 0 auto; width:30%;">
+
+                <br/><br/>            
+                   
+                <div class="ui-g" style="margin: 0 auto; width:30%;">
+                    <div *ngIf="!editFields" >
+                        <button id="editButton" type="button" pButton icon=" ui-icon-build" expand="block" (click)="updateProfile()" label="Edit Account Details"></button>
+                    </div>
                     <div *ngIf="editFields">
                         <button id="updateButton" type="button" pButton icon="pi pi-check" type="submit" label="Update" [disabled]="updateForm.invalid || !fieldsUpdated"></button>
                         <br/><br/><br/>
-                        <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="updateProfile()"></button>
+                    <button id="cancelButton" type="button" pButton icon="pi pi-times" label="Cancel" (click)="updateProfile()"></button>
                     </div>
-                </div>
+                 </div>       
+                       
                 <p-toast key="tst" position="bottom-center"></p-toast>
             </form>   
-        </div>
-    </div>
+         </div>
+    
 
     <form #changePasswordForm="ngForm" (ngSubmit)="change(changePasswordForm)">
         <div class="ui-g form-group ui-fluid">
