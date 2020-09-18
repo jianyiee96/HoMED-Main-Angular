@@ -31,6 +31,7 @@ export class ServicemanService {
     )
   }
   
+  
   changePassword(nric: string, oldPassword: string, newPassword: string) {
     let changePasswordReq = {
       "nric": nric,
@@ -38,6 +39,17 @@ export class ServicemanService {
       "newPassword": newPassword
     }
     return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  resetPassword(nric: string, email: string) {
+    let resetPasswordReq = {
+      "nric": nric,
+      "email": email
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + "/resetPassword", resetPasswordReq, httpOptions).pipe(
       catchError(this.handleError)
     );
   }

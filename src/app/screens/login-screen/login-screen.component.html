@@ -36,6 +36,7 @@
                     </div>
                     <div class="ui-g-12">
                         {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
+                        Forget Password? <a href="javascript:void(0)" (click)="openResetPassModal()">Click here</a> <br><br>
                     </div>
 
                 </div>
@@ -49,7 +50,7 @@
             <p-dialog header="Account Activation" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
                 [draggable]="false" [closable]="false" [resizable]="false">
 
-                <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
+                <p-messages [closable]="false" [value]="msgForActivationDialog"></p-messages>
 
                 <div class="ui-g-12">
                     <span class="md-inputfield md-inputfield-box">
@@ -72,6 +73,40 @@
                 </div>
                 <div class="ui-g-6" style="text-align: center;">
                     <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearDialog()"
+                        label="Cancel"></button>
+                </div>
+            </p-dialog>
+        </div>
+    </form>
+
+    <form #forgetPasswordForm="ngForm" (ngSubmit)="reset(forgetPasswordForm)">
+        <div class="ui-g form-group ui-fluid">
+            <p-dialog header="Request for OTP" [(visible)]="displayResetPasswordModal" [modal]="true" [style]="{width: '400px'}"
+                [draggable]="false" [closable]="false" [resizable]="false">
+
+                <p-messages [closable]="false" [value]="msgForForgetPasswordDialog"></p-messages>
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" name="nric" [(ngModel)]="nricResetPass" type="text"
+                            pInputText>
+                        <label>Enter your NRIC</label>
+                    </span>
+                </div>
+
+                <div class="ui-g-12">
+                    <span class="md-inputfield md-inputfield-box">
+                        <input type="text" name="email" [(ngModel)]="email" type="text" pInputText>
+                        <label>Enter your Email</label>
+                    </span>
+                </div>
+
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="resetButton" type="button" pButton icon="pi pi-check" type="submit"
+                        label="Send OTP"></button>
+                </div>
+                <div class="ui-g-6" style="text-align: center;">
+                    <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearResetDialog()"
                         label="Cancel"></button>
                 </div>
             </p-dialog>

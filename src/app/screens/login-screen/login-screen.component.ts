@@ -17,14 +17,18 @@ import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 export class LoginScreenComponent implements OnInit {
 
   nric: string 
+  nricResetPass: string
   password: string 
   newPassword:  string
   confirmNewPassword: string
+  email: string
   msgs: Message[] = []
-  msgForDialog: Message[] = []
+  msgForActivationDialog: Message[] = []
+  msgForForgetPasswordDialog: Message[] = []
   displayModal: boolean
+  displayResetPasswordModal: boolean
   label: string = "Password"
-  activated:  string = "First time here?"
+  activated:  string = "Account not activated?"
 
   
   constructor(
@@ -37,6 +41,9 @@ export class LoginScreenComponent implements OnInit {
   ngOnInit() {
     this.newPassword = ""
     this.confirmNewPassword = ""
+    this.nric = ""
+    this.email = ""
+    this.nricResetPass = ""
   }
 
   login(loginForm: NgForm) {
@@ -57,6 +64,7 @@ export class LoginScreenComponent implements OnInit {
                 this.msgs = [];
                 this.msgs.push({ severity: 'error', summary: '', detail: 'Account has already been activated.' })
                 this.password = ""
+                this.changeLabelName()
               }
               else {
                 this.sessionService.setIsLogin(true)
@@ -67,10 +75,11 @@ export class LoginScreenComponent implements OnInit {
                 if (this.label == "Password")  {
                   this.msgs = [];
                   this.msgs.push({ severity: 'error', summary: '', detail: 'Account has not been activated.' })
-                  this.password = ""
+                  this.changeLabelName()
+                  
                 }
                 else {
-                  this.openModal()  
+                  this.openActivationModal()  
                 }                     
             }
           } else {
@@ -90,16 +99,20 @@ export class LoginScreenComponent implements OnInit {
   activate(activationForm: NgForm) {
     
     if ((this.newPassword == "" && this.confirmNewPassword == "" && this.password =="")) {
-      this.msgForDialog = []
-      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
+      this.msgForActivationDialog = []
+      this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
     }
     else if (this.newPassword != this.confirmNewPassword) {
-      this.msgForDialog = []
-      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Passwords do not match' })
+      this.msgForActivationDialog = []
+      this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'Passwords do not match' })
     }
     else if (this.newPassword.length < 8) {
-      this.msgForDialog = []
-      this.msgForDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
+      this.msgForActivationDialog = []
+      this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
+    }
+    else if (this.newPassword == this.password) {
+      this.msgForActivationDialog = []
+      this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'New password must be different from OTP.' })
     }
     else {
       this.msgs = [];
@@ -114,43 +127,94 @@ export class LoginScreenComponent implements OnInit {
       response => {
         this.displayModal = false
         this.label = "Password"
-        this.activated = "First time here?"
-        this.password = ""   
+        this.activated = "Account not activated?"
+        this.password = ""
       }, error => {
-        this.msgForDialog = []
-        this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please redo activation' })
+        this.msgForActivationDialog = []
+        this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'Please redo activation' })
       }
     );
   }
 
+  reset(forgetPasswordForm: NgForm) {
+    
+    if ((this.email == "" && this.nricResetPass == "")) {
+      this.msgForForgetPasswordDialog = []
+      this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Do not leave any fields empty' })
+    }
+    else if (this.nricResetPass.length != 9) {
+      this.msgForForgetPasswordDialog = []
+      this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid NRIC.' })
+    }
+    else if (this.email.length < 10 || this.email.length > 64) {
+      this.msgForForgetPasswordDialog = []
+      this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid email.' })
+    }   
+    else {
+      this.resetPassword(this.nricResetPass, this.email)
+    }
+          
+  }
+
+  resetPassword(nric: string, email: string) {
+    this.servicemanService.resetPassword(nric, email).subscribe(
+      response => {
+        this.clearResetDialog()
+        this.msgs = [];
+        this.msgs.push({ severity: 'success', summary: '', detail: 'OTP Sent. Please check your email.' })
+      }, error => {
+        this.msgForForgetPasswordDialog = []
+        this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'NRIC does not match with the email entered. Please try again.' })
+        this.email = ""
+      }
+    )
+  }
+
   changeLabelName() {
 
-      if (this.activated == "Been here before?") {
+      if (this.activated == "Account activated?") {
         this.label = "Password"
-        this.activated = "First time here?"
+        this.activated = "Account not activated?"
         this.msgs = [];
         this.password = ""
       }
       else {
         this.label = "One Time Password"
-        this.activated = "Been here before?"
+        this.activated = "Account activated?"
         this.msgs = [];
         this.password = ""
       }
   }
 
-  openModal() {
+  openActivationModal() {
     this.displayModal = true  
   }
 
+  openResetPassModal() {
+    this.displayResetPasswordModal = true  
+  }
 
   clearDialog(){
     this.newPassword = ""
     this.confirmNewPassword = ""
-    this.msgForDialog = []
+    this.msgForActivationDialog = []
     this.displayModal = false
   }
-      
+
+  clearResetDialog() {
+    this.resetFields() 
+    this.msgForForgetPasswordDialog = []
+    this.displayResetPasswordModal = false
+  }
+
+  resetFields() {
+    this.email = ""
+    this.nricResetPass = ""
+    this.nric = ""
+    this.password = ""
+  }
+
+     
 } 
   
 
