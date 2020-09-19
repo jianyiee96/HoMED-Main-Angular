@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session/session.service';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 
+import { AppComponent } from '../../app.component'
+
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './app-breadcrumb.component.html',
@@ -21,7 +23,8 @@ export class AppBreadcrumbComponent implements OnDestroy {
 
   serviceman: Serviceman
 
-  constructor(public breadcrumbService: BreadcrumbService, private router: Router, private sessionService: SessionService) {
+  constructor(public breadcrumbService: BreadcrumbService, private router: Router, private sessionService: SessionService,
+              public appForTimer: AppComponent) {
       this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
           this.items = response;
       });
@@ -34,9 +37,10 @@ export class AppBreadcrumbComponent implements OnDestroy {
   }
 
   logout() {
-    this.sessionService.setIsLogin(false);
-    this.sessionService.setCurrentServiceman(null);
-    this.router.navigate(["/login-screen"]);
+    this.sessionService.setIsLogin(false)
+    this.sessionService.setCurrentServiceman(null)
+    this.router.navigate(["/login-screen"])
+    this.appForTimer.stopTimer()
   }
 
 }
