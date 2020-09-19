@@ -11,6 +11,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'login-screen',
+    loadChildren: () => import('./screens/login-screen/login-screen.module').then(m => m.LoginScreenComponentModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     component: AppMainComponent,
     children: [
@@ -24,18 +29,14 @@ const routes: Routes = [
         loadChildren: () => import('./screens/account-screen/account-screen.module').then(m => m.AccountScreenComponentModule),
         canActivate: [AuthGuard]
       },
-      {
-        path: 'error-screen',
-        loadChildren: () => import('./screens/error-screen/error-screen.module').then(m => m.ErrorScreenComponentModule),
-        canActivate: [AuthGuard]
-      }    
     ]
   },
+
   {
-    path: 'login-screen',
-    loadChildren: () => import('./screens/login-screen/login-screen.module').then(m => m.LoginScreenComponentModule),
+    path: '**',
+    loadChildren: () => import('./screens/error-screen/error-screen.module').then(m => m.ErrorScreenComponentModule),
     canActivate: [AuthGuard]
-  },
+  }
 ];
 
 @NgModule({
@@ -43,4 +44,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
