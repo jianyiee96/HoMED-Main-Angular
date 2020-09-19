@@ -10,7 +10,7 @@
                     <div class="ui-g-12">
                         <h1>HoMED Serviceman Application</h1>
 
-                        <p-messages [closable]="false" [value]="msgs"></p-messages>
+                        <p-messages [closable]="false" [value]="msgs" [escape]="true"></p-messages>
 
                     </div>
 
@@ -18,7 +18,7 @@
                         <span class="md-inputfield">
                             <input type="text" id="nric" pInputText name="nric" [(ngModel)]="nric" minlength="9"
                                 maxlength="9" required>
-                            <label>NRIC</label>
+                            <label>NRIC/FIN</label>
                         </span>
                     </div>
 
@@ -26,7 +26,7 @@
                         <span class="md-inputfield">
                             <input type="text" name="password" [(ngModel)]="password" type="password" minlength="8"
                                 maxlength="64" required pInputText>
-                            <label id="lblName"> {{label}}</label>
+                            <label id="lblName">Password</label>
                         </span>
                     </div>
 
@@ -35,8 +35,7 @@
                             icon="ui-icon-person"></button>
                     </div>
                     <div class="ui-g-12">
-                        {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
-                        Forget Password/OTP? <a href="javascript:void(0)" (click)="openResetPassModal()">Click here</a> <br><br>
+                        Forget Password/OTP? <a href="javascript:void(0)" (click)="displayResetPassDialog=true">Click here</a> <br><br>
                     </div>
                 </div>
             </div>
@@ -45,7 +44,7 @@
 
     <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)">
         <div class="ui-g form-group ui-fluid">
-            <p-dialog header="Account Activation" [(visible)]="displayModal" [modal]="true" [style]="{width: '350px'}"
+            <p-dialog header="Account Activation" [(visible)]="displayActivation" [modal]="true" [style]="{width: '350px'}"
                 [draggable]="false" [closable]="false" [resizable]="false">
 
                 <p-messages [closable]="false" [value]="msgForActivationDialog"></p-messages>
@@ -79,7 +78,7 @@
 
     <form #forgetPasswordForm="ngForm" (ngSubmit)="reset(forgetPasswordForm)">
         <div class="ui-g form-group ui-fluid">
-            <p-dialog header="Request for OTP" [(visible)]="displayResetPasswordModal" [modal]="true" [style]="{width: '350px'}"
+            <p-dialog header="Request for OTP" [(visible)]="displayResetPassDialog" [modal]="true" [style]="{width: '350px'}"
                 [draggable]="false" [closable]="false" [resizable]="false">
 
                 <p-messages [closable]="false" [value]="msgForForgetPasswordDialog"></p-messages>
@@ -91,16 +90,16 @@
                         <label>Enter your NRIC</label>
                     </span>
                 </div>
-
+                <br /><br /><br /><br />
                 <div class="ui-g-12">
                     <span class="md-inputfield md-inputfield-box">
                         <input type="text" name="email" [(ngModel)]="email" type="text" pInputText>
                         <label>Enter your Email</label>
                     </span>
                 </div>
-
+                <br /><br /><br /><br />
                 <div class="ui-g-6" style="text-align: center;">
-                    <button id="resetButton" type="button" pButton icon="pi pi-check" type="submit"
+                    <button id="resetButton" type="button" pButton icon="ui-icon-send" type="submit"
                         label="Send OTP"></button>
                 </div>
                 <div class="ui-g-6" style="text-align: center;">
