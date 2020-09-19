@@ -31,7 +31,6 @@ const routes: Routes = [
       },
     ]
   },
-
   {
     path: '**',
     loadChildren: () => import('./screens/error-screen/error-screen.module').then(m => m.ErrorScreenComponentModule),
