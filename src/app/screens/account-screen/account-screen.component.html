@@ -48,9 +48,9 @@
                 </div>
                 <div class="p-col-12 p-md-12 p-lg-4">
                     <h4>Address:</h4>
-                    <input name="address" id="value" class="editable" type="text" pInputText icon=" ui-icon-create"
+                    <textarea name="address" id="value" class="editable" type="text" pInputTextarea icon=" ui-icon-create"
                         [(ngModel)]="address" minlength="8" [disabled]="!editFields" required
-                        (ngModelChange)="fieldChange()">
+                        (ngModelChange)="fieldChange()"> </textarea>
                 </div>
             </div>
 
