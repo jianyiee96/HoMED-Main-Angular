@@ -19,7 +19,7 @@ export class AppComponent {
     this.bnIdle = new BnNgIdleService()
     console.log("Starting timer for web application.")
 
-    this.bnIdle.startWatching(90).subscribe((isTimedOut: boolean) => {
+    this.bnIdle.startWatching(10).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
         this.bnIdle.stopTimer()
         this.service.add({ key: 'tst', severity: 'info', summary: 'Inactivity for the past 15 minutes.', 

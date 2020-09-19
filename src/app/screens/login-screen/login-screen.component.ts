@@ -120,6 +120,9 @@ export class LoginScreenComponent implements OnInit {
       this.clearLoginMessage()
       this.msgs.push({ severity: 'success', summary: '', detail: 'Activated! Please log in now' })
       this.activateAccount(this.nric, this.password, this.newPassword)
+      this.newPassword =""
+      this.confirmNewPassword=""
+      this.msgForActivationDialog = []
     }
           
   }

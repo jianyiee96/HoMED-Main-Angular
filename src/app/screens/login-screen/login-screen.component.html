@@ -38,16 +38,14 @@
                         {{activated}} <a href="javascript:void(0)" (click)="changeLabelName()">Click here</a> <br><br>
                         Forget Password/OTP? <a href="javascript:void(0)" (click)="openResetPassModal()">Click here</a> <br><br>
                     </div>
-
                 </div>
-
             </div>
         </form>
     </div>
 
     <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)">
         <div class="ui-g form-group ui-fluid">
-            <p-dialog header="Account Activation" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
+            <p-dialog header="Account Activation" [(visible)]="displayModal" [modal]="true" [style]="{width: '350px'}"
                 [draggable]="false" [closable]="false" [resizable]="false">
 
                 <p-messages [closable]="false" [value]="msgForActivationDialog"></p-messages>
@@ -81,7 +79,7 @@
 
     <form #forgetPasswordForm="ngForm" (ngSubmit)="reset(forgetPasswordForm)">
         <div class="ui-g form-group ui-fluid">
-            <p-dialog header="Request for OTP" [(visible)]="displayResetPasswordModal" [modal]="true" [style]="{width: '400px'}"
+            <p-dialog header="Request for OTP" [(visible)]="displayResetPasswordModal" [modal]="true" [style]="{width: '350px'}"
                 [draggable]="false" [closable]="false" [resizable]="false">
 
                 <p-messages [closable]="false" [value]="msgForForgetPasswordDialog"></p-messages>

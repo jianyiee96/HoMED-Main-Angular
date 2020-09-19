@@ -19,10 +19,10 @@ export class AppMenuComponent {
                 label: 'My Information', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
                 items: [
                     {label: 'Account Information', icon: 'account_circle', routerLink: ['/account-screen']},
-                    {label: 'Medical Information', icon: 'local_hospital', routerLink: ['']}
+                    {label: 'Medical Information', icon: 'local_hospital', routerLink: ['/medical-screen']}
                 ]
             },
-            
+            {label: 'Appointment', icon: 'event_note', routerLink: ['/appointment-screen']}
         ];
     }
 

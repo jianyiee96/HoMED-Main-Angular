@@ -27,7 +27,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
     AppMenuComponent,
     AppMenuitemComponent,
     AppBreadcrumbComponent,
-    AppMainComponent
+    AppMainComponent,
   ],
   imports: [
     BrowserModule,
