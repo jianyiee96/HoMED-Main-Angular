@@ -22,8 +22,8 @@ export class AppComponent {
     this.bnIdle.startWatching(10).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
         this.bnIdle.stopTimer()
-        this.service.add({ key: 'tst', severity: 'info', summary: 'Inactivity for the past 15 minutes.', 
-          detail: 'You have been logged out due to security reasons.', life:30000 });
+        this.service.add({ key: 'tst', severity: 'info', summary: 'Inactivity for the past 15 minutes', 
+          detail: 'You have been logged out due to security reasons', life:30000 });
         this.logout()
       }
     });
