@@ -2,9 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session/session.service';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { timer } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
-import {ConfirmationService} from 'primeng/api';
+const PRIMARY_TIMER_SEC: number = 10
+const SECONDARY_TIMER_SEC: number = 5
 
 @Component({
   selector: 'app-root',
@@ -16,7 +19,8 @@ import {ConfirmationService} from 'primeng/api';
 export class AppComponent implements OnInit {
 
   primaryTimer : BnNgIdleService
-  secondaryTimer : BnNgIdleService
+  interval : any
+  timeLeft: number
 
   title = 'HoMED-Main-Angular'
 
@@ -35,23 +39,24 @@ export class AppComponent implements OnInit {
   startTimer() {
     this.messageService.clear(); // clear all toast
     this.primaryTimer = new BnNgIdleService()
-    this.secondaryTimer = new BnNgIdleService()
-
-    console.log("Starting primary timer for web application.")
-
-    this.secondaryTimer.startWatching(15).subscribe((secondaryTimeOut: boolean) => {
-      if(secondaryTimeOut) {
-        this.secondaryTimer.stopTimer()
-        this.logout()
-        this.addTimeoutToast()
-        this.confirmationService.close()
-      }
-    });
-
-    this.primaryTimer.startWatching(10).subscribe((primaryTimedOut: boolean) => {
+    this.primaryTimer.startWatching(PRIMARY_TIMER_SEC).subscribe((primaryTimedOut: boolean) => {
         if (primaryTimedOut) {
           this.primaryTimer.stopTimer()
-          this.confirm(this.secondaryTimer)  
+
+          this.timeLeft = SECONDARY_TIMER_SEC
+          this.interval = setInterval(() => {
+            if(this.timeLeft > 0) {
+              this.timeLeft--;
+            } else {
+              clearInterval(this.interval);
+              this.logout()
+              this.addTimeoutToast()
+              this.confirmationService.close()
+              this.timeLeft = SECONDARY_TIMER_SEC;
+            }
+          },1000)
+
+          this.confirm()  
         }
       
     });
@@ -60,11 +65,9 @@ export class AppComponent implements OnInit {
 
   stopTimer() {
     try {
-      console.log("Stopping all timers for web application.")
       this.primaryTimer.stopTimer()
-      this.secondaryTimer.stopTimer()
     } catch (error) {
-      console.log("Unable to stop timer as its undefined.")
+      // No timer to stop
     }
   }
 
@@ -80,19 +83,21 @@ export class AppComponent implements OnInit {
   } 
 
 
-  confirm(secondaryTimer: BnNgIdleService) {
+  confirm() {
     this.confirmationService.confirm({
-        header: 'Your session will expire in 1 minute',
+        header: 'Your session will expire in '+ this.timeLeft+' seconds',
         icon: 'pi pi-exclamation-triangle',
         message: 'Would you like to extend your session?',
         acceptLabel: 'Extend',
         rejectLabel: 'Logout',
         accept: () => {
-          secondaryTimer.stopTimer()
+          clearInterval(this.interval);
+          this.timeLeft = SECONDARY_TIMER_SEC
           this.startTimer()
         },
         reject: () => {
-          secondaryTimer.stopTimer()
+          clearInterval(this.interval);
+          this.timeLeft = SECONDARY_TIMER_SEC
           this.logout()
           this.addTimeoutToast()          
         }
