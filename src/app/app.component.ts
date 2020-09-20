@@ -6,8 +6,8 @@ import { timer } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
-const PRIMARY_TIMER_SEC: number = 10
-const SECONDARY_TIMER_SEC: number = 5
+const PRIMARY_TIMER_SEC: number = 15*60
+const SECONDARY_TIMER_SEC: number = 60
 
 @Component({
   selector: 'app-root',
