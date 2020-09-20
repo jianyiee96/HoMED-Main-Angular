@@ -63,7 +63,6 @@ export class LoginScreenComponent implements OnInit {
             if (serviceman.isActivated) {
                 this.sessionService.setIsLogin(true)
                 this.sessionService.setCurrentServiceman(this.serviceman)
-                this.app.startTimer()
                 this.router.navigate(['/home-screen'])
               }
               else {
