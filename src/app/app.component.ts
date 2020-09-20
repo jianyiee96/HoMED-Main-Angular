@@ -35,20 +35,22 @@ export class AppComponent implements OnInit {
   startTimer() {
     this.messageService.clear(); // clear all toast
     this.primaryTimer = new BnNgIdleService()
+    this.secondaryTimer = new BnNgIdleService()
+
     console.log("Starting primary timer for web application.")
-    this.primaryTimer.startWatching(900).subscribe((primaryTimedOut: boolean) => {
+
+    this.secondaryTimer.startWatching(15).subscribe((secondaryTimeOut: boolean) => {
+      if(secondaryTimeOut) {
+        this.secondaryTimer.stopTimer()
+        this.logout()
+        this.addTimeoutToast()
+        this.confirmationService.close()
+      }
+    });
+
+    this.primaryTimer.startWatching(10).subscribe((primaryTimedOut: boolean) => {
         if (primaryTimedOut) {
           this.primaryTimer.stopTimer()
-          this.secondaryTimer = new BnNgIdleService()
-          console.log("Starting secondary timer for web application.")
-          this.secondaryTimer.startWatching(60).subscribe((secondaryTimeOut: boolean) => {
-            if(secondaryTimeOut) {
-              this.secondaryTimer.stopTimer()
-              this.logout()
-              this.addTimeoutToast()
-              this.confirmationService.close()
-            }
-          })
           this.confirm(this.secondaryTimer)  
         }
       
@@ -80,7 +82,7 @@ export class AppComponent implements OnInit {
 
   confirm(secondaryTimer: BnNgIdleService) {
     this.confirmationService.confirm({
-        header: 'Your session is about to expire in 1 minute',
+        header: 'Your session will expire in 1 minute',
         icon: 'pi pi-exclamation-triangle',
         message: 'Would you like to extend your session?',
         acceptLabel: 'Extend',
