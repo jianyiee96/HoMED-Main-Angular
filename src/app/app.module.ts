@@ -16,7 +16,6 @@ import { SharedModule } from './shared.module';
 import {BreadcrumbService} from './services/breadcrum.service';
 import {MenuService} from './services/app.menu.service';
 
-import { BnNgIdleService } from 'bn-ng-idle';
 
 
 @NgModule({
@@ -34,9 +33,9 @@ import { BnNgIdleService } from 'bn-ng-idle';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,  
-    SharedModule 
+    SharedModule
   ],
-  providers: [BreadcrumbService, MenuService, BnNgIdleService],
+  providers: [BreadcrumbService, MenuService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
