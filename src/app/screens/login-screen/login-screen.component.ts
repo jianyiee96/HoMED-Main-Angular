@@ -76,7 +76,7 @@ export class LoginScreenComponent implements OnInit {
           },
           error => {
             this.clearLoginMessage()
-            this.msgs.push({ severity: 'warn', summary: '', detail: 'Wrong NRIC or Password' })         
+            this.msgs.push({ severity: 'error', summary: '', detail: 'Wrong NRIC or Password' })         
         }
       )
 
@@ -92,7 +92,7 @@ export class LoginScreenComponent implements OnInit {
     }
     else if (this.newPassword != this.confirmNewPassword) {
       this.msgForActivationDialog = []
-      this.msgForActivationDialog.push({ severity: 'warn', summary: '', detail: 'Passwords do not match' })
+      this.msgForActivationDialog.push({ severity: 'error', summary: '', detail: 'Passwords do not match' })
     }
     else if (this.newPassword.length < 8) {
       this.msgForActivationDialog = []
@@ -116,7 +116,7 @@ export class LoginScreenComponent implements OnInit {
           this.msgForActivationDialog = []  
           this.msgForActivationDialog.push({ severity: 'success', summary: '', detail: 'Account activated' })
 
-          await this.delay(1200)
+          await this.delay(1000)
 
           this.sessionService.setIsLogin(true)
           this.sessionService.setCurrentServiceman(this.serviceman)
@@ -158,7 +158,7 @@ export class LoginScreenComponent implements OnInit {
           this.msgForForgetPasswordDialog = []     
           this.msgForForgetPasswordDialog.push({ severity: 'success', summary: '', detail: 'OTP Sent. Please check your email.' })
 
-          await this.delay(1200)
+          await this.delay(1000)
 
           this.clearResetDialog()     
         })();        
