@@ -16,7 +16,9 @@ import { SharedModule } from './shared.module';
 import {BreadcrumbService} from './services/breadcrum.service';
 import {MenuService} from './services/app.menu.service';
 
-import { BnNgIdleService } from 'bn-ng-idle';
+import { CountdownModule } from 'ngx-countdown';
+
+
 
 
 @NgModule({
@@ -34,9 +36,10 @@ import { BnNgIdleService } from 'bn-ng-idle';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,  
-    SharedModule 
+    SharedModule,
+    CountdownModule 
   ],
-  providers: [BreadcrumbService, MenuService, BnNgIdleService],
+  providers: [BreadcrumbService, MenuService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

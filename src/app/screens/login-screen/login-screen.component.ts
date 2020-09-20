@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Message } from 'primeng/primeng';
+import {MessageService} from 'primeng/api';
 
 import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 import { SessionService } from 'src/app/services/session/session.service';
@@ -13,7 +14,7 @@ import { AppComponent } from '../../app.component'
   selector: 'app-login-screen',
   templateUrl: './login-screen.component.html',
   styleUrls: ['./login-screen.component.css'],
-  providers: [] 
+  providers: [MessageService] 
 })
 export class LoginScreenComponent implements OnInit {
 
@@ -61,8 +62,10 @@ export class LoginScreenComponent implements OnInit {
           if (serviceman != null) {
 
             if (serviceman.isActivated) {
+                
                 this.sessionService.setIsLogin(true)
                 this.sessionService.setCurrentServiceman(this.serviceman)
+                this.app.startTimer()
                 this.router.navigate(['/home-screen'])
               }
               else {
@@ -113,9 +116,9 @@ export class LoginScreenComponent implements OnInit {
       response => {
         (async () => { 
           this.msgForActivationDialog = []  
-          this.msgForActivationDialog.push({ severity: 'success', summary: '', detail: 'Account activated' })
+          this.msgForActivationDialog.push({ severity: 'success', summary: '', detail: 'Account activated, logging you in...' })
 
-          await this.delay(1000)
+          await this.delay(1500)
 
           this.sessionService.setIsLogin(true)
           this.sessionService.setCurrentServiceman(this.serviceman)
@@ -157,7 +160,7 @@ export class LoginScreenComponent implements OnInit {
           this.msgForForgetPasswordDialog = []     
           this.msgForForgetPasswordDialog.push({ severity: 'success', summary: '', detail: 'OTP Sent. Please check your email.' })
 
-          await this.delay(1000)
+          await this.delay(1500)
 
           this.clearResetDialog()     
         })();        
