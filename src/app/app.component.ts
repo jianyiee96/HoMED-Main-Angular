@@ -27,8 +27,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if (this.sessionService.getCurrentServiceman() != null) {
-      this.startTimer()
-      
+      this.startTimer()   
     }
   }   
   
@@ -37,24 +36,19 @@ export class AppComponent implements OnInit {
     this.messageService.clear(); // clear all toast
     this.primaryTimer = new BnNgIdleService()
     console.log("Starting primary timer for web application.")
-
-    this.primaryTimer.startWatching(10).subscribe((primaryTimedOut: boolean) => {
+    this.primaryTimer.startWatching(900).subscribe((primaryTimedOut: boolean) => {
         if (primaryTimedOut) {
           this.primaryTimer.stopTimer()
-          this.primaryTimer = new BnNgIdleService() // safety net to remove first timer
-
           this.secondaryTimer = new BnNgIdleService()
-          this.secondaryTimer.startWatching(5).subscribe((secondaryTimeOut: boolean) => {
-            console.log("Starting secondary timer for web application.")
+          console.log("Starting secondary timer for web application.")
+          this.secondaryTimer.startWatching(60).subscribe((secondaryTimeOut: boolean) => {
             if(secondaryTimeOut) {
               this.secondaryTimer.stopTimer()
-              this.secondaryTimer = new BnNgIdleService() //safety net
               this.logout()
               this.addTimeoutToast()
               this.confirmationService.close()
             }
           })
-
           this.confirm(this.secondaryTimer)  
         }
       
@@ -86,23 +80,21 @@ export class AppComponent implements OnInit {
 
   confirm(secondaryTimer: BnNgIdleService) {
     this.confirmationService.confirm({
-        header: 'Your session is about to expire in',
+        header: 'Your session is about to expire in 1 minute',
         icon: 'pi pi-exclamation-triangle',
         message: 'Would you like to extend your session?',
         acceptLabel: 'Extend',
         rejectLabel: 'Logout',
         accept: () => {
           secondaryTimer.stopTimer()
-          this.secondaryTimer = new BnNgIdleService
           this.startTimer()
         },
         reject: () => {
           secondaryTimer.stopTimer()
-          this.secondaryTimer = new BnNgIdleService
           this.logout()
           this.addTimeoutToast()          
         }
     });
-}
+  }
 
 }

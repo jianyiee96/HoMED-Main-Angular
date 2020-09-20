@@ -16,9 +16,6 @@ import { SharedModule } from './shared.module';
 import {BreadcrumbService} from './services/breadcrum.service';
 import {MenuService} from './services/app.menu.service';
 
-import { CountdownModule } from 'ngx-countdown';
-
-
 
 
 @NgModule({
@@ -36,8 +33,7 @@ import { CountdownModule } from 'ngx-countdown';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,  
-    SharedModule,
-    CountdownModule 
+    SharedModule
   ],
   providers: [BreadcrumbService, MenuService],
   bootstrap: [AppComponent]
