@@ -106,13 +106,13 @@ export class LoginScreenComponent implements OnInit {
     }
     else {
       this.clearLoginMessage()
-      this.activateAccount(this.nric, this.password, this.newPassword)
+      this.activateAccount(this.nric, this.newPassword, this.confirmNewPassword)
     }
           
   }
 
-  activateAccount(nric: string, oldPassword: string, newPassword: string) {
-    this.servicemanService.changePassword(nric, oldPassword, newPassword).subscribe(
+  activateAccount(nric: string, newPassword: string, confirmNewPassword: string) {
+    this.servicemanService.activateAccount(nric, newPassword, confirmNewPassword).subscribe(
       response => {
         (async () => { 
           this.msgForActivationDialog = []  

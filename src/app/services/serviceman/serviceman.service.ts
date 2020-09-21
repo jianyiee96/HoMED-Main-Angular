@@ -31,12 +31,23 @@ export class ServicemanService {
     )
   }
   
+  activateAccount(nric: string, newPassword: string, confirmNewPassword: string) {
+    let activateAccountReq = {
+      "nric": nric,
+      "newPassword": newPassword,
+      "confirmNewPassword" : confirmNewPassword
+    }
+    return this.httpClient.post<any>(this.baseUrl + "/activateAccount", activateAccountReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
   
-  changePassword(nric: string, oldPassword: string, newPassword: string) {
+  changePassword(nric: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
     let changePasswordReq = {
       "nric": nric,
       "oldPassword": oldPassword,
-      "newPassword": newPassword
+      "newPassword": newPassword,
+      "confirmNewPassword" : confirmNewPassword
     }
     return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, httpOptions).pipe(
       catchError(this.handleError)
