@@ -19,12 +19,11 @@ import { AppComponent } from '../../app.component'
 export class LoginScreenComponent implements OnInit {
 
   serviceman: Serviceman
-  nric: string 
-  nricResetPass: string
   password: string 
   newPassword:  string
   confirmNewPassword: string
   email: string
+  emailResetPass: string
   msgs: Message[] = []
   msgForActivationDialog: Message[] = []
   msgForForgetPasswordDialog: Message[] = []
@@ -41,19 +40,18 @@ export class LoginScreenComponent implements OnInit {
   ngOnInit() {
     this.newPassword = ""
     this.confirmNewPassword = ""
-    this.nric = ""
-    this.email = ""
-    this.nricResetPass = ""
+    this.email= ""
+    this.emailResetPass = ""
   }
 
   login(loginForm: NgForm) {
     
     if (loginForm.valid) {
 
-      this.sessionService.setNric(this.nric)
+      this.sessionService.setEmail(this.email)
       this.sessionService.setPassword(this.password)
 
-      this.servicemanService.login(this.nric, this.password).subscribe(
+      this.servicemanService.login(this.email, this.password).subscribe(
         response => {
           let serviceman: Serviceman = response.serviceman
 
@@ -78,7 +76,7 @@ export class LoginScreenComponent implements OnInit {
           },
           error => {
             this.clearLoginMessage()
-            this.msgs.push({ severity: 'error', summary: '', detail: 'Wrong NRIC or Password' })         
+            this.msgs.push({ severity: 'error', summary: '', detail: 'Wrong Email or Password' })         
         }
       )
 
@@ -106,13 +104,13 @@ export class LoginScreenComponent implements OnInit {
     }
     else {
       this.clearLoginMessage()
-      this.activateAccount(this.nric, this.newPassword, this.confirmNewPassword)
+      this.activateAccount(this.email, this.newPassword, this.confirmNewPassword)
     }
           
   }
 
-  activateAccount(nric: string, newPassword: string, confirmNewPassword: string) {
-    this.servicemanService.activateAccount(nric, newPassword, confirmNewPassword).subscribe(
+  activateAccount(email: string, newPassword: string, confirmNewPassword: string) {
+    this.servicemanService.activateAccount(email, newPassword, confirmNewPassword).subscribe(
       response => {
         (async () => { 
           this.msgForActivationDialog = []  
@@ -134,27 +132,23 @@ export class LoginScreenComponent implements OnInit {
 
   reset(forgetPasswordForm: NgForm) {
     
-    if ((this.email == "" && this.nricResetPass == "")) {
+    if ((this.emailResetPass == "")) {
       this.msgForForgetPasswordDialog = []
-      this.msgForForgetPasswordDialog.push({ severity: 'warn', summary: '', detail: 'Do not leave any fields empty' })
+      this.msgForForgetPasswordDialog.push({ severity: 'warn', summary: '', detail: 'Do not leave email empty' })
     }
-    else if (this.nricResetPass.length != 9) {
-      this.msgForForgetPasswordDialog = []
-      this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid NRIC.' })
-    }
-    else if (this.email.length < 10 || this.email.length > 64) {
+    else if (this.emailResetPass.length < 10 || this.emailResetPass.length > 64) {
       this.msgForForgetPasswordDialog = []
       this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid email.' })
     }   
     else {
       this.clearLoginMessage()
-      this.resetPassword(this.nricResetPass, this.email)
+      this.resetPassword(this.emailResetPass)
     }
           
   }
 
-  resetPassword(nric: string, email: string) {
-    this.servicemanService.resetPassword(nric, email).subscribe(
+  resetPassword(email: string) {
+    this.servicemanService.resetPassword(email).subscribe(
       response => {
         (async () => {   
           this.msgForForgetPasswordDialog = []     
@@ -166,7 +160,7 @@ export class LoginScreenComponent implements OnInit {
         })();        
       }, error => {
         this.msgForForgetPasswordDialog = []
-        this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'NRIC does not match with the email entered. Please try again.' })
+        this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Serviceman is not associated with the email entered. Please try again.' })
         this.email = ""
       }
     )
@@ -190,8 +184,7 @@ export class LoginScreenComponent implements OnInit {
 
   resetFields() {
     this.email = ""
-    this.nricResetPass = ""
-    this.nric = ""
+    this.emailResetPass = ""
     this.password = ""
   }
 

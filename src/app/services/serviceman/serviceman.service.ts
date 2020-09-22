@@ -20,9 +20,9 @@ export class ServicemanService {
 
   constructor(private httpClient: HttpClient) {}
 
-  login(nric: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<any> {
     let loginReq = {
-      "nric": nric,
+      "email": email,
       "password": password
     }
 
@@ -31,9 +31,9 @@ export class ServicemanService {
     )
   }
   
-  activateAccount(nric: string, newPassword: string, confirmNewPassword: string) {
+  activateAccount(email: string, newPassword: string, confirmNewPassword: string) {
     let activateAccountReq = {
-      "nric": nric,
+      "email": email,
       "newPassword": newPassword,
       "confirmNewPassword" : confirmNewPassword
     }
@@ -42,9 +42,9 @@ export class ServicemanService {
     );
   }
   
-  changePassword(nric: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
+  changePassword(email: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
     let changePasswordReq = {
-      "nric": nric,
+      "email": email,
       "oldPassword": oldPassword,
       "newPassword": newPassword,
       "confirmNewPassword" : confirmNewPassword
@@ -54,9 +54,8 @@ export class ServicemanService {
     );
   }
 
-  resetPassword(nric: string, email: string) {
+  resetPassword(email: string) {
     let resetPasswordReq = {
-      "nric": nric,
       "email": email
     }
 

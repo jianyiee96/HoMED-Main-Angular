@@ -31,6 +31,14 @@ export class SessionService {
 		sessionStorage.currentServiceman = JSON.stringify(currentServiceman);
 	}
 
+	getEmail(): string {
+		return sessionStorage.email;
+	}
+
+	setEmail(email: string): void {
+		sessionStorage.email = email;
+	}
+
 	getNric(): string {
 		return sessionStorage.nric;
 	}

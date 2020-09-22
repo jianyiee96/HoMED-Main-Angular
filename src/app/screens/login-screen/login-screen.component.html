@@ -16,9 +16,9 @@
 
                     <div class="ui-g-12">
                         <span class="md-inputfield">
-                            <input type="text" id="nric" pInputText name="nric" [(ngModel)]="nric" minlength="9"
-                                maxlength="9" required>
-                            <label>NRIC/FIN</label>
+                            <input type="text" id="email" pInputText name="email" [(ngModel)]="email" minlength="9"
+                                maxlength="64" required>
+                            <label>Email</label>
                         </span>
                     </div>
 
@@ -85,15 +85,7 @@
 
                 <div class="ui-g-12">
                     <span class="md-inputfield md-inputfield-box">
-                        <input type="text" name="nric" [(ngModel)]="nricResetPass" type="text"
-                            pInputText>
-                        <label>Enter your NRIC</label>
-                    </span>
-                </div>
-                <br /><br /><br /><br />
-                <div class="ui-g-12">
-                    <span class="md-inputfield md-inputfield-box">
-                        <input type="text" name="email" [(ngModel)]="email" type="text" pInputText>
+                        <input type="text" name="emailResetPass" [(ngModel)]="emailResetPass" type="text" pInputText>
                         <label>Enter your Email</label>
                     </span>
                 </div>

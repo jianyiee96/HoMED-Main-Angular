@@ -136,15 +136,15 @@ export class AccountScreenComponent implements OnInit {
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
     }
     else {
-      this.updatePassword(this.nric, this.password, this.newPassword, this.confirmNewPassword)
+      this.updatePassword(this.email, this.password, this.newPassword, this.confirmNewPassword)
       this.clearDialog()
     }
           
   }
 
 
-  updatePassword(nric: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
-    this.servicemanService.changePassword(nric, oldPassword, newPassword, confirmNewPassword).subscribe(
+  updatePassword(email: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
+    this.servicemanService.changePassword(email, oldPassword, newPassword, confirmNewPassword).subscribe(
       response => {
         this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Password changed successfully' });
         this.refreshPass = ""
