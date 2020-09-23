@@ -24,6 +24,7 @@ export class LoginScreenComponent implements OnInit {
   confirmNewPassword: string
   email: string
   emailResetPass: string
+  phoneNumber: string
   msgs: Message[] = []
   msgForActivationDialog: Message[] = []
   msgForForgetPasswordDialog: Message[] = []
@@ -132,23 +133,27 @@ export class LoginScreenComponent implements OnInit {
 
   reset(forgetPasswordForm: NgForm) {
     
-    if ((this.emailResetPass == "")) {
+    if ((this.emailResetPass == "" || this.phoneNumber == "" || ((this.emailResetPass == "" && this.phoneNumber == "")))) {
       this.msgForForgetPasswordDialog = []
-      this.msgForForgetPasswordDialog.push({ severity: 'warn', summary: '', detail: 'Do not leave email empty' })
+      this.msgForForgetPasswordDialog.push({ severity: 'warn', summary: '', detail: 'Do not leave any fields empty' })
     }
     else if (this.emailResetPass.length < 10 || this.emailResetPass.length > 64) {
       this.msgForForgetPasswordDialog = []
       this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid email.' })
     }   
+    else if (this.phoneNumber.length < 8) {
+      this.msgForForgetPasswordDialog = []
+      this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid phone number.' })
+    } 
     else {
       this.clearLoginMessage()
-      this.resetPassword(this.emailResetPass)
+      this.resetPassword(this.emailResetPass, this.phoneNumber)
     }
           
   }
 
-  resetPassword(email: string) {
-    this.servicemanService.resetPassword(email).subscribe(
+  resetPassword(email: string, phoneNumber: string) {
+    this.servicemanService.resetPassword(email, phoneNumber).subscribe(
       response => {
         (async () => {   
           this.msgForForgetPasswordDialog = []     

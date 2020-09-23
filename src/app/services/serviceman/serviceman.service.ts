@@ -54,9 +54,10 @@ export class ServicemanService {
     );
   }
 
-  resetPassword(email: string) {
+  resetPassword(email: string, phoneNumber: string) {
     let resetPasswordReq = {
-      "email": email
+      "email": email,
+      "phoneNumber": phoneNumber
     }
 
     return this.httpClient.post<any>(this.baseUrl + "/resetPassword", resetPasswordReq, httpOptions).pipe(

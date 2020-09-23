@@ -23,7 +23,6 @@ export class AccountScreenComponent implements OnInit {
   serviceman: Serviceman
   name: string
   password: string
-  nric: string
   phoneNumber: string
   rod: Date
   email: string
@@ -58,7 +57,6 @@ export class AccountScreenComponent implements OnInit {
   ngOnInit() {
     this.serviceman = this.sessionService.getCurrentServiceman()
     this.name = this.serviceman.name
-    this.nric = this.serviceman.nric
     this.phoneNumber = this.serviceman.phoneNumber
     this.rod = this.parseDate(this.serviceman.rod).substring(0,10)
     this.email = this.serviceman.email
