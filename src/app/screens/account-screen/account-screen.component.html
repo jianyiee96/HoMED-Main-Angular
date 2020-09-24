@@ -5,7 +5,7 @@
                 <div class="p-grid">
                     <div class="p-col-12  ">
                         <h4>Name:</h4>
-                        <input name="name" id="value" type="text" pInputText [(ngModel)]="name" [disabled]=true  />
+                        <input name="name" id="value" type="text" pInputText [(ngModel)]="name" [disabled]=true [readonly]=true  />
                     </div>
                 </div>
 
@@ -88,10 +88,10 @@
     
                 <div class="p-grid">
                     <div class="p-col-12">
-                        <h4>Postal:</h4>
+                        <h4>Postal Code:</h4>
                         <input name="postal" id="value" type="number"  pattern="^\d{6}"
                             class="editable"  pInputText [(ngModel)]="postal" [disabled]="!editFields"
-                            (ngModelChange)="fieldChange()" required>
+                            (ngModelChange)="fieldChange()" required >
     
                         <div *ngIf="postalError">
                             <p-message severity="error" text={{postalErrorMsg}}></p-message>
