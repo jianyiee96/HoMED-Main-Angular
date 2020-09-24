@@ -68,7 +68,7 @@ export class LoginScreenComponent implements OnInit {
                 this.router.navigate(['/home-screen'])
               }
               else {
-                this.clearLoginMessage()
+                this.msgs = []  
                 this.displayActivation = true
               }
             } else {
@@ -76,7 +76,7 @@ export class LoginScreenComponent implements OnInit {
             }
           },
           error => {
-            this.clearLoginMessage()
+            this.msgs = []  
             this.msgs.push({ severity: 'error', summary: '', detail: 'Wrong Email or Password' })         
         }
       )
@@ -104,7 +104,7 @@ export class LoginScreenComponent implements OnInit {
       this.msgForActivationDialog.push({ severity: 'warn', summary: '', detail: 'New password must be different from OTP.' })
     }
     else {
-      this.clearLoginMessage()
+      this.msgs = []  
       this.activateAccount(this.email, this.newPassword, this.confirmNewPassword)
     }
           
@@ -119,6 +119,7 @@ export class LoginScreenComponent implements OnInit {
 
           await this.delay(1500)
 
+          this.clearDialog()
           this.sessionService.setIsLogin(true)
           this.sessionService.setCurrentServiceman(this.serviceman)
           this.app.startTimer()
@@ -141,12 +142,12 @@ export class LoginScreenComponent implements OnInit {
       this.msgForForgetPasswordDialog = []
       this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid email.' })
     }   
-    else if (this.phoneNumber.length < 8) {
+    else if (this.phoneNumber.length != 8) {
       this.msgForForgetPasswordDialog = []
       this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Please enter a valid phone number.' })
     } 
     else {
-      this.clearLoginMessage()
+      this.msgs = []  
       this.resetPassword(this.emailResetPass, this.phoneNumber)
     }
           
@@ -165,7 +166,7 @@ export class LoginScreenComponent implements OnInit {
         })();        
       }, error => {
         this.msgForForgetPasswordDialog = []
-        this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: 'Serviceman is not associated with the email entered. Please try again.' })
+        this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: error.substring(37) })
         this.email = ""
       }
     )
@@ -184,17 +185,14 @@ export class LoginScreenComponent implements OnInit {
     this.resetFields() 
     this.msgForForgetPasswordDialog = []
     this.displayResetPassDialog = false
-    this.clearLoginMessage()
+    this.msgs = []  
   }
 
   resetFields() {
     this.email = ""
     this.emailResetPass = ""
     this.password = ""
-  }
-
-  clearLoginMessage() {
-    this.msgs = []  
+    this.phoneNumber = ""
   }
 
   delay(ms: number) {

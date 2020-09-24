@@ -11,10 +11,12 @@ export class Serviceman {
     gender: GenderEnum
     bloodType: BloodTypeEnum
     password: string
-    address: string
+    address: Address
     isActivated: boolean
 
-    constructor(servicemanId?: number, name?: string, email?: string , phoneNumber?: string, rod?: Date, gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: string, isActivated?: boolean) {
+    constructor(servicemanId?: number, name?: string, email?: string , phoneNumber?: string, rod?: Date, 
+            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean) {
+
         this.servicemanId = servicemanId
         this.name = name
         this.email = email
@@ -25,6 +27,31 @@ export class Serviceman {
         this.password = password
         this.address = address
         this.isActivated = isActivated
+    }
+
+}
+
+export class Address {
+
+    streetName: string
+    unitNumber: string
+    buildingName: string
+    country: string
+    postal: string
+
+    constructor(
+        streetName?: string,
+        unitNumber?: string,
+        buildingName?: string,
+        country?: string,
+        postal?: string) {
+
+        this.streetName = streetName
+        this.unitNumber = unitNumber
+        this.buildingName = buildingName
+        this.country = country
+        this.postal = postal
+
     }
 
 }
