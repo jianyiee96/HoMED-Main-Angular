@@ -1,7 +1,12 @@
 #value {
     font-size: large;
+    color: darkblue;
+    text-align: center;
 }
 
 .editable {
     font-weight: bold;
 }
+
+
+

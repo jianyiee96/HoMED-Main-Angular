@@ -23,23 +23,28 @@ export class AccountScreenComponent implements OnInit {
   serviceman: Serviceman
   name: string
   password: string
-  nric: string
   phoneNumber: string
   rod: Date
   email: string
-  address: string
+  streetName: string
+  unitNumber: string
+  buildingName: string
+  postal: string
   newPassword: string
   confirmNewPassword: string
   msgForDialog: Message[] = []
-  refreshPass: string
   displayModal: boolean
 
   editFields: boolean
   fieldsUpdated: boolean
 
-  phoneNumberError = false
-  emailError = false
-  passwordError = false
+  phoneNumberError: boolean
+  streetNameError: boolean
+  postalError: boolean
+
+  phoneNumberErrorMsg: string
+  streetNameErrorMsg: string
+  postalErrorMsg: string
 
 
 
@@ -56,15 +61,24 @@ export class AccountScreenComponent implements OnInit {
 
 
   ngOnInit() {
+
     this.serviceman = this.sessionService.getCurrentServiceman()
     this.name = this.serviceman.name
-    this.nric = this.serviceman.nric
     this.phoneNumber = this.serviceman.phoneNumber
     this.rod = this.parseDate(this.serviceman.rod).substring(0,10)
     this.email = this.serviceman.email
-    this.address = this.serviceman.address
+    this.streetName = this.serviceman.address.streetName
+    this.unitNumber = this.serviceman.address.unitNumber
+    this.buildingName = this.serviceman.address.buildingName
+    this.postal = this.serviceman.address.postal
+
     this.newPassword=""
     this.confirmNewPassword=""
+
+    this.phoneNumberError = false
+    this.streetNameError = false
+    this.postalError = false
+
     this.fieldsUpdated = false
     this.editFields = false
 
@@ -77,8 +91,10 @@ export class AccountScreenComponent implements OnInit {
     if (updateForm.valid) {
 
       this.serviceman.phoneNumber = this.phoneNumber
-      this.serviceman.email = this.email
-      this.serviceman.address = this.address
+      this.serviceman.address.streetName = this.streetName
+      this.serviceman.address.unitNumber = this.unitNumber
+      this.serviceman.address.buildingName = this.buildingName
+      this.serviceman.address.postal = this.postal
 
       this.servicemanService.updateAccount(this.serviceman).subscribe(
         response => {
@@ -91,11 +107,17 @@ export class AccountScreenComponent implements OnInit {
         error => {
           this.serviceman = this.sessionService.getCurrentServiceman()
 
-          if (error.includes('serviceman.EMAIL')) {
-            this.emailError = true
-          }
-          if (error.includes('serviceman.PHONENUMBER')) {
+          if (error.toLowerCase().includes("phone number")) {
+            this.phoneNumberErrorMsg = error.substring(37)
             this.phoneNumberError = true
+          }
+          if (error.toLowerCase().includes("street name")) {
+            this.streetNameErrorMsg = error.substring(37)
+            this.streetNameError = true
+          }
+          if (error.toLowerCase().includes("postal")) {
+            this.postalErrorMsg = error.substring(37)
+            this.postalError = true
           }
         }
       )
@@ -108,9 +130,11 @@ export class AccountScreenComponent implements OnInit {
     this.editFields = !this.editFields
     this.clearErrors()
     this.fieldsUpdated = false
-    this.phoneNumber = this.serviceman.phoneNumber    
-    this.email = this.serviceman.email
-    this.address = this.serviceman.address
+    this.phoneNumber = this.serviceman.phoneNumber
+    this.streetName = this.serviceman.address.streetName
+    this.unitNumber = this.serviceman.address.unitNumber
+    this.buildingName = this.serviceman.address.buildingName
+    this.postal = this.serviceman.address.postal
   }
 
   fieldChange() {
@@ -136,22 +160,26 @@ export class AccountScreenComponent implements OnInit {
       this.msgForDialog.push({ severity: 'error', summary: '', detail: 'New password must be at least 8 characters.' })
     }
     else {
-      this.updatePassword(this.nric, this.password, this.newPassword, this.confirmNewPassword)
-      this.clearDialog()
+      this.updatePassword(this.email, this.password, this.newPassword, this.confirmNewPassword)
     }
           
   }
 
 
-  updatePassword(nric: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
-    this.servicemanService.changePassword(nric, oldPassword, newPassword, confirmNewPassword).subscribe(
+  updatePassword(email: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
+    this.servicemanService.changePassword(email, oldPassword, newPassword, confirmNewPassword).subscribe(
       response => {
-        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Password changed successfully' });
-        this.refreshPass = ""
+        (async () => {   
+          this.msgForDialog = []
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Password changed successfully' })
+
+          await this.delay(1000)
+
+          this.clearDialog()     
+        })(); 
       }, error => {
-          if (error.includes("password do not match password associated with account")) {
-            this.passwordError = true
-          }
+          this.msgForDialog = []
+          this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(37) })
         }       
     );
   }
@@ -159,8 +187,9 @@ export class AccountScreenComponent implements OnInit {
 
   clearErrors() {
     this.phoneNumberError = false
-    this.emailError = false
-    this.passwordError = false
+    this.streetNameError = false
+    this.postalError = false
+
   }
 
 
@@ -169,6 +198,7 @@ export class AccountScreenComponent implements OnInit {
   }
 
   clearDialog(){
+    this.password=""
     this.newPassword = ""
     this.confirmNewPassword = ""
     this.msgForDialog = []
@@ -179,8 +209,11 @@ export class AccountScreenComponent implements OnInit {
     this.password = ""
     this.newPassword = ""
     this.confirmNewPassword = ""
-    this.passwordError = false
     this.displayModal = true
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 }

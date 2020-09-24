@@ -5,27 +5,53 @@ export class Serviceman {
 
     servicemanId: number
     name: string
-    nric: string
+    email: string
     phoneNumber: string
     rod: Date
     gender: GenderEnum
     bloodType: BloodTypeEnum
     password: string
-    email: string
-    address: string
+    address: Address
     isActivated: boolean
 
-    constructor(servicemanId?: number, name?: string, nric?: string, phoneNumber?: string, rod?: Date, gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, email?: string, address?: string, isActivated?: boolean) {
+    constructor(servicemanId?: number, name?: string, email?: string , phoneNumber?: string, rod?: Date, 
+            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean) {
+
         this.servicemanId = servicemanId
         this.name = name
-        this.nric = nric
+        this.email = email
         this.phoneNumber = phoneNumber
         this.rod = rod
         this.gender = gender
         this.bloodType = bloodType
         this.password = password
-        this.email = address
+        this.address = address
         this.isActivated = isActivated
+    }
+
+}
+
+export class Address {
+
+    streetName: string
+    unitNumber: string
+    buildingName: string
+    country: string
+    postal: string
+
+    constructor(
+        streetName?: string,
+        unitNumber?: string,
+        buildingName?: string,
+        country?: string,
+        postal?: string) {
+
+        this.streetName = streetName
+        this.unitNumber = unitNumber
+        this.buildingName = buildingName
+        this.country = country
+        this.postal = postal
+
     }
 
 }

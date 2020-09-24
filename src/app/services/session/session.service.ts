@@ -12,39 +12,39 @@ export class SessionService {
 
   getIsLogin(): boolean {
 		if (sessionStorage.isLogin == "true") {
-			return true;
+			return true
 		}
 		else {
-			return false;
+			return false
 		}
 	}
 
 	setIsLogin(isLogin: boolean): void {
-		sessionStorage.isLogin = isLogin;
+		sessionStorage.isLogin = isLogin
 	}
 
 	getCurrentServiceman(): Serviceman {
-		return JSON.parse(sessionStorage.currentServiceman);
+		return JSON.parse(sessionStorage.currentServiceman)
 	}
 
 	setCurrentServiceman(currentServiceman: Serviceman): void {
-		sessionStorage.currentServiceman = JSON.stringify(currentServiceman);
+		sessionStorage.currentServiceman = JSON.stringify(currentServiceman)
 	}
 
-	getNric(): string {
-		return sessionStorage.nric;
+	getEmail(): string {
+		return sessionStorage.email
 	}
 
-	setNric(nric: string): void {
-		sessionStorage.nric = nric;
+	setEmail(email: string): void {
+		sessionStorage.email = email
 	}
 
 	getPassword(): string {
-		return sessionStorage.password;
+		return sessionStorage.password
 	}
 
 	setPassword(password: string): void {
-		sessionStorage.password = password;
+		sessionStorage.password = password
   }
   
 }
