@@ -31,7 +31,7 @@ export class ServicemanService {
     )
   }
   
-  activateAccount(email: string, newPassword: string, confirmNewPassword: string) {
+  activateAccount(email: string, newPassword: string, confirmNewPassword: string): Observable<any> {
     let activateAccountReq = {
       "email": email,
       "newPassword": newPassword,
@@ -42,7 +42,7 @@ export class ServicemanService {
     );
   }
   
-  changePassword(email: string, oldPassword: string, newPassword: string, confirmNewPassword: string) {
+  changePassword(email: string, oldPassword: string, newPassword: string, confirmNewPassword: string): Observable<any> {
     let changePasswordReq = {
       "email": email,
       "oldPassword": oldPassword,
@@ -54,7 +54,7 @@ export class ServicemanService {
     );
   }
 
-  resetPassword(email: string, phoneNumber: string) {
+  resetPassword(email: string, phoneNumber: string): Observable<any> {
     let resetPasswordReq = {
       "email": email,
       "phoneNumber": phoneNumber
