@@ -20,7 +20,7 @@ export class FormService {
   constructor(private httpClient: HttpClient) {}
 
   retrieveAllFormTemplates(): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + "/retrieveAllFormTemplates", httpOptions).pipe(
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveAllFormTemplates", httpOptions).pipe(
       catchError(this.handleError)
     )
   }
