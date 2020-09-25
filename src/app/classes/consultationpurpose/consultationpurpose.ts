@@ -1,6 +1,6 @@
 import { FormTemplate } from '../formtemplate/formtemplate'
 
-export class ConsultationPurposes {
+export class ConsultationPurpose {
 
     consultationPurposeId: number
     consultationPurposeName: string

@@ -1,7 +1,7 @@
-import { Formtemplate } from './formtemplate';
+import { FormTemplate } from './formtemplate';
 
-describe('Formtemplate', () => {
+describe('FormTemplate', () => {
   it('should create an instance', () => {
-    expect(new Formtemplate()).toBeTruthy();
+    expect(new FormTemplate()).toBeTruthy();
   });
 });

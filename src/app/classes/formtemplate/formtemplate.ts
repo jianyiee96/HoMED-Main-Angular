@@ -1,7 +1,7 @@
 import { FormTemplateStatusEnum } from '../formtemplatestatus-enum'
 import { FormInstance } from '../forminstance/forminstance'
 import { FormField } from '../formfield/formfield'
-import { ConsultationPurposes } from '../consultationpurpose/consultationpurpose'
+import { ConsultationPurpose } from '../consultationpurpose/consultationpurpose'
 
 export class FormTemplate {
 
@@ -12,12 +12,12 @@ export class FormTemplate {
     formStatus: FormTemplateStatusEnum
     isPublic: Boolean
     formFields: FormField[]
-    consultationPurposes: ConsultationPurposes[]
+    consultationPurposes: ConsultationPurpose[]
     formInstances: FormInstance[]
 
     constructor(formTemplateId?: number, formTemplateName?: string, dateCreated?: Date, 
             datePublished?: Date, formStatus?: FormTemplateStatusEnum, isPublic?: Boolean, 
-            formFields?: FormField[], consultationPurposes?: ConsultationPurposes[], 
+            formFields?: FormField[], consultationPurposes?: ConsultationPurpose[], 
             formInstances?: FormInstance[]) {
 
         this.formTemplateId = formTemplateId

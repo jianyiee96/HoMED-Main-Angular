@@ -1,7 +1,7 @@
-import { Forminstance } from './forminstance';
+import { FormInstance } from './forminstance';
 
-describe('Forminstance', () => {
+describe('FormInstance', () => {
   it('should create an instance', () => {
-    expect(new Forminstance()).toBeTruthy();
+    expect(new FormInstance()).toBeTruthy();
   });
 });

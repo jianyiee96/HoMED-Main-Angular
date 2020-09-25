@@ -1,7 +1,7 @@
-import { Formfield } from './formfield';
+import { FormField } from './formfield;
 
-describe('Formfield', () => {
+describe('FormField', () => {
   it('should create an instance', () => {
-    expect(new Formfield()).toBeTruthy();
+    expect(new FormField()).toBeTruthy();
   });
 });

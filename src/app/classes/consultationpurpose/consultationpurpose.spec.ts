@@ -1,7 +1,7 @@
-import { Consultationpurpose } from './consultationpurpose';
+import { ConsultationPurpose } from './consultationpurpose';
 
-describe('Consultationpurpose', () => {
+describe('ConsultationPurpose', () => {
   it('should create an instance', () => {
-    expect(new Consultationpurpose()).toBeTruthy();
+    expect(new ConsultationPurpose()).toBeTruthy();
   });
 });
