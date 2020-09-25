@@ -9,26 +9,23 @@ export class FormTemplate {
     formTemplateName: string
     dateCreated: Date
     datePublished: Date
-    formStatus: FormTemplateStatusEnum
+    formTemplateStatus: FormTemplateStatusEnum
     isPublic: Boolean
     formFields: FormField[]
-    consultationPurposes: ConsultationPurpose[]
-    formInstances: FormInstance[]
+
 
     constructor(formTemplateId?: number, formTemplateName?: string, dateCreated?: Date, 
-            datePublished?: Date, formStatus?: FormTemplateStatusEnum, isPublic?: Boolean, 
-            formFields?: FormField[], consultationPurposes?: ConsultationPurpose[], 
-            formInstances?: FormInstance[]) {
+            datePublished?: Date, formTemplateStatus?: FormTemplateStatusEnum, isPublic?: Boolean, 
+            formFields?: FormField[]) {
 
         this.formTemplateId = formTemplateId
         this.formTemplateName = formTemplateName
         this.dateCreated = dateCreated
         this.datePublished = datePublished
-        this.formStatus = formStatus
+        this.formTemplateStatus = formTemplateStatus
         this.isPublic = isPublic
         this.formFields = formFields
-        this.consultationPurposes = consultationPurposes
-        this.formInstances = formInstances
+
     }
 
 }
