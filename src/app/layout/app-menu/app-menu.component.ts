@@ -15,14 +15,16 @@ export class AppMenuComponent {
     ngOnInit() {
         this.model = [
             {label: 'Home Page', icon: 'home', routerLink: ['/home-screen']},
+            {label: 'Account Information', icon: 'account_circle', routerLink: ['/account-screen']},
             {
-                label: 'My Information', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
-                items: [
-                    {label: 'Account Information', icon: 'account_circle', routerLink: ['/account-screen']},
-                    {label: 'Medical Information', icon: 'local_hospital', routerLink: ['/medical-screen']}
+                label: 'eForm Management', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
+                items: [      
+
+                    {label: 'General eForms', icon: 'content_copy', routerLink: ['/medical-screen']},
+                    {label: 'Medical Board eForms', icon: 'content_copy', routerLink: ['/medical-screen']}
                 ]
             },
-            {label: 'Appointment', icon: 'event_note', routerLink: ['/appointment-screen']}
+            
         ];
     }
 
