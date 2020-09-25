@@ -34,6 +34,11 @@ const routes: Routes = [
         loadChildren: () => import('./screens/general-eforms-screen/general-eforms-screen.module').then(m => m.GeneralEFormsScreenComponentModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'form-repo-screen',
+        loadChildren: () => import('./screens/form-repo-screen/form-repo-screen.module').then(m => m.FormRepoScreenComponentModule),
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {
