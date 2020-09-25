@@ -20,7 +20,7 @@ export class AppMenuComponent {
                 label: 'eForm Management', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
                 items: [      
 
-                    {label: 'General eForms', icon: 'content_copy', routerLink: ['/medical-screen']},
+                    {label: 'General eForms', icon: 'content_copy', routerLink: ['/general-eforms-screen']},
                     {label: 'Medical Board eForms', icon: 'content_copy', routerLink: ['/medical-screen']}
                 ]
             },

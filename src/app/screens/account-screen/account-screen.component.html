@@ -107,20 +107,20 @@
     
     
                 <div class="p-grid">
-                    <div class="p-col-0 p-md-0 p-lg-5" *ngIf="!editFields"></div>               
+                    <!-- <div class="p-col-0 p-md-0 p-lg-5" *ngIf="!editFields"></div>                -->
                     
-                    <div class="p-col-12 p-md-12 p-lg-2 " *ngIf="!editFields">
+                    <div class="p-col-12" *ngIf="!editFields">
                         <button id="editButton" type="button" pButton icon=" ui-icon-build" expand="block"
                             (click)="updateProfile()" label="Edit Account Details"></button>
                     </div>
                     
                     <div class="p-col-0 p-md-0 p-lg-4" *ngIf="editFields"></div>
-            
-                    <div class="p-col-12 p-md-12 p-lg-2" *ngIf="editFields">
+                    
+                    <div class="p-col-12" *ngIf="editFields" >
                         <button id="updateButton" type="button" pButton icon="pi pi-check" expand="block" type="submit"
                             label="Update" [disabled]="updateForm.invalid || !fieldsUpdated"></button>
                     </div>
-                    <div class="p-col-12 p-md-12 p-lg-2" *ngIf="editFields">
+                    <div class="p-col-12" *ngIf="editFields" >
                         <button id="cancelButton" type="button" pButton icon="pi pi-times" expand="block" label="Cancel"
                             (click)="updateProfile()"></button>
                     </div>

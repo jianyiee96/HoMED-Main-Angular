@@ -54,7 +54,7 @@ export class AccountScreenComponent implements OnInit {
   ) {
       this.breadcrumbService.setItems([
         {label: 'My Information'},
-        {label: 'Account Information', routerLink: ['/information/data']}
+        {label: 'Account Information', routerLink: ['account-screen']}
       ]); 
     }
 

@@ -29,6 +29,11 @@ const routes: Routes = [
         loadChildren: () => import('./screens/account-screen/account-screen.module').then(m => m.AccountScreenComponentModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'general-eforms-screen',
+        loadChildren: () => import('./screens/general-eforms-screen/general-eforms-screen.module').then(m => m.GeneralEFormsScreenComponentModule),
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {
