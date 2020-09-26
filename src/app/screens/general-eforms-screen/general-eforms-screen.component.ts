@@ -96,6 +96,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.displayModal = false
   }
 
+  openModal() {
+    
+    
+    this.displayModal = true
+  }
+
 
 
 }

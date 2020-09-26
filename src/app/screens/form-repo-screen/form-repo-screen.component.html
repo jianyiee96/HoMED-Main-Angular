@@ -1,9 +1,36 @@
-<div class="ui-g">
-    <div class="ui-g-12">
-        <div class="card">
-            <h1>Form Repo</h1>
-            <p>Use this page to start from scratch and place your custom content.</p>
-
+<div class="ui-fluid">
+    <div class="ui-g-12 ui-lg-6" >
+        <div class="card" style="text-align: left;">
+            <h1>Available Published Templates</h1>
+            <p-table #dt [value]="formTemplates"  selectionMode="single" [(selection)]="selectedTemplate" dataKey="formTemplateId"
+                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>FormTemplate Id</th>
+                        <th>Form Template Name</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-formTemplate>
+                    <tr [pSelectableRow]="formTemplate">
+                        <td>{{formTemplate.formTemplateId}}</td>
+                        <td>{{formTemplate.formTemplateName}}</td>
+                    
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-toast key="tst" position="center"></p-toast>
+        </div>
+        
+    </div>
+    <div class="ui-g-12 ui-lg-6" *ngIf="selected">
+        <div class="card" style="text-align: left;">
+            <h1>{{selectedTemplate.formTemplateName}}</h1>
+            <p>{{selectedTemplate.datePublished}}</p>
+            <p>{{selectedTemplate.isPublic}}</p>
+            <div *ngFor="let formfield of selectedTemplate.formFields">
+                <p>{{formfield.question}}, {{formfield.inputType}} </p>      
+            </div>
+            <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
         </div>
     </div>
 </div>

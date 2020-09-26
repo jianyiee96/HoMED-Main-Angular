@@ -7,7 +7,7 @@
                 <div class="card">          
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
                     <p>{{formInstance.formTemplateMapping.dateCreated }}</p>
-                    <button pButton icon="ui-icon-add" label="View details" (click)="displayModal=true"></button>
+                    <button pButton icon="ui-icon-add" label="View details" (click)="openModal()"></button>
                 </div>
 
             </div>
@@ -26,7 +26,7 @@
             [draggable]="false" [closable]="false" [resizable]="false">
 
             <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
-            <div id="content" *ngIf="locked">
+            <div id="content" *ngIf="!locked">
 
             </div>
 
