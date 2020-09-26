@@ -1,8 +1,9 @@
 <div class="ui-fluid">
     <div class="ui-g-12 ui-lg-6" >
         <div class="card" style="text-align: left;">
-            <h1>Available Forms</h1>
-            <p-table [value]="formTemplates" selectionMode="single" [(selection)]="selectedTemplate" dataKey="formTemplateId">
+            <h1>Available Published Templates</h1>
+            <p-table #dt [value]="formTemplates"  selectionMode="single" [(selection)]="selectedTemplate" dataKey="formTemplateId"
+                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>FormTemplate Id</th>
@@ -13,18 +14,17 @@
                     <tr [pSelectableRow]="formTemplate">
                         <td>{{formTemplate.formTemplateId}}</td>
                         <td>{{formTemplate.formTemplateName}}</td>
-
+                    
                     </tr>
                 </ng-template>
             </p-table>
-
-
         </div>
+        
     </div>
-    <div class="ui-g-12 ui-lg-6" >
+    <div class="ui-g-12 ui-lg-6" *ngIf="selected">
         <div class="card" style="text-align: left;">
             <h1>{{selectedTemplate.formTemplateName}}</h1>
-            <button type="button" label="Create Instance"></button>
+            <button type="button" pButton label="Create Instance"></button>
         </div>
-    
+    </div>
 </div>

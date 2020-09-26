@@ -15,6 +15,7 @@ export class FormRepoScreenComponent implements OnInit {
   
   formTemplates: FormTemplate[]
   selectedTemplate: FormTemplate
+  selected: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService) { 
     this.breadcrumbService.setItems([
@@ -25,15 +26,26 @@ export class FormRepoScreenComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
     this.formService.retrieveAllFormTemplates().subscribe(
       response => {
         this.formTemplates = response.formTemplates
-        console.log(this.formTemplates)
-        console.log(response)
-      }
-    )
+        this.selected = false
+      },
+      error => {
+				console.log(error.substring(32))
+			}
+    );
     
+  }
+
+  onRowSelect(event) {
+    this.selected = true
+  }
+
+  onRowUnselect(event) {
+    this.selected = false
   }
 
 }
