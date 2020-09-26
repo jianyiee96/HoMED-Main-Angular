@@ -1,6 +1,7 @@
 import { BloodTypeEnum } from '../bloodtype-enum'
 import { GenderEnum } from '../gender-enum'
 
+
 export class Serviceman {
 
     servicemanId: number

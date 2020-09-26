@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Serviceman } from '../../classes/serviceman/serviceman'
+import { SessionService } from '../session/session.service'
 import { FormInstance } from '../../classes/forminstance/forminstance'
 
 
@@ -20,7 +21,8 @@ export class FormService {
 
   baseUrl: string = "/api/Form"
 
-  constructor(private httpClient: HttpClient, private serviceman: Serviceman, private formInstance: FormInstance) {}
+  constructor(private httpClient: HttpClient, private serviceman: Serviceman, private formInstance: FormInstance,
+    private sessionService: SessionService) {}
 
   retrieveAllFormTemplates(): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl + "/retrieveAllFormTemplates", httpOptions).pipe(
@@ -30,7 +32,8 @@ export class FormService {
 
 
   retrieveAllServicemanFormInstances(): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + "/retrieveAllServicemanFormInstances?servicemanId=" + this.serviceman.servicemanId).pipe(
+
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveAllServicemanFormInstances?servicemanId=" + this.sessionService.getCurrentServiceman().servicemanId).pipe(
       catchError(this.handleError)
     );
   }

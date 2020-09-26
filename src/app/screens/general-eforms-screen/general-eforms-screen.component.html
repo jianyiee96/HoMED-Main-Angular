@@ -2,25 +2,16 @@
     <div class="ui-g-12">
         <div class="card">
             <h1>My Form Instances</h1>
+            <div *ngFor="let formInstance of formInstances">
 
-
-            <div class="card">
-                <h2>Test</h2>
-                <p>content</p>
-            </div>
-
-            <div class="card">
+                <div class="card">
+                    <h2>{{formInstance.formTemplateMapping}}</h2>
+                    <p>{{formInstance.formTemplateMapping}}</p>
+                    
+                </div>
 
             </div>
             
-            <div class="card">
-
-            </div>
-
-            <div class="card">
-
-            </div>
-
             <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
 
         </div>
