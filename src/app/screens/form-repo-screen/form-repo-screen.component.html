@@ -18,13 +18,19 @@
                     </tr>
                 </ng-template>
             </p-table>
+            <p-toast key="tst" position="center"></p-toast>
         </div>
         
     </div>
     <div class="ui-g-12 ui-lg-6" *ngIf="selected">
         <div class="card" style="text-align: left;">
             <h1>{{selectedTemplate.formTemplateName}}</h1>
-            <button type="button" pButton label="Create Instance"></button>
+            <p>{{selectedTemplate.datePublished}}</p>
+            <p>{{selectedTemplate.isPublic}}</p>
+            <div *ngFor="let formfield of selectedTemplate.formFields">
+                <p>{{formfield.question}}, {{formfield.inputType}} </p>      
+            </div>
+            <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
         </div>
     </div>
 </div>
