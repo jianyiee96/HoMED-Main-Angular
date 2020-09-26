@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Serviceman } from '../../classes/serviceman/serviceman'
 import { SessionService } from '../session/session.service'
 import { FormInstance } from '../../classes/forminstance/forminstance'
 
@@ -21,8 +20,7 @@ export class FormService {
 
   baseUrl: string = "/api/Form"
 
-  constructor(private httpClient: HttpClient, private serviceman: Serviceman, private formInstance: FormInstance,
-    private sessionService: SessionService) {}
+  constructor(private httpClient: HttpClient, private sessionService: SessionService) {}
 
   retrieveAllFormTemplates(): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl + "/retrieveAllFormTemplates", httpOptions).pipe(
@@ -60,8 +58,8 @@ export class FormService {
   }
 
 
-  deleteFormInstance(): Observable<any> {
-    return this.httpClient.delete<any>(this.baseUrl + "/deleteFormInstance?formInstanceId=" + this.formInstance.formInstanceId).pipe(
+  deleteFormInstance(formInstanceId: number): Observable<any> {
+    return this.httpClient.delete<any>(this.baseUrl + "/deleteFormInstance?formInstanceId=" + formInstanceId).pipe(
       catchError(this.handleError)
     );
   } 
