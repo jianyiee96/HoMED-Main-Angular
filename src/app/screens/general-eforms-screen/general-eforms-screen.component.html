@@ -4,10 +4,10 @@
             <h1>My Form Instances</h1>
             <div *ngFor="let formInstance of formInstances">
 
-                <div class="card">
-                    <h2>{{formInstance.formTemplateMapping}}</h2>
-                    <p>{{formInstance.formTemplateMapping}}</p>
-                    
+                <div class="card">          
+                    <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
+                    <p>{{formInstance.formTemplateMapping.dateCreated }}</p>
+                    <button pButton icon="ui-icon-add" label="View details" (click)="displayModal=true"></button>
                 </div>
 
             </div>
@@ -16,4 +16,44 @@
 
         </div>
     </div>
+
+    <p-toast key="tst" position="bottom-center"></p-toast>
 </div>
+
+<form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
+    <div class="ui-g form-group ui-fluid">
+        <p-dialog header="Form Editor" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
+            [draggable]="false" [closable]="false" [resizable]="false">
+
+            <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
+            <div id="content" *ngIf="locked">
+
+            </div>
+
+            <p-footer>
+                <div id="buttons" *ngIf="!locked">
+                    <button  type="button" pButton icon="pi pi-check"
+                    label="Save" (click)="updateFormInstance()"></button>
+        
+                    <button  type="button" pButton icon="pi pi-check"
+                    label="Back" (click)="clearDialog()"></button>
+        
+                    <button  type="button" pButton icon="pi pi-check"
+                    label="Delete" (click)="deleteFormInstance()"></button>
+        
+                    <button  type="button" pButton icon="pi pi-check" type="submit"
+                    label="Submit"></button>  
+                </div>
+
+                <div id="buttons" *ngIf="locked">
+                    <button  type="button" pButton icon="pi pi-check"
+                    label="Back" (click)="clearDialog()"></button>
+
+                    <button  type="button" pButton icon="pi pi-check"
+                    label="Consultations" routerLink="/form-repo-screen"></button>
+                </div>
+            </p-footer>
+
+      </p-dialog>
+    </div>
+</form>
