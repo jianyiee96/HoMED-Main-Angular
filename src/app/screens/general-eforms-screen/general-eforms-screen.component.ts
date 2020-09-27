@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { FormService } from 'src/app/services/form/form.service';
-import { FormInstance } from 'src/app/classes/forminstance/forminstance'
+import { FormInstance, FormInstanceField } from 'src/app/classes/forminstance/forminstance'
+
 
 import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
+
 
 @Component({
   selector: 'app-general-eforms-screen',
@@ -20,8 +23,11 @@ import {BreadcrumbService} from '../../services/breadcrum.service';
 export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance []
-  formInstanceId: number
   selectedFormInstance: FormInstance
+  selectedFormInstanceName: string
+  selectedFormInstanceDate: Date
+  selectedFormInstanceQuestions: string[]
+  selectedFormInstanceFields: FormInstanceField[]
 
 
   msgForDialog: Message[] = []
@@ -30,7 +36,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   locked: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
-    private service: MessageService
+    private service: MessageService, private confirmationService: ConfirmationService
   ) { 
       this.breadcrumbService.setItems([
         {label: 'eForm Management'},
@@ -39,6 +45,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
    }
 
   ngOnInit() {
+    
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
 				this.formInstances = response.formInstances
@@ -54,7 +61,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     
 		this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
 			response => {
-        console.log("Updated")
         this.selectedFormInstance = response.formInstance
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Field Values Updated!' })
@@ -68,12 +74,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
 	}
 
 
-  deleteFormInstance() {
-    
-		this.formService.deleteFormInstance(this.formInstanceId).subscribe(
+  deleteFormInstance() {  
+		this.formService.deleteFormInstance(this.selectedFormInstance.formInstanceId).subscribe(
 			response => {
         this.clearDialog()
-				this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Deleted Successfully' });
+        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Deleted Successfully' });
+        this.ngOnInit()
 			},
 			error => {
         this.msgForDialog = []
@@ -95,8 +101,25 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   openModal(formInstance: FormInstance) {
     this.selectedFormInstance = formInstance
-    console.log(this.selectedFormInstance.formTemplateMapping.formTemplateName)
+    this.selectedFormInstanceName = this.selectedFormInstance.formTemplateMapping.formTemplateName
+    this.selectedFormInstanceDate = this.selectedFormInstance.formTemplateMapping.dateCreated
+    this.selectedFormInstanceFields = this.selectedFormInstance.formInstanceFields
     this.displayModal = true
+  }
+
+  confirm() {
+    this.confirmationService.confirm({
+        header: 'Delete Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        message: 'Do you want to delete this form instance?',
+        acceptLabel: 'Yes',
+        rejectLabel: 'No',
+        accept: () => {
+          this.deleteFormInstance()
+        },
+        reject: () => {   
+        }
+    });
   }
 
 

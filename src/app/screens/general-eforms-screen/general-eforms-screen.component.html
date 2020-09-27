@@ -19,14 +19,55 @@
 </div>
 
 <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
-    <div class="ui-g form-group ui-fluid">
+    <div class="ui-g form-group">
         <p-dialog header="Form Editor" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
             [draggable]="false" [closable]="false" [resizable]="false">
-
+            
             <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
+
+
             <div id="content" *ngIf="!locked">
-                <h2>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h2>
-                <p>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</p>
+                <h2>{{selectedFormInstanceName}}</h2>
+                <p>{{selectedFormInstanceDate}}</p>
+
+                <div *ngFor="let formfield of selectedFormInstanceFields">
+                    <p>{{formfield.formFieldMapping.question}}</p>
+
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'CHECK_BOX'">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formfield.formFieldMapping.formFieldOptions">
+                                <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}" label="{{formFieldOption.formFieldOptionValue}}" ></p-checkbox>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'TEXT'">
+                        <!-- <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"></textarea> -->
+                        <input name="name" id="value" type="text" pInputText/>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'RADIO_BUTTON'">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formfield.formFieldMapping.formFieldOptions">
+                                <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}" label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
+                        <p-dropdown [options]="formfield.formFieldMapping.formFieldOptions.formFieldOptionValue" ></p-dropdown>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'DATE'">
+                        <p-calendar [showIcon]="true" placeholder="Date"></p-calendar>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'TIME'">
+                        <p-calendar showTime="true" [timeOnly]="true" placeholder="Time"></p-calendar>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'NUMBER'">
+                        <p-spinner></p-spinner>
+                    </div>
+                    <div *ngIf="formfield.formFieldMapping.inputType === 'FILE_UPLOAD' || formfield.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
+                        <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                    </div>
+                          
+                </div>
             </div>
 
             <p-footer>
@@ -38,7 +79,7 @@
                     label="Back" (click)="clearDialog()"></button>
         
                     <button  type="button" pButton icon="pi pi-check"
-                    label="Delete" (click)="deleteFormInstance()"></button>
+                    label="Delete" (click)="confirm()"></button>
         
                     <button  type="button" pButton icon="pi pi-check" type="submit"
                     label="Submit"></button>  
