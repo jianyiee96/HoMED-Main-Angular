@@ -29,7 +29,7 @@
             <h1>{{selectedTemplate.formTemplateName}}</h1>
 
             <div *ngFor="let formField of selectedTemplate.formFields">
-                <h4>{{formField.question}} </h4>
+                <h4>Question {{formField.position}}) {{formField.question}} </h4>
                 <div *ngIf="formField.inputType === 'CHECK_BOX'">
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">

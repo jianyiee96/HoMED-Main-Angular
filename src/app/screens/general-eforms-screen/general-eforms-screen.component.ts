@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { FormService } from 'src/app/services/form/form.service';
-import { FormInstance, FormInstanceField } from 'src/app/classes/forminstance/forminstance'
+import { FormInstance, FormInstanceField, FormInstanceFieldValue } from 'src/app/classes/forminstance/forminstance'
 
 
 import { Message } from 'primeng/primeng';
@@ -11,6 +11,7 @@ import { ConfirmationService } from 'primeng/api';
 
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
+import { FormField } from 'src/app/classes/formfield/formfield';
 
 
 @Component({
@@ -24,10 +25,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance []
   selectedFormInstance: FormInstance
-  selectedFormInstanceName: string
-  selectedFormInstanceDate: Date
-  selectedFormInstanceQuestions: string[]
-  selectedFormInstanceFields: FormInstanceField[]
+  tempFormFields: FormInstanceField[]
+
 
 
   msgForDialog: Message[] = []
@@ -100,10 +99,20 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   select(formInstance: FormInstance) {
+    this.tempFormFields = []
     this.selectedFormInstance = formInstance
-    this.selectedFormInstanceName = this.selectedFormInstance.formTemplateMapping.formTemplateName
-    this.selectedFormInstanceDate = this.selectedFormInstance.formTemplateMapping.dateCreated
-    this.selectedFormInstanceFields = this.selectedFormInstance.formInstanceFields
+    console.log(this.selectedFormInstance)
+    let index = 1
+    for (var i = 0; i < this.selectedFormInstance.formInstanceFields.length; i++) {
+      for (let formInstanceField of this.selectedFormInstance.formInstanceFields) {
+        if(formInstanceField.formFieldMapping.position === index) {
+          this.tempFormFields.push(formInstanceField);
+          index++;
+          break;
+        }
+      }
+    }
+    this.selectedFormInstance.formInstanceFields = this.tempFormFields
     this.selected = true
   }
 

@@ -5,7 +5,7 @@
             <div *ngFor="let formInstance of formInstances">
                 <div class="card">
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
-                    <p>{{formInstance.formTemplateMapping.dateCreated }}</p>
+                    
                     <button pButton icon="ui-icon-add" label="View details" (click)="select(formInstance)"></button>
                 </div>
             </div>
@@ -21,51 +21,49 @@
                 
                     <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                     <div id="content" *ngIf="!locked">
-                        <h2>{{selectedFormInstanceName}}</h2>
-                        <p>{{selectedFormInstanceDate}}</p>
+                        <h2>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h2>
+                        
+                        <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
+                            <p>{{formInstanceField.formFieldMapping.position}} {{formInstanceField.formFieldMapping.question}}</p>
 
-                        <div *ngFor="let formfield of selectedFormInstanceFields">
-                            <p>{{formfield.formFieldMapping.question}}</p>
-
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'CHECK_BOX'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
-                                        *ngFor="let formFieldOption of formfield.formFieldMapping.formFieldOptions">
-                                        <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
+                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                        <p-checkbox name="cg"  value="{{formFieldOption.formFieldOptionValue}}"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'TEXT'">
-                                <!-- <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"></textarea> -->
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
                                 <input name="name" id="value" type="text" pInputText />
                             </div>
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'RADIO_BUTTON'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
-                                        *ngFor="let formFieldOption of formfield.formFieldMapping.formFieldOptions">
+                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                         <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                                <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-dropdown>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
+                                <p-dropdown [options]="formInstanceField.formFieldMapping.formFieldOptions" optionLabel="formFieldOptionValue"></p-dropdown>
                             </div>
-                            <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
-                                <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-multiSelect>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
+                                <p-multiSelect [options]="formInstanceField.formFieldMapping.formFieldOptions" optionLabel="formFieldOptionValue"></p-multiSelect>
                             </div>
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'DATE'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
                                 <p-calendar [showIcon]="true" placeholder="Date"></p-calendar>
                             </div>
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'TIME'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Time"></p-calendar>
                             </div>
-                            <div *ngIf="formfield.formFieldMapping.inputType === 'NUMBER'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
                                 <p-spinner></p-spinner>
                             </div>
                             <div
-                                *ngIf="formfield.formFieldMapping.inputType === 'FILE_UPLOAD' || formfield.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
+                                *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
                                 <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
                             </div>
 
