@@ -18,8 +18,6 @@ export class FormRepoScreenComponent implements OnInit {
   formTemplates: FormTemplate[]
   selectedTemplate: FormTemplate
   selected: boolean
-  
-  
 
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService, private sessionService: SessionService,

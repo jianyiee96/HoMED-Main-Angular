@@ -50,7 +50,10 @@
                     </div>
                 </div>
                 <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                    <p-dropdown [options]="formField.formFieldOptions.formFieldOptionValue"></p-dropdown>
+                    <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-dropdown>
+                </div>
+                <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
+                    <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-multiSelect>
                 </div>
                 <div *ngIf="formField.inputType === 'DATE'">
                     <p-calendar [showIcon]="true" placeholder="Date"></p-calendar>
@@ -68,6 +71,7 @@
 
 
             </div>
+            <br/>
             <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
         </div>
     </div>

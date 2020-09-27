@@ -31,7 +31,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   msgForDialog: Message[] = []
-  displayModal: boolean
+  selected: boolean
 
   locked: boolean
 
@@ -96,15 +96,15 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   clearDialog(){
     this.msgForDialog = []
-    this.displayModal = false
+    this.selected = false
   }
 
-  openModal(formInstance: FormInstance) {
+  select(formInstance: FormInstance) {
     this.selectedFormInstance = formInstance
     this.selectedFormInstanceName = this.selectedFormInstance.formTemplateMapping.formTemplateName
     this.selectedFormInstanceDate = this.selectedFormInstance.formTemplateMapping.dateCreated
     this.selectedFormInstanceFields = this.selectedFormInstance.formInstanceFields
-    this.displayModal = true
+    this.selected = true
   }
 
   confirm() {
