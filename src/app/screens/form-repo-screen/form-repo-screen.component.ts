@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/api';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormTemplate } from 'src/app/classes/formtemplate/formtemplate';
 import { SessionService } from 'src/app/services/session/session.service'
+import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
+import {FileUploadModule} from 'primeng/fileupload';
 
 @Component({
   selector: 'app-form-repo-screen',
@@ -18,6 +20,7 @@ export class FormRepoScreenComponent implements OnInit {
   formTemplates: FormTemplate[]
   selectedTemplate: FormTemplate
   selected: boolean
+  inputTypeEnumCheckBox: InputTypeEnum.CHECK_BOX
   
   
 

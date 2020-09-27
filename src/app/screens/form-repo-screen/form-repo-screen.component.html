@@ -1,36 +1,70 @@
-<div class="ui-fluid">
-    <div class="ui-g-12 ui-lg-6" >
-        <div class="card" style="text-align: left;">
-            <h1>Available Published Templates</h1>
-            <p-table #dt [value]="formTemplates"  selectionMode="single" [(selection)]="selectedTemplate" dataKey="formTemplateId"
-                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>FormTemplate Id</th>
-                        <th>Form Template Name</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-formTemplate>
-                    <tr [pSelectableRow]="formTemplate">
-                        <td>{{formTemplate.formTemplateId}}</td>
-                        <td>{{formTemplate.formTemplateName}}</td>
-                    
-                    </tr>
-                </ng-template>
-            </p-table>
-            <p-toast key="tst" position="center"></p-toast>
-        </div>
-        
-    </div>
-    <div class="ui-g-12 ui-lg-6" *ngIf="selected">
-        <div class="card" style="text-align: left;">
-            <h1>{{selectedTemplate.formTemplateName}}</h1>
-            <p>{{selectedTemplate.datePublished}}</p>
-            <p>{{selectedTemplate.isPublic}}</p>
-            <div *ngFor="let formfield of selectedTemplate.formFields">
-                <p>{{formfield.question}}, {{formfield.inputType}} </p>      
+    <div class="ui-fluid">
+        <div class="ui-g-12 ui-lg-6" >
+            <div class="card" style="text-align: left;">
+                <h1>Available Published Templates</h1>
+                <p-table #dt [value]="formTemplates"  selectionMode="single" [(selection)]="selectedTemplate" dataKey="formTemplateId"
+                    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>FormTemplate Id</th>
+                            <th>Form Template Name</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-formTemplate>
+                        <tr [pSelectableRow]="formTemplate">
+                            <td>{{formTemplate.formTemplateId}}</td>
+                            <td>{{formTemplate.formTemplateName}}</td>
+                        
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <p-toast key="tst" position="center"></p-toast>
             </div>
-            <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
+            
+        </div>
+        <div class="ui-g-12 ui-lg-6" *ngIf="selected">
+            <div class="card" style="text-align: left;">
+                <h1>{{selectedTemplate.formTemplateName}}</h1>
+                
+                <div *ngFor="let formField of selectedTemplate.formFields">
+                    <h4>{{formField.question}} {{formField.inputType}}</h4>
+                    <div *ngIf="formField.inputType === 'CHECK_BOX'">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}" label="{{formFieldOption.formFieldOptionValue}}" ></p-checkbox>
+                            </div>                           
+                        </div>
+                    </div>
+                    <div *ngIf="formField.inputType === 'TEXT'">
+                        <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
+                    </div>
+                    <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}" label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
+                        <p-dropdown [options]="formField.formFieldOptions.formFieldOptionValue" ></p-dropdown>
+                    </div>
+                    <div *ngIf="formField.inputType === 'DATE'">
+                        <p-calendar [showIcon]="true" placeholder="Date"></p-calendar>
+                    </div>
+                    <div *ngIf="formField.inputType === 'TIME'">
+                        <p-calendar showTime="true" [timeOnly]="true" placeholder="Time"></p-calendar>
+                    </div>
+                    <div *ngIf="formField.inputType === 'NUMBER'">
+                        <p-spinner></p-spinner>
+                    </div>
+                    <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
+                        <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                    </div>
+                    
+                    
+                    
+                </div>
+                <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
+            </div>
         </div>
     </div>
-</div>
