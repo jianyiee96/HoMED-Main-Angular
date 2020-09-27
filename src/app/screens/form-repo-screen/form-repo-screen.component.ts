@@ -5,8 +5,6 @@ import { MessageService } from 'primeng/api';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormTemplate } from 'src/app/classes/formtemplate/formtemplate';
 import { SessionService } from 'src/app/services/session/session.service'
-import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
-import {FileUploadModule} from 'primeng/fileupload';
 
 @Component({
   selector: 'app-form-repo-screen',
@@ -20,7 +18,6 @@ export class FormRepoScreenComponent implements OnInit {
   formTemplates: FormTemplate[]
   selectedTemplate: FormTemplate
   selected: boolean
-  inputTypeEnumCheckBox: InputTypeEnum.CHECK_BOX
   
   
 
@@ -30,8 +27,8 @@ export class FormRepoScreenComponent implements OnInit {
   ) { 
     this.breadcrumbService.setItems([
       {label: 'eForm Management'},
-      {label: 'General eForms'},
-      {label: 'Form Repo', routerLink: ['form-repo-screen']}
+      {label: 'General eForms', routerLink: ['/general-eforms-screen']},
+      {label: 'Form Repo', routerLink: ['/form-repo-screen']}
     ]);
     
   }
@@ -55,7 +52,7 @@ export class FormRepoScreenComponent implements OnInit {
   createFormInstance() {
     this.formService.createFormInstance(this.sessionService.getCurrentServiceman().servicemanId, this.selectedTemplate.formTemplateId).subscribe(
       response => {  
-        console.log("Success")
+        console.log("Success") 
         this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Created Successfully' });
       },
       error => {

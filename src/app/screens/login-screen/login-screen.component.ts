@@ -51,7 +51,7 @@ export class LoginScreenComponent implements OnInit {
 
       this.sessionService.setEmail(this.email)
       this.sessionService.setPassword(this.password)
-
+      
       this.servicemanService.login(this.email, this.password).subscribe(
         response => {
           let serviceman: Serviceman = response.serviceman

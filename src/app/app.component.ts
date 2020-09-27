@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session/session.service';
 import { BnNgIdleService } from 'bn-ng-idle';
-import { timer } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
