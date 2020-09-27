@@ -27,8 +27,8 @@ export class FormRepoScreenComponent implements OnInit {
   ) { 
     this.breadcrumbService.setItems([
       {label: 'eForm Management'},
-      {label: 'General eForms'},
-      {label: 'Form Repo', routerLink: ['form-repo-screen']}
+      {label: 'General eForms', routerLink: ['/general-eforms-screen']},
+      {label: 'Form Repo', routerLink: ['/form-repo-screen']}
     ]);
     
   }

@@ -3,13 +3,11 @@
         <div class="card">
             <h1>My Form Instances</h1>
             <div *ngFor="let formInstance of formInstances">
-
                 <div class="card">          
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
                     <p>{{formInstance.formTemplateMapping.dateCreated }}</p>
-                    <button pButton icon="ui-icon-add" label="View details" (click)="openModal()"></button>
+                    <button pButton icon="ui-icon-add" label="View details" (click)="openModal(formInstance)"></button>
                 </div>
-
             </div>
             
             <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
@@ -27,7 +25,8 @@
 
             <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
             <div id="content" *ngIf="!locked">
-
+                <h2>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h2>
+                <p>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</p>
             </div>
 
             <p-footer>

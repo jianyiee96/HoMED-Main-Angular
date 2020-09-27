@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { SessionService } from 'src/app/services/session/session.service';
-import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormInstance } from 'src/app/classes/forminstance/forminstance'
 
@@ -23,8 +21,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance []
   formInstanceId: number
-  formInstance: FormInstance
-  servicemanName: string
+  selectedFormInstance: FormInstance
+
 
   msgForDialog: Message[] = []
   displayModal: boolean
@@ -41,7 +39,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
    }
 
   ngOnInit() {
-
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
 				this.formInstances = response.formInstances
@@ -55,10 +52,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   updateFormInstance() {
     
-		this.formService.updateFormInstanceFieldValues(this.formInstance).subscribe(
+		this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
 			response => {
         console.log("Updated")
-        this.formInstance = response.formInstance
+        this.selectedFormInstance = response.formInstance
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Field Values Updated!' })
 			},
@@ -96,9 +93,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.displayModal = false
   }
 
-  openModal() {
-    
-    
+  openModal(formInstance: FormInstance) {
+    this.selectedFormInstance = formInstance
+    console.log(this.selectedFormInstance.formTemplateMapping.formTemplateName)
     this.displayModal = true
   }
 
