@@ -14,6 +14,7 @@ import {BreadcrumbService} from '../../services/breadcrum.service';
 import { FormField } from 'src/app/classes/formfield/formfield';
 
 
+
 @Component({
   selector: 'app-general-eforms-screen',
   templateUrl: './general-eforms-screen.component.html',
@@ -26,8 +27,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance []
   selectedFormInstance: FormInstance
   tempFormFields: FormInstanceField[]
-
-
 
   msgForDialog: Message[] = []
   selected: boolean
@@ -57,10 +56,16 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   updateFormInstance() {
+
+    
+    for (let formInstanceField of this.selectedFormInstance.formInstanceFields) {
+      for (let values of formInstanceField.formInstanceFieldValues) {
+        
+      }      
+    }
     
 		this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
 			response => {
-        this.selectedFormInstance = response.formInstance
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Field Values Updated!' })
 			},
@@ -99,9 +104,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   select(formInstance: FormInstance) {
+    this.msgForDialog = []
     this.tempFormFields = []
     this.selectedFormInstance = formInstance
-    console.log(this.selectedFormInstance)
     let index = 1
     for (var i = 0; i < this.selectedFormInstance.formInstanceFields.length; i++) {
       for (let formInstanceField of this.selectedFormInstance.formInstanceFields) {
@@ -130,7 +135,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
         }
     });
   }
-
 
 
 }
