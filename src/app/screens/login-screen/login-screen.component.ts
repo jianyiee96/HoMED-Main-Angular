@@ -163,7 +163,7 @@ export class LoginScreenComponent implements OnInit {
           await this.delay(1500)
 
           this.clearResetDialog()     
-        })();        
+        })()       
       }, error => {
         this.msgForForgetPasswordDialog = []
         this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: error.substring(37) })

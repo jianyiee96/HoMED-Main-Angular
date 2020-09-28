@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import {BreadcrumbService} from '../../services/breadcrum.service';
 import { MessageService } from 'primeng/api';
 import { FormService } from 'src/app/services/form/form.service';
@@ -22,8 +22,8 @@ export class FormRepoScreenComponent implements OnInit {
   tempFormFields: FormField[]
 
 
-  constructor(private breadcrumbService: BreadcrumbService, private formService: FormService, private sessionService: SessionService,
-              private service: MessageService
+  constructor(private router: Router, private breadcrumbService: BreadcrumbService, private formService: FormService, 
+              private sessionService: SessionService, private service: MessageService
   ) { 
     this.breadcrumbService.setItems([
       {label: 'eForm Management'},
@@ -39,7 +39,6 @@ export class FormRepoScreenComponent implements OnInit {
       response => {
         this.formTemplates = response.formTemplates
         this.selected = false
-      
       },
       error => {
 				console.log(error.substring(32))
@@ -52,8 +51,15 @@ export class FormRepoScreenComponent implements OnInit {
   createFormInstance() {
     this.formService.createFormInstance(this.sessionService.getCurrentServiceman().servicemanId, this.selectedTemplate.formTemplateId).subscribe(
       response => {  
-        console.log("Success") 
-        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Created Successfully' });
+        (async () => {   
+
+          this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Created Successfully' });
+
+          await this.delay(1000)
+
+          this.service.clear();
+          this.router.navigate(['/general-eforms-screen'])      
+        })()       
       },
       error => {
 				console.log(error.substring(32))
@@ -66,7 +72,6 @@ export class FormRepoScreenComponent implements OnInit {
     this.selected = true
     this.selectedTemplate.datePublished= this.parseDate(this.selectedTemplate.datePublished).substring(0,10)
     let index = 1
-    console.log(this.selectedTemplate.formFields)
     for (var i = 0; i < this.selectedTemplate.formFields.length; i++) {
       for (let formField of this.selectedTemplate.formFields) {
         if (formField.position === index) {
@@ -76,7 +81,9 @@ export class FormRepoScreenComponent implements OnInit {
         }
       }
     }
+
     this.selectedTemplate.formFields = this.tempFormFields;
+
   }
    
 
@@ -86,6 +93,10 @@ export class FormRepoScreenComponent implements OnInit {
 
   parseDate(date: any) {
     return date.toString().replace('[UTC]', '');
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 }

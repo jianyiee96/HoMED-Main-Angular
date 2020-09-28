@@ -34,47 +34,56 @@
                     <h1>{{selectedTemplate.formTemplateName}}</h1>
 
                     <div *ngFor="let formField of selectedTemplate.formFields">
-                        <h4>Question {{formField.position}}) {{formField.question}} </h4>
-                        <div *ngIf="formField.inputType === 'CHECK_BOX'">
+                        <div class="card">
+                            <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
+                            <div *ngIf="formField.inputType === 'CHECK_BOX'">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                        <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
+                                            label="{{formFieldOption.formFieldOptionValue}}" [disabled]=true></p-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="formField.inputType === 'TEXT'">
+                                <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" [disabled]="true"></textarea>
+                            </div>
+                            <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                        <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
+                                            label="{{formFieldOption.formFieldOptionValue}}" [disabled]="true"></p-radioButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
+                                <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-dropdown>
+                            </div>
+                            <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
+                                <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-multiSelect>
+                            </div>
+                            <div *ngIf="formField.inputType === 'DATE'">
+                                <p-calendar [showIcon]="true" placeholder="Date" [disabled]="true"></p-calendar>
+                            </div>
+                            <div *ngIf="formField.inputType === 'TIME'">
+                                <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" [disabled]="true"></p-calendar>
+                            </div>
+                            <div *ngIf="formField.inputType === 'NUMBER'">
+                                <p-spinner [disabled]="true"></p-spinner>
+                            </div>
+                            <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
+                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" [disabled]="true"></p-fileUpload>
+                            </div>
                             <div class="ui-g">
-                                <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
-                                    <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
-                                        label="{{formFieldOption.formFieldOptionValue}}" [disabled]=true></p-checkbox>
+                                <div *ngIf="!formField.isServicemanEditable">
+                                    <p-message severity="warn" text="Blocked" style="display: inline-block;"></p-message>
+                                </div>
+                                <div *ngIf="formField.isRequired">
+                                    <p-message severity="error" text="Required" style="display: inline-block;"></p-message>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="formField.inputType === 'TEXT'">
-                            <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" [disabled]="true"></textarea>
-                        </div>
-                        <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
-                            <div class="ui-g">
-                                <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
-                                    <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
-                                        label="{{formFieldOption.formFieldOptionValue}}" [disabled]="true"></p-radioButton>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                            <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" [disabled]="true"></p-dropdown>
-                        </div>
-                        <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
-                            <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" [disabled]="true"></p-multiSelect>
-                        </div>
-                        <div *ngIf="formField.inputType === 'DATE'">
-                            <p-calendar [showIcon]="true" placeholder="Date" [disabled]="true"></p-calendar>
-                        </div>
-                        <div *ngIf="formField.inputType === 'TIME'">
-                            <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" [disabled]="true"></p-calendar>
-                        </div>
-                        <div *ngIf="formField.inputType === 'NUMBER'">
-                            <p-spinner [disabled]="true"></p-spinner>
-                        </div>
-                        <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
-                            <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" [disabled]="true"></p-fileUpload>
-                        </div>
-
-                    </div>
                     <br/>
+                </div>
                     <button type="button" pButton label="Create Instance" (click)="createFormInstance()"></button>
                 </div>
             </div>
