@@ -30,41 +30,54 @@
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-checkbox name="cg"  value="{{formFieldOption.formFieldOptionValue}}"
+                                        <p-checkbox [ngModelOptions]="{standalone: true}"  value="{{formFieldOption.formFieldOptionValue}}" 
+                                        [(ngModel)]="formInstanceInputNgModelsMultiSelect[formInstanceField.formInstanceFieldId]"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
-                                <input name="name" id="value" type="text" pInputText />
+                                <input [ngModelOptions]="{standalone: true}" id="value" [(ngModel)]="formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue"
+                                value="{{formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue}}"
+                                [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                type="text" pInputText />
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
-                                            label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                        <p-radioButton [ngModelOptions]="{standalone: true}" value="{{formFieldOption.formFieldOptionValue}}"
+                                        [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                        [(ngModel)]="formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue"
+                                        label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                                <p-dropdown [options]="formInstanceField.formFieldMapping.formFieldOptions" optionLabel="formFieldOptionValue"></p-dropdown>
+                                <p-dropdown [ngModelOptions]="{standalone: true}" [options]="formInstanceField.formFieldMapping.formFieldOptions" optionLabel="formFieldOptionValue"></p-dropdown>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                                <p-multiSelect [options]="formInstanceField.formFieldMapping.formFieldOptions" optionLabel="formFieldOptionValue"></p-multiSelect>
+                                <p-multiSelect [ngModelOptions]="{standalone: true}" [options]="formInstanceField.formFieldMapping.formFieldOptions" 
+                                [(ngModel)]="formInstanceInputNgModelsMultiSelect[formInstanceField.formInstanceFieldId]"
+                                optionLabel="formFieldOptionValue"></p-multiSelect>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                                <p-calendar [showIcon]="true" placeholder="Date"></p-calendar>
+                                <p-calendar [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date" [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                [(ngModel)]="formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue"></p-calendar>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                                <p-calendar showTime="true" [timeOnly]="true" placeholder="Time"></p-calendar>
+                                <p-calendar [ngModelOptions]="{standalone: true}" showTime="true" [timeOnly]="true" placeholder="Time" [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                [(ngModel)]="formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue">   
+                                </p-calendar>
                             </div>
-                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'" [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="formInstanceInputNgModels[formInstanceField.formInstanceFieldId][0].inputValue">
                                 <p-spinner></p-spinner>
                             </div>
                             <div
                                 *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
-                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
+                                <p-fileUpload [ngModelOptions]="{standalone: true}" url="./upload.php" multiple="multiple" [(ngModel)]="formInstanceInputNgModelsMultiSelect[formInstanceField.formInstanceFieldId]">
+                                </p-fileUpload>
                             </div>
 
                         </div>

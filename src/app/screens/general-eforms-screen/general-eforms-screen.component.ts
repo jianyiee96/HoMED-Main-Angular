@@ -12,6 +12,7 @@ import { ConfirmationService } from 'primeng/api';
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
 import { FormField } from 'src/app/classes/formfield/formfield';
+import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance []
   selectedFormInstance: FormInstance
   tempFormFields: FormInstanceField[]
+  formInstanceInputNgModels: { [key: number]: FormInstanceFieldValue[] } = {}
+  formInstanceInputNgModelsMultiSelect: { [key: number]: string[] } = {}
 
 
 
@@ -43,6 +46,62 @@ export class GeneralEFormsScreenComponent implements OnInit {
       ]);
    }
 
+  unloadNgModels() {
+
+    this.selectedFormInstance.formInstanceFields.forEach((fif) => {
+
+      this.formInstanceInputNgModels[fif.formInstanceFieldId] = fif.formInstanceFieldValues
+
+      if (fif.formFieldMapping.inputType === InputTypeEnum.CHECK_BOX || fif.formFieldMapping.inputType == InputTypeEnum.MULTI_DROPDOWN) {
+
+        // necessary to check and load any values the user has selected before
+        if (this.formInstanceInputNgModels[fif.formInstanceFieldId].length > 0) {
+
+          this.formInstanceInputNgModels[fif.formInstanceFieldId].forEach((fifv) => {
+
+            if (this.formInstanceInputNgModelsMultiSelect[fif.formInstanceFieldId] == undefined) {
+              this.formInstanceInputNgModelsMultiSelect[fif.formInstanceFieldId] = []
+            }
+            // multi_dropdown selected values need to be loaded in a string[] for comparison in View
+            this.formInstanceInputNgModelsMultiSelect[fif.formInstanceFieldId].push(fifv.inputValue)
+
+          })
+
+        }
+      
+      } else if (this.formInstanceInputNgModels[fif.formInstanceFieldId].length == 0) {
+
+        // only called if the form has not been saved before; meaning will have null fifv
+        this.injectEmptyFormInstanceFieldValue(fif.formInstanceFieldId)
+
+      }
+    })
+  }
+
+  loadNgModels() {
+
+    this.selectedFormInstance.formInstanceFields.forEach((fif) => {
+
+
+      if (fif.formFieldMapping.inputType == InputTypeEnum.MULTI_DROPDOWN || fif.formFieldMapping.inputType == InputTypeEnum.CHECK_BOX) {
+
+        this.formInstanceInputNgModels[fif.formInstanceFieldId] = []
+
+        if (this.formInstanceInputNgModelsMultiSelect[fif.formInstanceFieldId] != undefined) {
+          this.formInstanceInputNgModelsMultiSelect[fif.formInstanceFieldId].forEach((option) => {
+            const newFifv = new FormInstanceFieldValue(undefined, option)
+            this.formInstanceInputNgModels[fif.formInstanceFieldId].push(newFifv)
+          })
+        }
+      }
+
+      fif.formInstanceFieldValues = this.formInstanceInputNgModels[fif.formInstanceFieldId]
+
+    })
+
+  }
+
+
   ngOnInit() {
     
     this.formService.retrieveAllServicemanFormInstances().subscribe(
@@ -56,11 +115,16 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
+
+  
+  injectEmptyFormInstanceFieldValue(formInstanceFieldId: number) {
+    this.formInstanceInputNgModels[formInstanceFieldId].push(new FormInstanceFieldValue(undefined, ""))
+  }
+
   updateFormInstance() {
-    
+    this.loadNgModels()
 		this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
 			response => {
-        this.selectedFormInstance = response.formInstance
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Field Values Updated!' })
 			},
@@ -99,6 +163,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   select(formInstance: FormInstance) {
+    
     this.tempFormFields = []
     this.selectedFormInstance = formInstance
     console.log(this.selectedFormInstance)
@@ -114,6 +179,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
     }
     this.selectedFormInstance.formInstanceFields = this.tempFormFields
     this.selected = true
+    this.unloadNgModels()
   }
 
   confirm() {
