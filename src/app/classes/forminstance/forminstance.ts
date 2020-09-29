@@ -50,4 +50,5 @@ export class FormInstanceFieldValue {
         this.formInstanceFieldValueId = formInstanceFieldValueId
         this.inputValue = inputValue
     }
+
 }
