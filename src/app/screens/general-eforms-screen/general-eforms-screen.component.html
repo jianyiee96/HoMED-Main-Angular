@@ -55,11 +55,33 @@
 
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
 
-                            <p-multiSelect name="multiSelectInput" [options]="getMapping(formInstanceField.formFieldMapping.formFieldOptions)"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" optionLabel="label" ></p-multiSelect>
-                      
-
+                            <p-multiSelect name="multiSelectInput" [options]="formInstanceField.formFieldMapping.formFieldOptions"
+                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" optionLabel="formFieldOptionValue" ></p-multiSelect>
+                    
                         </div>
+                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
+                            
+                            <p-dropdown [options]="formInstanceField.formFieldMapping.formFieldOptions" 
+                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                             optionLabel="formFieldOptionValue"></p-dropdown>
+                        </div>
+                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4"
+                                    *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                <p-radioButton name="radioInput" value="{{formFieldOption.formFieldOptionValue}}" 
+                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
+                            <p-calendar  name="dateInput" [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
+                        </div>
+                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
+                            <p-calendar  name="timeInput" showTime="true" timeOnly="true" 
+                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
+                        </div>
+                        
                     </div>
 
                 </div>

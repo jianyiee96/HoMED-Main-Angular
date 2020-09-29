@@ -28,7 +28,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   selectedFieldValues: { [position: number]: any } = {}
 
-
+  testing: any
 
   msgForDialog: Message[] = []
   selected: boolean
@@ -47,7 +47,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
     for (let field of this.selectedFormInstance.formInstanceFields) {
 
 
-      if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT") {
+      if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT" || field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
+        console.log("form to view text")
+        console.log(field.formInstanceFieldValues[0].inputValue)
         this.selectedFieldValues[field.formInstanceFieldId] = field.formInstanceFieldValues[0].inputValue
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "NUMBER") {
         this.selectedFieldValues[field.formInstanceFieldId] = Number(field.formInstanceFieldValues[0].inputValue)
@@ -55,10 +57,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
-
-
+        console.log("checkboxxxx")
+        
         this.selectedFieldValues[field.formInstanceFieldId] = []
-
+        
         for (let fieldValue of field.formInstanceFieldValues) {
           this.selectedFieldValues[field.formInstanceFieldId].push(fieldValue.inputValue)
         }
@@ -75,8 +77,14 @@ export class GeneralEFormsScreenComponent implements OnInit {
           this.selectedFieldValues[field.formInstanceFieldId].push(new FormInstanceFieldValue(undefined, fieldValue.inputValue))
         }
 
+      } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "SINGLE_DROPDOWN") {
+        this.selectedFieldValues[field.formInstanceFieldId] = field.formInstanceFieldValues[0].inputValue
+      } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "DATE" || field.formFieldMapping.inputType.toString().toUpperCase() === "TIME") {
+        console.log("Data to form DATE")
+        console.log(field.formInstanceFieldValues[0].inputValue)
+        console.log(new Date(field.formInstanceFieldValues[0].inputValue))
+        this.selectedFieldValues[field.formInstanceFieldId] = new Date(field.formInstanceFieldValues[0].inputValue)
       }
-
     }
 
   }
@@ -87,36 +95,64 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT") {
-        field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId])
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId])
+        }
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "NUMBER") {
-        field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toString())
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toString())
+        }
       }
 
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
 
         field.formInstanceFieldValues = []
-
-        for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-          field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
-        }
-
-        if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
-          field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
+            field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
+          } else {
+            for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
+              field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
+            }
+          }
         }
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "MULTI_DROPDOWN") {
 
         field.formInstanceFieldValues = []
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
+            console.log("form to data multi dropdown")
+            console.log(inputValue)
+            field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue.formFieldOptionValue))
+          }
 
-        for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-          field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue.formFieldOptionValue))
+          if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
+            field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
+          }
         }
 
-        if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
-          field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
+      } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "SINGLE_DROPDOWN") {
+        console.log("form to data single dropdown")
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].formFieldOptionValue)
         }
-
+      } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
+        console.log("form to data radio")
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId])
+        }
+      } 
+      else if (field.formFieldMapping.inputType.toString().toUpperCase() === "DATE" || field.formFieldMapping.inputType.toString().toUpperCase() === "TIME") {
+        console.log("form to data DATE")
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
+        if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toString())
+        }
       }
 
 
@@ -187,6 +223,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
     let index = 1
 
     this.selected = true
+    this.selectedFieldValues = {}
     this.formInstanceToView()
   }
 
@@ -207,3 +244,4 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
 }
+
