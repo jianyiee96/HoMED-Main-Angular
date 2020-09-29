@@ -44,18 +44,22 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   // Process FormInstanceFields into String[]
   formInstanceToView() {
-    for (let field of this.selectedFormInstance.formInstanceFields) {
 
+    for (let field of this.selectedFormInstance.formInstanceFields) {
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT" || field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
 
-        this.selectedFieldValues[field.formInstanceFieldId] = field.formInstanceFieldValues[0].inputValue
+        if (field.formInstanceFieldValues.length > 0) {
+          this.selectedFieldValues[field.formInstanceFieldId] = field.formInstanceFieldValues[0].inputValue
+        }
+
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "NUMBER") {
-        this.selectedFieldValues[field.formInstanceFieldId] = Number(field.formInstanceFieldValues[0].inputValue)
-      }
 
+        if (field.formInstanceFieldValues.length > 0) {
+          this.selectedFieldValues[field.formInstanceFieldId] = Number(field.formInstanceFieldValues[0].inputValue)
 
-      else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
+        }
+      } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
 
         this.selectedFieldValues[field.formInstanceFieldId] = []
 
@@ -79,11 +83,18 @@ export class GeneralEFormsScreenComponent implements OnInit {
         }
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "SINGLE_DROPDOWN") {
-        this.selectedFieldValues[field.formInstanceFieldId] = new FormFieldOption(undefined, field.formInstanceFieldValues[0].inputValue)
+
+        if (field.formInstanceFieldValues.length > 0) {
+          this.selectedFieldValues[field.formInstanceFieldId] = new FormFieldOption(undefined, field.formInstanceFieldValues[0].inputValue)
+
+        }
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "DATE" || field.formFieldMapping.inputType.toString().toUpperCase() === "TIME") {
 
-        this.selectedFieldValues[field.formInstanceFieldId] = new Date(field.formInstanceFieldValues[0].inputValue)
+        if (field.formInstanceFieldValues.length > 0) {
+          this.selectedFieldValues[field.formInstanceFieldId] = new Date(field.formInstanceFieldValues[0].inputValue)
+
+        }
       }
     }
 
