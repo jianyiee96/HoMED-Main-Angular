@@ -67,14 +67,20 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
           })
 
-        }
-      
-      } else if (this.formInstanceInputNgModels[fif.formInstanceFieldId].length == 0) {
+        } else if (this.formInstanceInputNgModels[fif.formInstanceFieldId].length == 0) {
 
-        // only called if the form has not been saved before; meaning will have null fifv
-        this.injectEmptyFormInstanceFieldValue(fif.formInstanceFieldId)
+          // only called if the form has not been saved before; meaning will have null fifv
+          this.injectEmptyFormInstanceFieldValue(fif.formInstanceFieldId)
+  
+        }      
+      } else {
+        if (this.formInstanceInputNgModels[fif.formInstanceFieldId].length == 0) {
 
-      }
+          // only called if the form has not been saved before; meaning will have null fifv
+          this.injectEmptyFormInstanceFieldValue(fif.formInstanceFieldId)
+  
+        }  
+      } 
     })
   }
 
