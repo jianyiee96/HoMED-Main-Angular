@@ -14,6 +14,7 @@ import { FormField, FormFieldOption } from 'src/app/classes/formfield/formfield'
 import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
 
 
+
 @Component({
   selector: 'app-general-eforms-screen',
   templateUrl: './general-eforms-screen.component.html',
@@ -223,9 +224,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   select(formInstance: FormInstance) {
-
     this.selectedFormInstance = formInstance
-    console.log(this.selectedFormInstance)
     let index = 1
 
     this.selected = true

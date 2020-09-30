@@ -98,7 +98,7 @@ export class AccountScreenComponent implements OnInit {
 
       this.servicemanService.updateAccount(this.serviceman).subscribe(
         response => {
-            this.serviceman = response.serviceman
+            // this.serviceman = response.serviceman
             this.sessionService.setCurrentServiceman(this.serviceman)
             this.updateProfile()
             this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Account Updated Successfully' });
