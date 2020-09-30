@@ -1,22 +1,16 @@
-<!doctype html>
-<html>
-    <head>
-        <title>General E-Form Management</title>
-    </head>
-    <body>
-        <div class="ui-g">
-            <div class="ui-g-12 ui-lg-6">
+<div class="ui-g">
+    <div class="ui-g-12 ui-lg-6">
+        <div class="card">
+            <h1>My Form Instances</h1>
+            <div *ngFor="let formInstance of formInstances">
                 <div class="card">
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
 
                     <button pButton icon="ui-icon-add" label="View details" (click)="select(formInstance)"></button>
                 </div>
-                <p-toast key="tst" position="bottom-center"></p-toast>
             </div>
 
-            <div class="ui-g-12 ui-lg-6" *ngIf="selected">
-                <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
-                    <div class="card">
+            <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
 
         </div>
         <p-toast key="tst" position="bottom-center"></p-toast>
@@ -122,6 +116,7 @@
                 </p-footer>
 
             </div>
-        </div>
-    </body>
-</html>
+        </form>
+
+    </div>
+</div>
