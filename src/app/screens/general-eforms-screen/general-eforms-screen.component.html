@@ -18,24 +18,28 @@
     <div class="ui-g-12 ui-lg-6" *ngIf="selected">
         <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
             <div class="card">
-
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div id="content">
-                    <h2>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h2>
+                    <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
-                        <p>{{formInstanceField.formFieldMapping.position}}
-                            {{formInstanceField.formFieldMapping.question}}</p>
-
                         <!-- Works -->
+                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
+                            <h2>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h2>
+                        </div>
+
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <input type="text" pInputText name="textInput"
                                 [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
                         </div>
 
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <input type="number" pInputText name="numberInput"
                                 [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
@@ -43,6 +47,8 @@
                         </div>
 
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <div class="ui-g">
                                 <div class="ui-g-12 ui-md-4"
                                     *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
@@ -54,7 +60,8 @@
                         </div>
 
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <p-multiSelect name="multiSelectInput"
                                 [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                 dataKey="formFieldOptionValue"
@@ -63,7 +70,8 @@
 
                         </div>
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <p-dropdown name="singleSelectInput"
                                 [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                 dataKey="formFieldOptionValue"
@@ -73,6 +81,8 @@
 
                         </div>
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <div class="ui-g">
                                 <div class="ui-g-12 ui-md-4"
                                     *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
@@ -83,10 +93,14 @@
                             </div>
                         </div>
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <p-calendar name="dateInput"
                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
                         </div>
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
+                            <h4>{{formInstanceField.formFieldMapping.position}}
+                                {{formInstanceField.formFieldMapping.question}}</h4>
                             <p-calendar name="timeInput" showTime="true" timeOnly="true"
                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
                         </div>

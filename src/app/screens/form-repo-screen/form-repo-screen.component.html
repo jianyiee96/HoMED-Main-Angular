@@ -35,8 +35,8 @@
 
                     <div *ngFor="let formField of selectedTemplate.formFields">
                         <div class="card">
-                            <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
                                         <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
@@ -44,10 +44,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="headerInput" *ngIf="formField.inputType === 'HEADER'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
+                            </div>
                             <div *ngIf="formField.inputType === 'TEXT'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" [disabled]="true"></textarea>
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
                                         <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
@@ -56,21 +61,27 @@
                                 </div>
                             </div>
                             <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-dropdown>
                             </div>
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-multiSelect>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-calendar [showIcon]="true" placeholder="Date" [disabled]="true"></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" [disabled]="true"></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'NUMBER'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-spinner [disabled]="true"></p-spinner>
                             </div>
                             <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
+                                <h4>Question {{formField.position}}) {{formField.question}} [{{formField.inputType}}] </h4>
                                 <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" [disabled]="true"></p-fileUpload>
                             </div>
                             <div class="ui-g">
