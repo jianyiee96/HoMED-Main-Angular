@@ -177,8 +177,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
       response => {
         this.formInstances = response.formInstances
         for (let formInstance of this.formInstances) {
-          let singaporeDate = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
-          formInstance.dateCreated = singaporeDate
+          let date1 = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
+          formInstance.dateCreated = date1
+          let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
+          formInstance.dateSubmitted = date2
         }        
       },
       error => {
