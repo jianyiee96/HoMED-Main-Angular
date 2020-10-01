@@ -62,7 +62,25 @@ export class FormService {
     return this.httpClient.delete<any>(this.baseUrl + "/deleteFormInstance?formInstanceId=" + formInstanceId).pipe(
       catchError(this.handleError)
     );
-  } 
+  }
+  
+  submitFormInstance(formInstanceToSubmit: FormInstance): Observable<any> {
+    let submitFormInstanceReq  = {
+      "formInstance": formInstanceToSubmit
+    }
+    return this.httpClient.post<any>(this.baseUrl + "/submitFormInstance", submitFormInstanceReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  archiveFormInstance(formInstanceToArchive: FormInstance): Observable<any> {
+    let archiveFormInstanceReq  = {
+      "formInstance": formInstanceToArchive
+    }
+    return this.httpClient.post<any>(this.baseUrl + "/archiveFormInstance", archiveFormInstanceReq, httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
 
 
   private handleError(error: HttpErrorResponse) {

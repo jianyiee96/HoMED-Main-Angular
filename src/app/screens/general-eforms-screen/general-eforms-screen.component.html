@@ -2,14 +2,29 @@
     <div class="ui-g-12 ui-lg-6">
         <div class="card">
             <h1>My Form Instances</h1>
-            <div *ngFor="let formInstance of formInstances">
+            <!-- <div *ngFor="let formInstance of formInstances">
                 <div class="card">
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
 
                     <button pButton icon="ui-icon-add" label="View details" (click)="select(formInstance)"></button>
                 </div>
-            </div>
+            </div> -->
+            <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
+                dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Form Instance Id</th>
+                        <th>Form Template Name</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-formInstance>
+                    <tr [pSelectableRow]="formInstance">
+                        <td>{{formInstance.formInstanceId}}</td>
+                        <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
 
+                    </tr>
+                </ng-template>
+            </p-table>
             <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
 
         </div>
@@ -116,9 +131,14 @@
 
                         <button type="button" pButton icon="pi pi-check" label="Back" (click)="clearDialog()"></button>
 
-                        <button type="button" pButton icon="pi pi-check" label="Delete" (click)="confirm()"></button>
+                        <button type="button" pButton icon="pi pi-check" label="Delete"
+                            (click)="confirmDelete()"></button>
+
 
                         <button type="button" pButton icon="pi pi-check" type="submit" label="Submit"></button>
+
+                        <button type="button" pButton icon="pi pi-check" label="Archive"
+                            (click)="confirmArchive()"></button>
                     </div>
 
                     <div id="buttons">

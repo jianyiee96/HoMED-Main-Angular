@@ -12,6 +12,7 @@ import { ConfirmationService } from 'primeng/api';
 import { BreadcrumbService } from '../../services/breadcrum.service';
 import { FormField, FormFieldOption } from 'src/app/classes/formfield/formfield';
 import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
+import { FormInstanceStatusEnum } from 'src/app/classes/forminstancestatus-enum';
 
 
 
@@ -214,25 +215,72 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submit(viewFormInstanceDetailsForm: NgForm) {
-
+    this.confirmationService.confirm({
+      header: 'Submission Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Do you want to submit this form instance?',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: () => {
+        this.submitFormInstance()
+      },
+      reject: () => {
+      }
+    });
 
   }
+
+  submitFormInstance() {
+    this.formInstanceToData()
+    this.selectedFormInstance.dateSubmitted = new Date()
+    
+    this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
+      response => {
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
+      },
+      error => {
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+      }
+    );
+
+  }
+
+  archiveFormInstance() {
+    
+    this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
+      response => {
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
+      },
+      error => {
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+      }
+    );
+
+  }
+
+  
 
   clearDialog() {
     this.msgForDialog = []
     this.selected = false
   }
 
-  select(formInstance: FormInstance) {
-    this.selectedFormInstance = formInstance
-    let index = 1
 
+  onRowSelect(event) {
     this.selected = true
     this.selectedFieldValues = {}
     this.formInstanceToView()
   }
 
-  confirm() {
+  onRowUnselect(event) {
+    this.selected = false
+  }
+
+  confirmDelete() {
     this.confirmationService.confirm({
       header: 'Delete Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -241,6 +289,22 @@ export class GeneralEFormsScreenComponent implements OnInit {
       rejectLabel: 'No',
       accept: () => {
         this.deleteFormInstance()
+      },
+      reject: () => {
+      }
+    });
+  }
+
+
+  confirmArchive() {
+    this.confirmationService.confirm({
+      header: 'Submission Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Do you want to archive this form instance?',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: () => {
+        this.archiveFormInstance()
       },
       reject: () => {
       }
