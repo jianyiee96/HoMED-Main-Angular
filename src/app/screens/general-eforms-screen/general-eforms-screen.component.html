@@ -15,13 +15,24 @@
                     <tr>
                         <th>Form Instance Id</th>
                         <th>Form Template Name</th>
+                        <th>Form Instance Date Created</th>
+                        <th>Form Instance Status</th>
+                        <th style="width:4rem"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-formInstance>
                     <tr [pSelectableRow]="formInstance">
                         <td>{{formInstance.formInstanceId}}</td>
                         <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
-
+                        <td>{{formInstance.formTemplateMapping.dateCreated}}</td>
+                        <td>{{formInstance.formInstanceStatusEnum}}</td>
+                        <td>
+                            <button pButton pRipple type="button" icon="ui-icon-archive"
+                                title="Archive"
+                                [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
+                                (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -32,7 +43,7 @@
     </div>
     <div class="ui-g-12 ui-lg-6" *ngIf="selected">
         <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
-            <div class="card">
+            <div class="card" style="text-align: left;">
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div id="content">
                     <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
@@ -40,112 +51,155 @@
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
                         <!-- Works -->
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
-                            <h2>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h2>
+                            <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>
+                        <div class="card" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <input type="text" pInputText name="textInput" placeholder="Text"
+                                    [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
+                            </div>
 
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <input type="text" pInputText name="textInput"
-                                [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
-                        </div>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <input type="number" pInputText name="numberInput"
+                                    required
+                                    [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
 
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <input type="number" pInputText name="numberInput"
-                                [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
+                            </div>
 
-                        </div>
-
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <div class="ui-g">
-                                <div class="ui-g-12 ui-md-4"
-                                    *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                    <p-checkbox name="checkboxInput" value="{{formFieldOption.formFieldOptionValue}}"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                        label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-4"
+                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                        <p-checkbox name="checkboxInput"
+                                            value="{{formFieldOption.formFieldOptionValue}}"
+                                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                            label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <p-multiSelect name="multiSelectInput"
+                                    [options]="formInstanceField.formFieldMapping.formFieldOptions"
+                                    dataKey="formFieldOptionValue"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                    optionLabel="formFieldOptionValue"></p-multiSelect>
+
+                            </div>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <p-dropdown name="singleSelectInput"
+                                    [options]="formInstanceField.formFieldMapping.formFieldOptions"
+                                    dataKey="formFieldOptionValue"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                    optionLabel="formFieldOptionValue"></p-dropdown>
+
+
+                            </div>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-4"
+                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                        <p-radioButton name="radioInput"
+                                            value="{{formFieldOption.formFieldOptionValue}}"
+                                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                            label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <p-calendar name="dateInput" [showIcon]="true" placeholder="Date"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                </p-calendar>
+                            </div>
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
+                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
+                                    </div>
+                                    <p-message class="doctorOnlyMsg"
+                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                        text="Doctor editable only"></p-message>
+                                </h4>
+                                <p-calendar name="timeInput" showTime="true" timeOnly="true"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                </p-calendar>
                             </div>
                         </div>
 
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <p-multiSelect name="multiSelectInput"
-                                [options]="formInstanceField.formFieldMapping.formFieldOptions"
-                                dataKey="formFieldOptionValue"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                optionLabel="formFieldOptionValue"></p-multiSelect>
-
-                        </div>
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <p-dropdown name="singleSelectInput"
-                                [options]="formInstanceField.formFieldMapping.formFieldOptions"
-                                dataKey="formFieldOptionValue"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                optionLabel="formFieldOptionValue"></p-dropdown>
-
-
-                        </div>
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <div class="ui-g">
-                                <div class="ui-g-12 ui-md-4"
-                                    *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                    <p-radioButton name="radioInput" value="{{formFieldOption.formFieldOptionValue}}"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                        label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <p-calendar name="dateInput"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
-                        </div>
-                        <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                            <h4>{{formInstanceField.formFieldMapping.position}}
-                                {{formInstanceField.formFieldMapping.question}}</h4>
-                            <p-calendar name="timeInput" showTime="true" timeOnly="true"
-                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"></p-calendar>
-                        </div>
 
                     </div>
 
                 </div>
                 <br />
                 <p-footer>
-                    <div id="buttons">
-                        <button type="button" pButton icon="pi pi-check" label="Save"
-                            (click)="updateFormInstance()"></button>
+                    <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
+                        
+                        <button type="button" pButton pRipple icon="pi pi-save" label="Save"
+                            (click)="updateFormInstance()" class="ui-button-info"></button>
 
-                        <button type="button" pButton icon="pi pi-check" label="Back" (click)="clearDialog()"></button>
+                        <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back" (click)="clearDialog()" ></button>
 
-                        <button type="button" pButton icon="pi pi-check" label="Delete"
+                        <button type="button" pButton icon="ui-icon-delete-forever" label="Delete" class="ui-button-danger"
                             (click)="confirmDelete()"></button>
 
 
-                        <button type="button" pButton icon="pi pi-check" type="submit" label="Submit"></button>
+                        <button type="button" pButton icon="pi pi-check" type="submit" label="Submit" class="ui-button-success"></button>
 
-                        <button type="button" pButton icon="pi pi-check" label="Archive"
-                            (click)="confirmArchive()"></button>
                     </div>
+                    <div *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
 
-                    <div id="buttons">
-                        <button type="button" pButton icon="pi pi-check" label="Back" (click)="clearDialog()"></button>
-
-                        <button type="button" pButton icon="pi pi-check" label="Consultations"
-                            routerLink="/form-repo-screen"></button>
+                        <button type="button" pButton icon="ui-icon-archive" label="Archive" class="ui-button-warning"
+                            (click)="confirmArchive()"></button>
                     </div>
                 </p-footer>
 

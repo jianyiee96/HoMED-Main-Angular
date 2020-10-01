@@ -17,7 +17,7 @@ import { FormInstanceStatusEnum } from 'src/app/classes/forminstancestatus-enum'
 
 
 @Component({
-  selector: 'app-general-eforms-screen',
+  selector: 'app-general-eforms-screen', 
   templateUrl: './general-eforms-screen.component.html',
   styleUrls: ['./general-eforms-screen.component.css'],
   providers: [MessageService]
@@ -238,6 +238,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
       response => {
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
+        window.location.reload();
       },
       error => {
         this.msgForDialog = []
@@ -247,12 +248,40 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
+  archive(formInstanceToArchive: FormInstance) {
+    this.confirmationService.confirm({
+      header: 'Submission Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Do you want to archive this form instance?',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: () => {
+        this.formService.archiveFormInstance(formInstanceToArchive).subscribe(
+          response => {
+            this.msgForDialog = []
+            this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
+            window.location.reload();
+          },
+          error => {
+            this.msgForDialog = []
+            this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+          }
+        );
+      },
+      reject: () => {
+      }
+    });
+
+    
+  }
+
   archiveFormInstance() {
     
     this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
       response => {
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
+        window.location.reload();
       },
       error => {
         this.msgForDialog = []

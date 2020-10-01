@@ -41,7 +41,9 @@
                         </div>
                         <div class="card" *ngIf="formField.inputType != 'HEADER'">
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">
-                                <h4 class="ui-g">{{formField.question}} </h4>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
                                     <div class="ui-g">
                                         <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
                                             <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
@@ -50,8 +52,11 @@
                                     </div>
                             </div>
                             <div *ngIf="formField.inputType === 'TEXT'">
-                                <h4 class="ui-g">{{formField.question}} </h4>
-                                <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" placeholder="Text" ></textarea>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
+                                    <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" placeholder="Text" ></textarea>
+                                
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 

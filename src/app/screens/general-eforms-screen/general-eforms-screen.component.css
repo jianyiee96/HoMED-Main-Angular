@@ -1,0 +1,16 @@
+.headerInput {
+    font-weight: bold;
+    font-size: 23px;
+    font-family:sans-serif
+}
+
+.doctorOnlyMsg {
+    display: inline-block;
+    text-align: right;
+    font-size: 10px;
+}
+
+.isRequiredSymbol {
+    color: red;
+    margin-left: 5px;
+}
