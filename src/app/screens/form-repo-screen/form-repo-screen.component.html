@@ -14,13 +14,14 @@
                             <tr>
                                 <th>FormTemplate Id</th>
                                 <th>Form Template Name</th>
+                                <th>Privacy</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-formTemplate>
                             <tr [pSelectableRow]="formTemplate">
                                 <td>{{formTemplate.formTemplateId}}</td>
                                 <td>{{formTemplate.formTemplateName}}</td>
-
+                                <td>{{formTemplate.isPublic}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -40,57 +41,64 @@
                         </div>
                         <div class="card" *ngIf="formField.inputType != 'HEADER'">
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
-                                <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
-                                        <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
-                                            label="{{formFieldOption.formFieldOptionValue}}" [disabled]=true></p-checkbox>
+                                <h4 class="ui-g">{{formField.question}} </h4>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                            <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
+                                                label="{{formFieldOption.formFieldOptionValue}}" ></p-checkbox>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                             <div *ngIf="formField.inputType === 'TEXT'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
-                                <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" [disabled]="true"></textarea>
+                                <h4 class="ui-g">{{formField.question}} </h4>
+                                <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" placeholder="Text" ></textarea>
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4" *ngFor="let formFieldOption of formField.formFieldOptions">
                                         <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
-                                            label="{{formFieldOption.formFieldOptionValue}}" [disabled]="true"></p-radioButton>
+                                            label="{{formFieldOption.formFieldOptionValue}}" ></p-radioButton>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
-                                <p-dropdown [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-dropdown>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
+                                <p-dropdown [options]="formField.formFieldOptions"  optionLabel="formFieldOptionValue" ></p-dropdown>
                             </div>
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
-                                <h4> {{formField.question}} [{{formField.inputType}}] </h4>
+                                <h4 class="ui-g"> {{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
                                 <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-multiSelect>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
-                                <h4>{{formField.question}}</h4>
-                                <p-calendar [showIcon]="true" placeholder="Date" [disabled]="true"></p-calendar>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
+                                <p-calendar [showIcon]="true" placeholder="Date" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
-                                <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" [disabled]="true"></p-calendar>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
+                                <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'NUMBER'">
-                                <div><h4>{{formField.question}}  [{{formField.inputType}}] <p-message *ngIf="!formField.isServicemanEditable" severity="warn" text="Doctor editable only" style="display: inline-block; font-size: 14px;"></p-message> </h4></div>
-                                <p-spinner [disabled]="true"></p-spinner>
+                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
+                                    <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                                                text="Doctor editable only"></p-message></h4>
+                                <p-spinner  placeholder="Number"></p-spinner>
                             </div>
                             <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
-                                <h4>{{formField.question}} [{{formField.inputType}}] </h4>
-                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" [disabled]="true"></p-fileUpload>
+                                <h4 class="ui-g">{{formField.question}} </h4>
+                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" ></p-fileUpload>
                             </div>
-                            <div class="ui-g">
-
-                                <div *ngIf="formField.isRequired">
-                                    <p-message severity="error" text="Required" style="display: inline-block;"></p-message>
-                                </div>
-                            </div>
+                            
                         </div>
                     <br/>
                 </div>
