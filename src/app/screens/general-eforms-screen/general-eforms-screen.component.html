@@ -21,7 +21,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-formInstance>
-                    <tr [pSelectableRow]="formInstance">
+                    <tr [pSelectableRow]="formInstance" *ngIf="formInstance.formInstanceStatusEnum !== 'ARCHIVED'">
                         <td>{{formInstance.formInstanceId}}</td>
                         <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
                         <td>{{dateCreated}}</td>
@@ -41,11 +41,11 @@
         </div>
         <p-toast key="tst" position="bottom-center"></p-toast>
     </div>
-    <div class="ui-g-12 ui-lg-6 ui-fluid" *ngIf="selected">
+    <div class="ui-g-12 ui-lg-6" *ngIf="selected">
         <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
             <div class="card" style="text-align: left;">
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
-                <div id="content">
+                <div id="content" class="ui-fluid">
                     <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">

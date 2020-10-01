@@ -50,6 +50,7 @@ export class FormRepoScreenComponent implements OnInit {
 
   createFormInstance() {
     this.selectedTemplate.dateCreated = new Date();
+    console.log(this.selectedTemplate.dateCreated)
     this.formService.createFormInstance(this.sessionService.getCurrentServiceman().servicemanId, this.selectedTemplate.formTemplateId).subscribe(
       response => {  
         (async () => {   

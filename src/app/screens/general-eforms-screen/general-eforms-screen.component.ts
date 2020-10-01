@@ -220,6 +220,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submit(viewFormInstanceDetailsForm: NgForm) {
+
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -248,7 +249,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
          
           await this.delay(1000)
 
-          this.msgForDialog = [] 
+          this.msgForDialog = []
+          this.selected = false; 
           this.ngOnInit()
               
         })() 
@@ -273,7 +275,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
           response => {
             this.msgForDialog = []
             this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
-            window.location.reload();
+            this.ngOnInit()
           },
           error => {
             this.msgForDialog = []
