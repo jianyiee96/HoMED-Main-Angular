@@ -1,3 +1,5 @@
 .headerInput {
-    --background: #03558b;
+    font-weight: bold;
+    font-size: 23px;
+    font-family:sans-serif
 }

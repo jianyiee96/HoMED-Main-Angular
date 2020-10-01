@@ -6,16 +6,20 @@ import { FormField } from '../formfield/formfield'
 export class FormInstance {
 
     formInstanceId: number
+    dateCreated: Date
+    dateSubmitted: Date
     formInstanceStatusEnum: FormInstanceStatusEnum
     formTemplateMapping: FormTemplate
     formInstanceFields: FormInstanceField[]
     serviceman: Serviceman
 
-    constructor(formInstanceId?: number, formInstanceStatusEnum?: FormInstanceStatusEnum,
+    constructor(formInstanceId?: number, dateCreated?: Date, dateSubmitted?: Date, formInstanceStatusEnum?: FormInstanceStatusEnum,
         formTemplateMapping?: FormTemplate, formInstanceFields?: FormInstanceField[], 
         serviceman?: Serviceman) {
 
         this.formInstanceId = formInstanceId
+        this.dateCreated = dateCreated
+        this.dateSubmitted = dateSubmitted
         this.formInstanceStatusEnum = formInstanceStatusEnum
         this.formTemplateMapping = formTemplateMapping
         this.formInstanceFields = formInstanceFields
