@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {BreadcrumbService} from '../../services/breadcrum.service';
-import { MessageService } from 'primeng/api';
+import { BreadcrumbService } from '../../services/breadcrum.service';
+import { Message } from 'primeng/primeng';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormTemplate } from 'src/app/classes/formtemplate/formtemplate';
 import { SessionService } from 'src/app/services/session/session.service'
@@ -11,7 +11,6 @@ import { FormField } from 'src/app/classes/formfield/formfield';
   selector: 'app-form-repo-screen',
   templateUrl: './form-repo-screen.component.html',
   styleUrls: ['./form-repo-screen.component.css'],
-  providers: [MessageService]
 })
 export class FormRepoScreenComponent implements OnInit {
   
@@ -20,10 +19,12 @@ export class FormRepoScreenComponent implements OnInit {
   selectedTemplate: FormTemplate
   selected: boolean
   tempFormFields: FormField[]
+  privacy: String
+  msgForDialog: Message[] = []
 
 
   constructor(private router: Router, private breadcrumbService: BreadcrumbService, private formService: FormService, 
-              private sessionService: SessionService, private service: MessageService
+              private sessionService: SessionService
   ) { 
     this.breadcrumbService.setItems([
       {label: 'eForm Management'},
@@ -34,7 +35,6 @@ export class FormRepoScreenComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.formService.retrieveAllFormTemplates().subscribe(
       response => {
         this.formTemplates = response.formTemplates
@@ -54,16 +54,18 @@ export class FormRepoScreenComponent implements OnInit {
       response => {  
         (async () => {   
 
-          this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Created Successfully' });
+          this.msgForDialog = []
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Created Successfully' })
 
-          await this.delay(1000)
+          await this.delay(1200)
 
-          this.service.clear();
+          this.msgForDialog = []
           this.router.navigate(['/general-eforms-screen'])      
         })()       
       },
       error => {
-				console.log(error.substring(32))
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
 			}
     );
   }

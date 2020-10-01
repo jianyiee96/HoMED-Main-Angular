@@ -21,7 +21,8 @@
                             <tr [pSelectableRow]="formTemplate">
                                 <td>{{formTemplate.formTemplateId}}</td>
                                 <td>{{formTemplate.formTemplateName}}</td>
-                                <td>{{formTemplate.isPublic}}</td>
+                                <td *ngIf="formTemplate.isPublic" >Public</td>
+                                <td *ngIf="!formTemplate.isPublic" >Private</td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -31,6 +32,7 @@
             </div>
             
             <div class="ui-g-12 ui-lg-6" *ngIf="selected">
+                <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div class="card" style="text-align: left;">
                     <button type="button"  pButton label="Create Instance" (click)="createFormInstance()" ></button>
                     <h1>{{selectedTemplate.formTemplateName}} -- PREVIEW MODE</h1>
@@ -41,6 +43,7 @@
                         </div>
                         <div class="card" *ngIf="formField.inputType != 'HEADER'">
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">
+                                <p-message class="inputTypeMsg" severity="info" text="Checkbox"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
@@ -52,6 +55,7 @@
                                     </div>
                             </div>
                             <div *ngIf="formField.inputType === 'TEXT'">
+                                <p-message class="inputTypeMsg" severity="info" text="Text"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
@@ -59,6 +63,7 @@
                                 
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
+                                <p-message class="inputTypeMsg" severity="info" text="Radio Button"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
@@ -70,30 +75,36 @@
                                 </div>
                             </div>
                             <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
+                                <p-message class="inputTypeMsg" severity="info" text="Single-Dropdown"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
                                 <p-dropdown [options]="formField.formFieldOptions"  optionLabel="formFieldOptionValue" ></p-dropdown>
                             </div>
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
+                                <p-message class="inputTypeMsg" severity="info" text="Multi-Dropdown"></p-message> 
                                 <h4 class="ui-g"> {{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
                                 <p-multiSelect [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue" ></p-multiSelect>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
+                                <p-message class="inputTypeMsg" severity="info" text="Date"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
                                 <p-calendar [showIcon]="true" placeholder="Date" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
+                                <p-message class="inputTypeMsg" severity="info" text="Time"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Time" ></p-calendar>
                             </div>
-                            <div *ngIf="formField.inputType === 'NUMBER'">
+                            
+                            <div *ngIf="formField.inputType === 'NUMBER'">      
+                                <p-message class="inputTypeMsg" severity="info" text="Number"></p-message>        
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div> 
                                     <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor editable only"></p-message></h4>

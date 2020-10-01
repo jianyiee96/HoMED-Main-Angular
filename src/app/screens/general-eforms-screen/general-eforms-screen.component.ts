@@ -27,6 +27,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
+  dateCreated: Date
 
   selectedFieldValues: { [position: number]: any } = {}
 
@@ -175,6 +176,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
         this.formInstances = response.formInstances
+        for (let formInstance of this.formInstances) {
+          this.dateCreated = this.parseDate(formInstance.dateCreated).substring(0,10)
+        }
+        
       },
       error => {
         console.log(error.substring(32));
@@ -236,9 +241,17 @@ export class GeneralEFormsScreenComponent implements OnInit {
     
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        this.msgForDialog = []
-        this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
-        window.location.reload();
+        (async () => {   
+
+          this.msgForDialog = []
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
+         
+          await this.delay(1000)
+
+          this.msgForDialog = [] 
+          this.ngOnInit()
+              
+        })() 
       },
       error => {
         this.msgForDialog = []
@@ -250,7 +263,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   archive(formInstanceToArchive: FormInstance) {
     this.confirmationService.confirm({
-      header: 'Submission Confirmation',
+      header: 'Archive Confirmation',
       icon: 'pi pi-exclamation-triangle',
       message: 'Do you want to archive this form instance?',
       acceptLabel: 'Yes',
@@ -279,9 +292,17 @@ export class GeneralEFormsScreenComponent implements OnInit {
     
     this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        this.msgForDialog = []
-        this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
-        window.location.reload();
+        (async () => {   
+
+          this.msgForDialog = []
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
+         
+          await this.delay(1200)
+
+          this.msgForDialog = [] 
+          this.ngOnInit()
+              
+        })() 
       },
       error => {
         this.msgForDialog = []
@@ -307,6 +328,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   onRowUnselect(event) {
     this.selected = false
+  }
+
+  parseDate(date: any) {
+    return date.toString().replace('[UTC]', '');
   }
 
   confirmDelete() {
@@ -338,6 +363,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
       reject: () => {
       }
     });
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 
