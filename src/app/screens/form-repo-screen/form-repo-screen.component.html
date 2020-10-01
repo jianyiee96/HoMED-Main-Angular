@@ -35,7 +35,8 @@
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div class="card" style="text-align: left;">
                     <button type="button"  pButton label="Create Instance" (click)="createFormInstance()" ></button>
-                    <h1>{{selectedTemplate.formTemplateName}} -- PREVIEW MODE</h1>
+                    <h1>{{selectedTemplate.formTemplateName}}</h1>
+                    <p-message  severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
 
                     <div *ngFor="let formField of selectedTemplate.formFields">
                         <div *ngIf="formField.inputType === 'HEADER'">

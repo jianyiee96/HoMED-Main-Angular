@@ -13,7 +13,7 @@ import { BreadcrumbService } from '../../services/breadcrum.service';
 import { FormField, FormFieldOption } from 'src/app/classes/formfield/formfield';
 import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
 import { FormInstanceStatusEnum } from 'src/app/classes/forminstancestatus-enum';
-
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
-  dateCreated: Date
+  testDate : Date
 
   selectedFieldValues: { [position: number]: any } = {}
 
@@ -172,20 +172,31 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.testDate
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
         this.formInstances = response.formInstances
         for (let formInstance of this.formInstances) {
-          this.dateCreated = this.parseDate(formInstance.dateCreated).substring(0,10)
-        }
-        
+          let singaporeDate = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
+          formInstance.dateCreated = singaporeDate
+        }        
       },
       error => {
         console.log(error.substring(32));
       }
     );
 
+  }
+
+  convertUTCStringToSingaporeDate(dateCreated) {
+    let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
+    return new Date(Date.UTC(
+      parseInt(stringUtcTime.substring(0, 4)), 
+      parseInt(stringUtcTime.substring(5, 7)), 
+      parseInt(stringUtcTime.substring(8, 10)), 
+      parseInt(stringUtcTime.substring(11, 13)), 
+      parseInt(stringUtcTime.substring(14, 16)), 
+      parseInt(stringUtcTime.substring(17, 19))));
   }
 
   updateFormInstance() {
@@ -332,9 +343,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.selected = false
   }
 
-  parseDate(date: any) {
-    return date.toString().replace('[UTC]', '');
-  }
 
   confirmDelete() {
     this.confirmationService.confirm({
