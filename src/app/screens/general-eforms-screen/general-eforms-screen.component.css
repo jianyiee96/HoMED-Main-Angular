@@ -14,3 +14,7 @@
     color: red;
     margin-left: 5px;
 }
+
+#buttons {
+    display: inline-block;
+}
