@@ -9,6 +9,7 @@ import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/api';
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
+import { GenderEnum } from 'src/app/classes/gender-enum';
 
 @Component({
   selector: 'app-account-screen',
@@ -23,6 +24,7 @@ export class AccountScreenComponent implements OnInit {
   serviceman: Serviceman
   name: string
   password: string
+  gender: GenderEnum
   phoneNumber: string
   rod: Date
   email: string
@@ -71,6 +73,7 @@ export class AccountScreenComponent implements OnInit {
     this.unitNumber = this.serviceman.address.unitNumber
     this.buildingName = this.serviceman.address.buildingName
     this.postal = this.serviceman.address.postal
+    this.gender = this.serviceman.gender
 
     this.newPassword=""
     this.confirmNewPassword=""
