@@ -5,63 +5,67 @@
     </head>
     <body>
         <div class="ui-fluid">
+            <div class="p-grid p-justify-center" >
             <div class="ui-g-12 ui-lg-6" >
-                <div class="card" style="text-align: center;">
-                    <h1>Account details</h1>
-                        <div class="p-grid">
-                            <div class="p-col-12  ">
-                                <h4>Name:</h4>
-                                <input name="name" id="value" type="text" pInputText [(ngModel)]="name" [disabled]=true [readonly]=true  />
-                            </div>
-                        </div>
-
-                        <div class="p-grid" >
-                            <div class="p-col-12 ">
-                                <h4>Password:</h4>
-                                <button type="button" (click)="openModal()" expand="block" pButton icon="ui-icon-open-in-new"
-                                    label="Change Password"></button>
-                            </div>
-                        </div>
-
-                        <div class="p-grid">
-                            <div class="p-col-12 ">
-                                <h4>Email:</h4>
-                                <input name="email" id="value" pInputText  [(ngModel)]="email" type="email"
-                                    [disabled]="true">
-                            </div>
-                        </div>
-
-                        <div class="p-grid">
-                            <div class="p-col-12 ">
-                                <h4>ROD:</h4>
-                                <input name="rod" id="value" pInputText [(ngModel)]="rod" [disabled]=true>
-                            </div>
-                        </div>
-
-                        <p-toast key="tst" position="bottom-center"></p-toast>
-                </div>
-            </div>
-
-
-            <form #updateForm="ngForm" (ngSubmit)="update(updateForm)"> 
-                <div class="ui-g-12 ui-lg-6">
-                    <!-- Right Side -->
-                    <div class="card" style="text-align: center;">
-                        <h1>You may update these information</h1>
-            
+                <div class="card">
+                    <div class="card">
+                    <h2>Personal Particulars</h2>
                         <div class="p-grid">
                             <div class="p-col-12">
-                                <h4>Phone Number:</h4>
-                                <input name="phoneNumber" id="value" type="tel" minlength="8" maxlength="8" 
-                                    class="editable" pattern="^[89]\d{7}" pInputText [(ngModel)]="phoneNumber" [disabled]="!editFields"
-                                    required (ngModelChange)="fieldChange()">
-            
-                                <div *ngIf="phoneNumberError">
-                                    <p-message severity="error" text={{phoneNumberErrorMsg}}></p-message>
+                                <h4>Name:</h4>
+                                <input name="name" id="value" type="text" pInputText [(ngModel)]="name" [disabled]=true [readonly]=true  />
+                                    <h4>ROD:</h4>
+                                    <input name="rod" id="value" pInputText [(ngModel)]="rod" [disabled]=true>
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <div class="p-col-12">
+                        <div class="card">
+                            <div class="p-grid p-justify-center">
+                                <div class="p-col-12 p-sm-12 p-md-8 p-lg-6 ">
+                                    <button type="button" (click)="openModal()" expand="block" pButton icon="ui-icon-open-in-new"
+                                        label="Change Password"></button>
                                 </div>
                             </div>
                         </div>
-            
+                    </div>
+
+                    <div class="p-col-12">
+                        <div class="card">        
+                            <h2>Contact Details <button pButton type="button" class="gray-btn" icon="ui-icon-edit" 
+                                style="float: right;"></button></h2>
+                                <div class="p-grid ui-g">
+                                    <div class="p-col-12">
+                                                <h4>Phone Number:</h4>
+                                                <input name="phoneNumber" id="value" type="tel" minlength="8" maxlength="8" 
+                                                    class="editable" pattern="^[89]\d{7}" pInputText [(ngModel)]="phoneNumber" [disabled]="!editFields"
+                                                    required (ngModelChange)="fieldChange()">
+                            
+                                                <div *ngIf="phoneNumberError">
+                                                    <p-message severity="error" text={{phoneNumberErrorMsg}}></p-message>
+                                                </div>
+
+                                        <h4>Email:</h4>
+                                        <input name="email" id="value" pInputText  [(ngModel)]="email" type="email"
+                                            [disabled]="true">
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                
+
+                        <p-toast key="tst" position="bottom-center"></p-toast>
+
+
+
+
+            <form #updateForm="ngForm" (ngSubmit)="update(updateForm)"> 
+                    <!-- Right Side -->
+                    <div class="card">
+                        <h2>Address Details <button pButton type="button" class="gray-btn" icon="ui-icon-edit" 
+                                style="float: right;"></button></h2>      
                         <div class="p-grid">
                             <div class="p-col-12">
                                 <h4>Street Name:</h4>
@@ -132,11 +136,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    
             </form>
-
-
+            </div>
+        </div>
+    </div>
 
 
             <form #changePasswordForm="ngForm" (ngSubmit)="change(changePasswordForm)">
