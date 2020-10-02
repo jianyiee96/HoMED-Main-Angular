@@ -29,7 +29,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
-  archiveMode: boolean
 
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
@@ -38,6 +37,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   msgForDialog: Message[] = []
   selected: boolean
+
+  containDraftForms: boolean
+  containArchiveForms: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
     private service: MessageService, private confirmationService: ConfirmationService
@@ -49,12 +51,20 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.containDraftForms =false
+    this.containArchiveForms = false
     this.archiveMode = false
     this.failedValidationFieldMappingId = new Set()
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
         this.formInstances = response.formInstances
         for (let formInstance of this.formInstances) {
+          if (formInstance.formInstanceStatusEnum.toString() === 'ARCHIVED') {
+            this.containArchiveForms = true
+          }
+          if (formInstance.formInstanceStatusEnum.toString() === 'DRAFT' || formInstance.formInstanceStatusEnum.toString() === 'SUBMITTED') {
+            this.containDraftForms = true
+          }
           let date1 = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
           formInstance.dateCreated = date1
           let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
@@ -323,9 +333,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
         (async () => {
 
           this.msgForDialog = []
-          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Submitted!' })
 
-          await this.delay(1000)
+          await this.delay(1200)
 
           this.msgForDialog = []
           this.selected = false;
@@ -351,9 +361,18 @@ export class GeneralEFormsScreenComponent implements OnInit {
       accept: () => {
         this.formService.archiveFormInstance(formInstanceToArchive).subscribe(
           response => {
-            this.msgForDialog = []
-            this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
-            this.ngOnInit()
+            (async () => {
+
+              this.msgForDialog = []
+              this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Archived!' })
+    
+              await this.delay(1200)
+    
+              this.msgForDialog = []
+              this.selected = false;
+              this.ngOnInit()
+    
+            })()
           },
           error => {
             this.msgForDialog = []
@@ -375,11 +394,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
         (async () => {
 
           this.msgForDialog = []
-          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
+          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Archived!' })
 
           await this.delay(1200)
 
           this.msgForDialog = []
+          this.selected = false;
           this.ngOnInit()
 
         })()
@@ -391,12 +411,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     );
 
   }
-
-  showArchive() {
-      this.archiveMode = true
-      this.ngOnInit()
-  }
-
 
 
   clearDialog() {
@@ -457,10 +471,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   viewArchive() {
+    this.selected = false
     this.archiveMode = true
   }
 
   unviewArchive() {
+    this.selected = false
     this.archiveMode = false
   }
 
