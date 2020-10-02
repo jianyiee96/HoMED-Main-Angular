@@ -27,7 +27,7 @@
                         <th style="width:4rem"></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-formInstance>
+                <ng-template pTemplate="body" let-formInstance  *ngIf="!archiveMode">
                     <tr [pSelectableRow]="formInstance" *ngIf="formInstance.formInstanceStatusEnum !== 'ARCHIVED'">
                         <!-- <td>{{formInstance.formInstanceId}}</td> -->
                         <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
@@ -40,13 +40,32 @@
                             <button pButton pRipple type="button" icon="ui-icon-archive" title="Archive"
                                 [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
                                 (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
-                            </button>
+                            </button>                           
                         </td>
                     </tr>
                 </ng-template>
+
+                <ng-template pTemplate="body" let-formInstance *ngIf="archiveMode">
+                    <tr [pSelectableRow]="formInstance" *ngIf="formInstance.formInstanceStatusEnum === 'ARCHIVED'">
+                        <!-- <td>{{formInstance.formInstanceId}}</td> -->
+                        <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
+                        <td>{{ formInstance.dateCreated | date:'medium' }}</td>
+                        <td>{{formInstance.formInstanceStatusEnum}}</td>
+                        <td *ngIf="formInstance.dateSubmitted !== undefined">
+                            {{ formInstance.dateSubmitted | date:'medium'}}</td>
+                        <td *ngIf="formInstance.dateSubmitted === undefined">N.A</td>
+                        <td>
+                            <button pButton pRipple type="button" icon="ui-icon-archive" title="Archive"
+                                [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
+                                (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
+                            </button>                           
+                        </td>
+                    </tr>
+                </ng-template>
+
             </p-table>
             <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
-
+            <button pButton icon="ui-icon-add" label="Show Archive forms" (click)="showArchive()" style="float: right;"></button>
         </div>
         <p-toast key="tst" position="bottom-center"></p-toast>
     </div>
