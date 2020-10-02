@@ -76,9 +76,9 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <input type="text" pInputText name="textInput" placeholder="Text"
-                                    [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
-                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
+                                <input type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Text"
+                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                    [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable" />
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
@@ -89,7 +89,7 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <input type="number" pInputText name="numberInput" required
+                                <input type="number" pInputText [ngModelOptions]="{standalone: true}"
                                     [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
 
@@ -106,7 +106,7 @@
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-checkbox name="checkboxInput"
+                                        <p-checkbox [ngModelOptions]="{standalone: true}"
                                             value="{{formFieldOption.formFieldOptionValue}}"
                                             [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
@@ -122,7 +122,7 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-multiSelect name="multiSelectInput"
+                                <p-multiSelect [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
@@ -137,7 +137,7 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-dropdown name="singleSelectInput"
+                                <p-dropdown [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
@@ -156,7 +156,7 @@
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-4"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-radioButton name="radioInput"
+                                        <p-radioButton [ngModelOptions]="{standalone: true}"
                                             value="{{formFieldOption.formFieldOptionValue}}"
                                             [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
@@ -171,7 +171,7 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-calendar name="dateInput" [showIcon]="true" placeholder="Date"
+                                <p-calendar [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
                             </div>
@@ -183,7 +183,7 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-calendar name="timeInput" showTime="true" timeOnly="true"
+                                <p-calendar [ngModelOptions]="{standalone: true}" showTime="true" timeOnly="true"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
                             </div>

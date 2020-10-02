@@ -29,7 +29,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   selectedFormInstance: FormInstance
   testDate: Date
 
-  selectedFieldValues: { [position: number]: any } = {}
+  selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
 
   testing: any
@@ -72,7 +72,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     for (let field of this.selectedFormInstance.formInstanceFields) {
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT" || field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
-
         if (field.formInstanceFieldValues.length > 0) {
           this.selectedFieldValues[field.formInstanceFieldId] = field.formInstanceFieldValues[0].inputValue
         }
@@ -192,14 +191,17 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   convertUTCStringToSingaporeDate(dateCreated) {
-    let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
-    return new Date(Date.UTC(
-      parseInt(stringUtcTime.substring(0, 4)),
-      parseInt(stringUtcTime.substring(5, 7)),
-      parseInt(stringUtcTime.substring(8, 10)),
-      parseInt(stringUtcTime.substring(11, 13)),
-      parseInt(stringUtcTime.substring(14, 16)),
-      parseInt(stringUtcTime.substring(17, 19))));
+
+    if (dateCreated != null) {
+      let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
+      return new Date(Date.UTC(
+        parseInt(stringUtcTime.substring(0, 4)),
+        parseInt(stringUtcTime.substring(5, 7)),
+        parseInt(stringUtcTime.substring(8, 10)),
+        parseInt(stringUtcTime.substring(11, 13)),
+        parseInt(stringUtcTime.substring(14, 16)),
+        parseInt(stringUtcTime.substring(17, 19))));
+    } 
   }
 
   updateFormInstance() {
