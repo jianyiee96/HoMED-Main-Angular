@@ -47,6 +47,7 @@ export class FormRepoScreenComponent implements OnInit {
 			}
     );
     
+    
   }
 
 
@@ -78,18 +79,7 @@ export class FormRepoScreenComponent implements OnInit {
     this.tempFormFields = []
     this.selected = true
     this.selectedTemplate.datePublished= this.parseDate(this.selectedTemplate.datePublished).substring(0,10)
-    let index = 1
-    for (var i = 0; i < this.selectedTemplate.formFields.length; i++) {
-      for (let formField of this.selectedTemplate.formFields) {
-        if (formField.position === index) {
-          this.tempFormFields.push(formField);
-          index++;
-          break;
-        }
-      }
-    }
-
-    this.selectedTemplate.formFields = this.tempFormFields;
+    this.selectedTemplate.formFields.sort((x, y) => (x.position - y.position))
 
   }
    

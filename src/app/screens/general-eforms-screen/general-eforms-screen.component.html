@@ -72,6 +72,7 @@
             <div class="card" style="text-align: left;">
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div id="content" class="ui-fluid">
+
                     <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
@@ -83,15 +84,14 @@
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
                             <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>
-                        <div class="card" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
-
+                        <div class="card" style="padding-top: 1px" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+                            <p-message class="doctorOnlyMsg" 
+                                    *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                    text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <input
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
@@ -103,12 +103,8 @@
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <input
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
@@ -122,12 +118,8 @@
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-12"
@@ -152,14 +144,11 @@
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <p-multiSelect
+                                    defaultLabel="Choose Multiple"
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
                                     [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
@@ -176,14 +165,11 @@
 
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <p-dropdown
+                                    placeholder="Select one"
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
                                     [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
@@ -199,12 +185,8 @@
 
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-12"
@@ -223,12 +205,8 @@
                                 </div>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <p-calendar
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
@@ -241,12 +219,8 @@
                                 </h4>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
-                                        class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
-                                    </div>
-                                    <p-message class="doctorOnlyMsg"
-                                        *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                        text="Doctor editable only"></p-message>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
                                 </h4>
                                 <p-calendar
                                     *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "

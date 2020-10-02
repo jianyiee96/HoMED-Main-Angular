@@ -29,7 +29,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
-  archiveMode: boolean
 
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
