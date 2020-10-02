@@ -14,6 +14,7 @@ import { FormField, FormFieldOption } from 'src/app/classes/formfield/formfield'
 import { InputTypeEnum } from 'src/app/classes/inputtype-enum';
 import { FormInstanceStatusEnum } from 'src/app/classes/forminstancestatus-enum';
 import { DatePipe } from '@angular/common';
+import { skip } from 'rxjs/operators';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
 
-  testing: any
+  archiveMode: boolean
 
   msgForDialog: Message[] = []
   selected: boolean
@@ -46,8 +47,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
     ]);
   }
 
-
   ngOnInit() {
+    this.archiveMode = false
     this.failedValidationFieldMappingId = new Set()
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
@@ -68,7 +69,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   // Process FormInstanceFields into String[]
   formInstanceToView() {
-
+    this.selectedFieldValues = {} 
+    console.log("formInstanceToVIew Called")
+    console.log(this.selectedFieldValues)
     for (let field of this.selectedFormInstance.formInstanceFields) {
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT" || field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
@@ -83,16 +86,24 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
         }
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
-
+        console.log("CHECKY CHECKY")
         this.selectedFieldValues[field.formInstanceFieldId] = []
 
         for (let fieldValue of field.formInstanceFieldValues) {
+          if (fieldValue.inputValue === "") {
+            continue; 
+          }
+          console.log("checkbox loop")
+          console.log(fieldValue.inputValue)
           this.selectedFieldValues[field.formInstanceFieldId].push(fieldValue.inputValue)
         }
 
         if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
           this.selectedFieldValues[field.formInstanceFieldId].push("")
         }
+
+        console.log("printing the data array")
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "MULTI_DROPDOWN") {
 
@@ -104,6 +115,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
           }
 
         }
+        console.log("printing the multi array")
+        console.log(this.selectedFieldValues[field.formInstanceFieldId])
+        console.log("printint 2")
+        console.log(field.formInstanceFieldValues)
+
+
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "SINGLE_DROPDOWN") {
 
@@ -140,13 +157,16 @@ export class GeneralEFormsScreenComponent implements OnInit {
       }
 
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
-
+        console.log("CAME INTO CHECKBOX AS WELL")
         field.formInstanceFieldValues = []
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
           if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
+            console.log("CHECKKKK CHECKKKKK UNUNUNUNavailable")
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
           } else {
             for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
+              console.log("CHECKKKK CHECKKKKK available")
+              console.log(inputValue)
               field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
             }
           }
@@ -157,7 +177,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         field.formInstanceFieldValues = []
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
           for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-
+            console.log("selected value: " + inputValue.formFieldOptionValue)
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue.formFieldOptionValue))
           }
 
@@ -382,6 +402,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   onRowSelect(event) {
     this.selected = true
     this.selectedFieldValues = {}
+
     this.formInstanceToView()
   }
 
@@ -425,6 +446,14 @@ export class GeneralEFormsScreenComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  viewArchive() {
+    this.archiveMode = true
+  }
+
+  unviewArchive() {
+    this.archiveMode = false
+  }
 
 }
+
 

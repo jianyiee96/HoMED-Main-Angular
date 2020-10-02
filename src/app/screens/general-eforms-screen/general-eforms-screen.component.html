@@ -1,7 +1,23 @@
 <div class="ui-g">
-    <div class="ui-g-12 ui-lg-6">
+    <div class="ui-g-12 ui-lg-7">
         <div class="card">
-            <h1>My Form Instances</h1>
+            <div class="p-grid ui-g">
+                <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
+                    My Form Instances
+                </div>
+                <div class="ui-g-6 ui-md-6">
+                    <button *ngIf="!archiveMode" pButton icon="ui-icon-archive" label="View Archived"
+                        (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
+
+                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="unview Archived"
+                        (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
+
+
+                    <button pButton icon="ui-icon-add" label="New Form Instance" routerLink="/form-repo-screen"
+                        style="float:right; top: 15%;"></button>
+                </div>
+            </div>
+
             <!-- <div *ngFor="let formInstance of formInstances">
                 <div class="card">
                     <h2>{{formInstance.formTemplateMapping.formTemplateName}}</h2>
@@ -28,7 +44,8 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-formInstance>
-                    <tr [pSelectableRow]="formInstance" *ngIf="formInstance.formInstanceStatusEnum !== 'ARCHIVED'">
+                    <tr [pSelectableRow]="formInstance"
+                        *ngIf="(formInstance.formInstanceStatusEnum !== 'ARCHIVED' && !archiveMode) || (formInstance.formInstanceStatusEnum === 'ARCHIVED' && archiveMode)">
                         <!-- <td>{{formInstance.formInstanceId}}</td> -->
                         <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
                         <td>{{ formInstance.dateCreated | date:'medium' }}</td>
@@ -45,12 +62,12 @@
                     </tr>
                 </ng-template>
             </p-table>
-            <button pButton icon="ui-icon-add" label="Add new Form Instance" routerLink="/form-repo-screen"></button>
+
 
         </div>
         <p-toast key="tst" position="bottom-center"></p-toast>
     </div>
-    <div class="ui-g-12 ui-lg-6" *ngIf="selected">
+    <div class="ui-g-12 ui-lg-5" *ngIf="selected">
         <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
             <div class="card" style="text-align: left;">
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
@@ -76,9 +93,13 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <input type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Text"
+                                <input
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Text"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable" />
+                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
+                                    {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}</h4>
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
@@ -89,10 +110,15 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <input type="number" pInputText [ngModelOptions]="{standalone: true}"
+                                <input
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    type="number" pInputText [ngModelOptions]="{standalone: true}"
                                     [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
-
+                                <h4
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}
+                                </h4>
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
@@ -104,12 +130,23 @@
                                         text="Doctor editable only"></p-message>
                                 </h4>
                                 <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-4"
+                                    <div class="ui-g-12 ui-md-12"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-checkbox [ngModelOptions]="{standalone: true}"
+
+                                        <p-checkbox
+                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                            [ngModelOptions]="{standalone: true}"
                                             value="{{formFieldOption.formFieldOptionValue}}"
                                             [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
+
+
+                                    </div>
+                                    <div
+                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                        <h4
+                                            *ngFor="let answer of selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                            {{answer}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -122,11 +159,20 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-multiSelect [ngModelOptions]="{standalone: true}"
+                                <p-multiSelect
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     optionLabel="formFieldOptionValue"></p-multiSelect>
+                                <div
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    <h4
+                                        *ngFor="let answer of selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                        {{answer.formFieldOptionValue}}</h4>
+                                </div>
+
 
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
@@ -137,11 +183,18 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-dropdown [ngModelOptions]="{standalone: true}"
+                                <p-dropdown
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     optionLabel="formFieldOptionValue"></p-dropdown>
+                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' && 
+                                selectedFieldValues[formInstanceField.formInstanceFieldId] !== undefined">
+                                    {{selectedFieldValues[formInstanceField.formInstanceFieldId].formFieldOptionValue}}
+                                </h4>
+
 
 
                             </div>
@@ -154,13 +207,19 @@
                                         text="Doctor editable only"></p-message>
                                 </h4>
                                 <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-4"
+                                    <div class="ui-g-12 ui-md-12"
                                         *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-radioButton [ngModelOptions]="{standalone: true}"
+                                        <p-radioButton
+                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                            [ngModelOptions]="{standalone: true}"
                                             value="{{formFieldOption.formFieldOptionValue}}"
                                             [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                             label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
                                     </div>
+                                    <h4
+                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                        {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}
+                                    </h4>
                                 </div>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
@@ -171,9 +230,15 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-calendar [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date"
+                                <p-calendar
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
+                                <h4
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'longDate' }}
+                                </h4>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
                                 <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
@@ -183,9 +248,15 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <p-calendar [ngModelOptions]="{standalone: true}" showTime="true" timeOnly="true"
+                                <p-calendar
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    [ngModelOptions]="{standalone: true}" showTime="true" timeOnly="true"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
+                                <h4
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'shortTime' }}
+                                </h4>
                             </div>
 
                             <div
