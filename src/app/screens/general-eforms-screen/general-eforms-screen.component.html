@@ -26,7 +26,8 @@
                 </div>
             </div> -->
             <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
-                dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+                dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" 
+                    *ngIf="(archiveMode && containArchiveForms) || (!archiveMode && containDraftForms)">
                 <ng-template pTemplate="header">
                     <tr>
                         <!-- <th pSortableColumn="formInstanceId">Form Instance Id <p-sortIcon field="formInstanceId"></p-sortIcon></th> -->
@@ -62,6 +63,13 @@
                     </tr>
                 </ng-template>
             </p-table>
+            <div *ngIf="(!archiveMode && !containDraftForms)">
+                <h1>No form instances exist</h1>
+            </div>
+            <div *ngIf="(archiveMode && !containArchiveForms)">
+                <h1>No Archived form instances exist</h1>
+            </div>
+
 
 
         </div>
