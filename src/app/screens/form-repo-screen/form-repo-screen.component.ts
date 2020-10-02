@@ -7,6 +7,8 @@ import { FormTemplate } from 'src/app/classes/formtemplate/formtemplate';
 import { SessionService } from 'src/app/services/session/session.service'
 import { FormField } from 'src/app/classes/formfield/formfield';
 
+import { ConfirmationService } from 'primeng/api';
+
 @Component({
   selector: 'app-form-repo-screen',
   templateUrl: './form-repo-screen.component.html',
@@ -24,7 +26,7 @@ export class FormRepoScreenComponent implements OnInit {
 
 
   constructor(private router: Router, private breadcrumbService: BreadcrumbService, private formService: FormService, 
-              private sessionService: SessionService
+              private sessionService: SessionService, private confirmationService: ConfirmationService
   ) { 
     this.breadcrumbService.setItems([
       {label: 'eForm Management'},
@@ -72,6 +74,7 @@ export class FormRepoScreenComponent implements OnInit {
   }
 
   onRowSelect(event) { 
+    
     this.tempFormFields = []
     this.selected = true
     this.selectedTemplate.datePublished= this.parseDate(this.selectedTemplate.datePublished).substring(0,10)
@@ -101,6 +104,21 @@ export class FormRepoScreenComponent implements OnInit {
 
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  confirmCreate() {
+    this.confirmationService.confirm({
+      header: 'Create Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Do you want to create this form instance?',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: () => {
+        this.createFormInstance()
+      },
+      reject: () => {
+      }
+    });
   }
 
 }

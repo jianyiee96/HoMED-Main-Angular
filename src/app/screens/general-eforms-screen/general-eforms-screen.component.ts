@@ -29,6 +29,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
+  archiveMode: boolean
 
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
@@ -391,6 +392,11 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
+  showArchive() {
+      this.archiveMode = true
+      this.ngOnInit()
+  }
+
 
 
   clearDialog() {
@@ -400,6 +406,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   onRowSelect(event) {
+    this.msgForDialog = []
+    this.failedValidationFieldMappingId = new Set()
     this.selected = true
     this.selectedFieldValues = {}
 
@@ -407,6 +415,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   onRowUnselect(event) {
+    this.msgForDialog = []
+    this.failedValidationFieldMappingId = new Set()
     this.selected = false
   }
 
