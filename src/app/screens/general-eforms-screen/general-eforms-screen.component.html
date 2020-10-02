@@ -14,10 +14,16 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <!-- <th pSortableColumn="formInstanceId">Form Instance Id <p-sortIcon field="formInstanceId"></p-sortIcon></th> -->
-                        <th pSortableColumn="templateName">Form Template Name <p-sortIcon field="templateName"></p-sortIcon></th>
-                        <th pSortableColumn="dateCreated">Form Instance Date Created <p-sortIcon field="dateCreated"></p-sortIcon></th>
-                        <th pSortableColumn="status">Form Instance Status <p-sortIcon field="status"></p-sortIcon></th>
-                        <th pSortableColumn="dateSubmitted">Date Submitted <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="templateName">Form Template Name <p-sortIcon field="templateName">
+                            </p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dateCreated">Form Instance Date Created <p-sortIcon field="dateCreated">
+                            </p-sortIcon>
+                        </th>
+                        <th pSortableColumn="status">Form Instance Status <p-sortIcon field="status"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dateSubmitted">Date Submitted <p-sortIcon field="status"></p-sortIcon>
+                        </th>
                         <th style="width:4rem"></th>
                     </tr>
                 </ng-template>
@@ -27,11 +33,11 @@
                         <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
                         <td>{{ formInstance.dateCreated | date:'medium' }}</td>
                         <td>{{formInstance.formInstanceStatusEnum}}</td>
-                        <td *ngIf="formInstance.dateSubmitted !== undefined">{{ formInstance.dateSubmitted | date:'medium'}}</td>
+                        <td *ngIf="formInstance.dateSubmitted !== undefined">
+                            {{ formInstance.dateSubmitted | date:'medium'}}</td>
                         <td *ngIf="formInstance.dateSubmitted === undefined">N.A</td>
                         <td>
-                            <button pButton pRipple type="button" icon="ui-icon-archive"
-                                title="Archive"
+                            <button pButton pRipple type="button" icon="ui-icon-archive" title="Archive"
                                 [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
                                 (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
                             </button>
@@ -53,10 +59,15 @@
 
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
 
+                        <p-message
+                            *ngIf="failedValidationFieldMappingId.has(formInstanceField.formFieldMapping.formFieldId)"
+                            severity="error" text="Field is required"></p-message>
+
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
                             <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>
                         <div class="card" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
                                 <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} <div
                                         class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*
@@ -177,9 +188,10 @@
                                 </p-calendar>
                             </div>
 
-                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
+                            <div
+                                *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
                                 <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} </h4>
-                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" ></p-fileUpload>
+                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
                             </div>
                         </div>
 
@@ -190,17 +202,19 @@
                 <br />
                 <p-footer>
                     <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
-                        
+
                         <button type="button" pButton pRipple icon="pi pi-save" label="Save"
                             (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
 
-                        <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back" (click)="clearDialog()" style="margin: 3px"></button>
+                        <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back"
+                            (click)="clearDialog()" style="margin: 3px"></button>
 
-                        <button type="button" pButton icon="ui-icon-delete-forever" label="Delete" class="ui-button-danger"style="margin: 3px"
-                            (click)="confirmDelete()"></button>
+                        <button type="button" pButton icon="ui-icon-delete-forever" label="Delete"
+                            class="ui-button-danger" style="margin: 3px" (click)="confirmDelete()"></button>
 
 
-                        <button type="button" pButton icon="pi pi-check" type="submit" label="Submit" class="ui-button-success" style="margin: 3px"></button>
+                        <button type="button" pButton icon="pi pi-check" type="submit" label="Submit"
+                            class="ui-button-success" style="margin: 3px"></button>
 
                     </div>
                     <div *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">

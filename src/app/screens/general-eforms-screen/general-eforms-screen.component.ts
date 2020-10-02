@@ -30,6 +30,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   testDate: Date
 
   selectedFieldValues: { [position: number]: any } = {}
+  failedValidationFieldMappingId: Set<number> = new Set()
 
   testing: any
 
@@ -43,6 +44,26 @@ export class GeneralEFormsScreenComponent implements OnInit {
       { label: 'eForm Management' },
       { label: 'General eForms', routerLink: ['/general-eforms-screen'] }
     ]);
+  }
+
+
+  ngOnInit() {
+    this.failedValidationFieldMappingId = new Set()
+    this.formService.retrieveAllServicemanFormInstances().subscribe(
+      response => {
+        this.formInstances = response.formInstances
+        for (let formInstance of this.formInstances) {
+          let date1 = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
+          formInstance.dateCreated = date1
+          let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
+          formInstance.dateSubmitted = date2
+        }
+      },
+      error => {
+        console.log(error.substring(32));
+      }
+    );
+
   }
 
   // Process FormInstanceFields into String[]
@@ -170,25 +191,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
-
-  ngOnInit() {
-    this.formService.retrieveAllServicemanFormInstances().subscribe(
-      response => {
-        this.formInstances = response.formInstances
-        for (let formInstance of this.formInstances) {
-          let date1 = this.convertUTCStringToSingaporeDate(formInstance.dateCreated);
-          formInstance.dateCreated = date1
-          let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
-          formInstance.dateSubmitted = date2
-        }
-      },
-      error => {
-        console.log(error.substring(32));
-      }
-    );
-
-  }
-
   convertUTCStringToSingaporeDate(dateCreated) {
     let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
     return new Date(Date.UTC(
@@ -202,6 +204,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   updateFormInstance() {
     this.formInstanceToData()
+    this.failedValidationFieldMappingId = new Set()
     this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
       response => {
         this.msgForDialog = []
@@ -217,6 +220,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   deleteFormInstance() {
+    this.failedValidationFieldMappingId = new Set()
     this.formService.deleteFormInstance(this.selectedFormInstance.formInstanceId).subscribe(
       response => {
         this.clearDialog()
@@ -233,8 +237,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   submit(viewFormInstanceDetailsForm: NgForm) {
 
-
-
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -245,6 +247,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         this.updateFormInstance()
         let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
+          this.failedValidationFieldMappingId = new Set()
           this.submitFormInstance()
         } else {
           console.log("Input field validation error")
@@ -259,8 +262,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   validateFormFieldInputs() {
-
-    console.log("Initiating validation process for current selected form!")
+    let success = true
 
     this.selectedFormInstance.formInstanceFields.forEach(instanceField => {
 
@@ -270,24 +272,24 @@ export class GeneralEFormsScreenComponent implements OnInit {
         && instanceField.formFieldMapping.inputType.toString().toUpperCase() !== "HEADER"
 
       if (requireValidate) {
-        console.log("")
-        console.log("Field name: " + instanceField.formFieldMapping.question)
-        console.log("requires validation? " + requireValidate)
-
         let hasInput = false
 
         instanceField.formInstanceFieldValues.forEach(instanceFieldValue => {
-          console.log(instanceFieldValue)
-
+          if (instanceFieldValue.inputValue != null && instanceFieldValue.inputValue != "") {
+            hasInput = true
+          }
         });
 
+        if (!hasInput) {
+          this.failedValidationFieldMappingId.add(instanceField.formFieldMapping.formFieldId)
+          success = false
+        }
 
       }
 
-
     });
 
-    return false;
+    return success;
   }
 
   submitFormInstance() {
