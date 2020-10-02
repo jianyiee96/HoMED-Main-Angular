@@ -26,8 +26,8 @@
                 </div>
             </div> -->
             <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
-                dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" 
-                    *ngIf="(archiveMode && containArchiveForms) || (!archiveMode && containDraftForms)">
+                dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+                *ngIf="(archiveMode && containArchiveForms) || (!archiveMode && containDraftForms)">
                 <ng-template pTemplate="header">
                     <tr>
                         <!-- <th pSortableColumn="formInstanceId">Form Instance Id <p-sortIcon field="formInstanceId"></p-sortIcon></th> -->
@@ -92,79 +92,85 @@
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
                             <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>
-                        <div class="card" style="padding-top: 1px" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
-                            <p-message class="doctorOnlyMsg" 
-                                    *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                    text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
+                        <div class="card" style="padding-top: 1px"
+                            *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+                            <p-message class="doctorOnlyMsg"
+                                *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
+                                text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
-                                
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <input
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Text"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable" />
-                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
+                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'">
                                     {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}</h4>
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <input
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     type="number" pInputText [ngModelOptions]="{standalone: true}"
                                     [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
                                 <h4
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                     {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}
                                 </h4>
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-12"
-                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-
-                                        <p-checkbox
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
-                                            [ngModelOptions]="{standalone: true}"
-                                            value="{{formFieldOption.formFieldOptionValue}}"
-                                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                            label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
-
-
+                                    <div
+                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' ">
+                                        <div class="ui-g-12 ui-md-12"
+                                            *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                            <p-checkbox
+                                                *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
+                                                [ngModelOptions]="{standalone: true}"
+                                                value="{{formFieldOption.formFieldOptionValue}}"
+                                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                                label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
+                                        </div>
                                     </div>
                                     <div
-                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                         <h4
                                             *ngFor="let answer of selectedFieldValues[formInstanceField.formInstanceFieldId]">
-                                            {{answer}}</h4>
+                                            {{answer}}
+                                        </h4>
+
                                     </div>
                                 </div>
                             </div>
 
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
-                                <p-multiSelect
-                                    defaultLabel="Choose Multiple"
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                <p-multiSelect defaultLabel="Choose Multiple"
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     optionLabel="formFieldOptionValue"></p-multiSelect>
                                 <div
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                     <h4
                                         *ngFor="let answer of selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                         {{answer.formFieldOptionValue}}</h4>
@@ -173,18 +179,18 @@
 
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
-                                <p-dropdown
-                                    placeholder="Select one"
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                <p-dropdown placeholder="Select one"
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     [ngModelOptions]="{standalone: true}"
                                     [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                     dataKey="formFieldOptionValue"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                     optionLabel="formFieldOptionValue"></p-dropdown>
-                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' && 
+                                <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' && 
                                 selectedFieldValues[formInstanceField.formInstanceFieldId] !== undefined">
                                     {{selectedFieldValues[formInstanceField.formInstanceFieldId].formFieldOptionValue}}
                                 </h4>
@@ -193,50 +199,55 @@
 
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-12"
-                                        *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                        <p-radioButton
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
-                                            [ngModelOptions]="{standalone: true}"
-                                            value="{{formFieldOption.formFieldOptionValue}}"
-                                            [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                            label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                    <div *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' ">
+                                        <div class="ui-g-12 ui-md-12"
+                                            *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                            <p-radioButton
+                                                *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
+                                                [ngModelOptions]="{standalone: true}"
+                                                value="{{formFieldOption.formFieldOptionValue}}"
+                                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                                label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                        </div>
                                     </div>
                                     <h4
-                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                         {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}
                                     </h4>
                                 </div>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <p-calendar
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
                                 <h4
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                     {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'longDate' }}
                                 </h4>
                             </div>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} 
-                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">*</div>
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <div class="isRequiredSymbol" *ngIf="formInstanceField.formFieldMapping.isRequired">
+                                        *</div>
                                 </h4>
                                 <p-calendar
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED' "
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                     [ngModelOptions]="{standalone: true}" showTime="true" timeOnly="true"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
                                 <h4
-                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED' ">
+                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
                                     {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'shortTime' }}
                                 </h4>
                             </div>

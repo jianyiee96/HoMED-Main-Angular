@@ -51,7 +51,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.containDraftForms =false
+    this.containDraftForms = false
     this.containArchiveForms = false
     this.archiveMode = false
     this.failedValidationFieldMappingId = new Set()
@@ -80,7 +80,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   // Process FormInstanceFields into String[]
   formInstanceToView() {
-    this.selectedFieldValues = {} 
+    this.selectedFieldValues = {}
     console.log("formInstanceToVIew Called")
     console.log(this.selectedFieldValues)
     for (let field of this.selectedFormInstance.formInstanceFields) {
@@ -97,23 +97,19 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
         }
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
-        console.log("CHECKY CHECKY")
         this.selectedFieldValues[field.formInstanceFieldId] = []
 
         for (let fieldValue of field.formInstanceFieldValues) {
           if (fieldValue.inputValue === "") {
-            continue; 
+            continue;
           }
-          console.log("checkbox loop")
-          console.log(fieldValue.inputValue)
           this.selectedFieldValues[field.formInstanceFieldId].push(fieldValue.inputValue)
         }
 
-        if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
+        if (this.selectedFieldValues[field.formInstanceFieldId].length === 0) {
           this.selectedFieldValues[field.formInstanceFieldId].push("")
         }
-
-        console.log("printing the data array")
+        console.log("check")
         console.log(this.selectedFieldValues[field.formInstanceFieldId])
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "MULTI_DROPDOWN") {
@@ -121,7 +117,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         this.selectedFieldValues[field.formInstanceFieldId] = []
 
         for (let fieldValue of field.formInstanceFieldValues) {
-          if (fieldValue.inputValue != "") {
+          if (fieldValue.inputValue !== "") {
             this.selectedFieldValues[field.formInstanceFieldId].push(new FormFieldOption(undefined, fieldValue.inputValue))
           }
 
@@ -154,7 +150,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   // Places String[] into respective FormInstanceFields
   formInstanceToData() {
     for (let field of this.selectedFormInstance.formInstanceFields) {
-
+      console.log("********BEINGCALLED")
+      console.log(field)
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT") {
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
@@ -171,15 +168,20 @@ export class GeneralEFormsScreenComponent implements OnInit {
         console.log("CAME INTO CHECKBOX AS WELL")
         field.formInstanceFieldValues = []
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
+          console.log(this.selectedFieldValues[field.formInstanceFieldId])
+          if(this.selectedFieldValues[field.formInstanceFieldId][0] === "" && this.selectedFieldValues[field.formInstanceFieldId].length > 1) {
+            this.selectedFieldValues[field.formInstanceFieldId].shift()
+          }
+          
+          for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
+            console.log("CHECKKKK CHECKKKKK available")
+            console.log(inputValue)
+
+            field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
+          }
           if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
-            console.log("CHECKKKK CHECKKKKK UNUNUNUNavailable")
+            console.log("empty")
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
-          } else {
-            for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-              console.log("CHECKKKK CHECKKKKK available")
-              console.log(inputValue)
-              field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
-            }
           }
         }
 
@@ -232,7 +234,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         parseInt(stringUtcTime.substring(11, 13)),
         parseInt(stringUtcTime.substring(14, 16)),
         parseInt(stringUtcTime.substring(17, 19))));
-    } 
+    }
   }
 
   updateFormInstance() {
@@ -269,7 +271,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submit(viewFormInstanceDetailsForm: NgForm) {
-
+    this.formInstanceToData()
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -277,7 +279,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
       acceptLabel: 'Yes',
       rejectLabel: 'No',
       accept: () => {
-        this.updateFormInstance()
         let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
           this.failedValidationFieldMappingId = new Set()
@@ -326,8 +327,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submitFormInstance() {
-    this.formInstanceToData()
-
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
         (async () => {
@@ -365,13 +364,13 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
               this.msgForDialog = []
               this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Archived!' })
-    
+
               await this.delay(1200)
-    
+
               this.msgForDialog = []
               this.selected = false;
               this.ngOnInit()
-    
+
             })()
           },
           error => {
