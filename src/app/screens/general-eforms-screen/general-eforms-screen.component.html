@@ -66,7 +66,7 @@
                                         text="Doctor editable only"></p-message>
                                 </h4>
                                 <input type="text" pInputText name="textInput" placeholder="Text"
-                                    [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                    [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
                             </div>
 
@@ -78,9 +78,8 @@
                                         *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
                                         text="Doctor editable only"></p-message>
                                 </h4>
-                                <input type="number" pInputText name="numberInput"
-                                    required
-                                    [disabled]="!formInstanceField.formFieldMapping.isServicemanEditable"
+                                <input type="number" pInputText name="numberInput" required
+                                    [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
 
                             </div>
@@ -176,6 +175,11 @@
                                 <p-calendar name="timeInput" showTime="true" timeOnly="true"
                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                 </p-calendar>
+                            </div>
+
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
+                                <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} </h4>
+                                <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" ></p-fileUpload>
                             </div>
                         </div>
 
