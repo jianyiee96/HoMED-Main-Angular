@@ -60,6 +60,7 @@ export class FormRepoScreenComponent implements OnInit {
 
           this.msgForDialog = []
           this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Created Successfully' })
+          window.scrollTo(0, 0)
 
           await this.delay(1200)
 

@@ -7,6 +7,7 @@ export class FormTemplate {
 
     formTemplateId: number
     formTemplateName: string
+    declaration: string
     dateCreated: Date
     datePublished: Date
     formTemplateStatus: FormTemplateStatusEnum
@@ -14,12 +15,13 @@ export class FormTemplate {
     formFields: FormField[]
 
 
-    constructor(formTemplateId?: number, formTemplateName?: string, dateCreated?: Date, 
+    constructor(formTemplateId?: number, formTemplateName?: string, declaration?: string, dateCreated?: Date, 
             datePublished?: Date, formTemplateStatus?: FormTemplateStatusEnum, isPublic?: Boolean, 
             formFields?: FormField[]) {
 
         this.formTemplateId = formTemplateId
         this.formTemplateName = formTemplateName
+        this.declaration = declaration
         this.dateCreated = dateCreated
         this.datePublished = datePublished
         this.formTemplateStatus = formTemplateStatus
