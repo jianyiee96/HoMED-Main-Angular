@@ -52,7 +52,7 @@
                     <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
                     <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
-                        <!-- Works -->
+
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
                             <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>

@@ -17,7 +17,7 @@ import { DatePipe } from '@angular/common';
 
 
 @Component({
-  selector: 'app-general-eforms-screen', 
+  selector: 'app-general-eforms-screen',
   templateUrl: './general-eforms-screen.component.html',
   styleUrls: ['./general-eforms-screen.component.css'],
   providers: [MessageService]
@@ -27,7 +27,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
-  testDate : Date
+  testDate: Date
 
   selectedFieldValues: { [position: number]: any } = {}
 
@@ -172,7 +172,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   ngOnInit() {
-    this.testDate
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
         this.formInstances = response.formInstances
@@ -181,7 +180,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
           formInstance.dateCreated = date1
           let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
           formInstance.dateSubmitted = date2
-        }        
+        }
       },
       error => {
         console.log(error.substring(32));
@@ -193,11 +192,11 @@ export class GeneralEFormsScreenComponent implements OnInit {
   convertUTCStringToSingaporeDate(dateCreated) {
     let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
     return new Date(Date.UTC(
-      parseInt(stringUtcTime.substring(0, 4)), 
-      parseInt(stringUtcTime.substring(5, 7)), 
-      parseInt(stringUtcTime.substring(8, 10)), 
-      parseInt(stringUtcTime.substring(11, 13)), 
-      parseInt(stringUtcTime.substring(14, 16)), 
+      parseInt(stringUtcTime.substring(0, 4)),
+      parseInt(stringUtcTime.substring(5, 7)),
+      parseInt(stringUtcTime.substring(8, 10)),
+      parseInt(stringUtcTime.substring(11, 13)),
+      parseInt(stringUtcTime.substring(14, 16)),
       parseInt(stringUtcTime.substring(17, 19))));
   }
 
@@ -234,14 +233,24 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   submit(viewFormInstanceDetailsForm: NgForm) {
 
+
+
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      message: 'Do you want to submit this form instance?',
+      message: 'Do you want to save and submit this form instance?',
       acceptLabel: 'Yes',
       rejectLabel: 'No',
       accept: () => {
-        this.submitFormInstance()
+        this.updateFormInstance()
+        let passValidation = this.validateFormFieldInputs()
+        if (passValidation) {
+          this.submitFormInstance()
+        } else {
+          console.log("Input field validation error")
+        }
+
+
       },
       reject: () => {
       }
@@ -249,24 +258,55 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
+  validateFormFieldInputs() {
+
+    console.log("Initiating validation process for current selected form!")
+
+    this.selectedFormInstance.formInstanceFields.forEach(instanceField => {
+
+
+      let requireValidate = instanceField.formFieldMapping.isRequired
+        && instanceField.formFieldMapping.isServicemanEditable
+        && instanceField.formFieldMapping.inputType.toString().toUpperCase() !== "HEADER"
+
+      if (requireValidate) {
+        console.log("")
+        console.log("Field name: " + instanceField.formFieldMapping.question)
+        console.log("requires validation? " + requireValidate)
+
+        let hasInput = false
+
+        instanceField.formInstanceFieldValues.forEach(instanceFieldValue => {
+          console.log(instanceFieldValue)
+
+        });
+
+
+      }
+
+
+    });
+
+    return false;
+  }
+
   submitFormInstance() {
     this.formInstanceToData()
-    this.selectedFormInstance.dateSubmitted = new Date()
-    
+
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        (async () => {   
+        (async () => {
 
           this.msgForDialog = []
           this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully updated!' })
-         
+
           await this.delay(1000)
 
           this.msgForDialog = []
-          this.selected = false; 
+          this.selected = false;
           this.ngOnInit()
-              
-        })() 
+
+        })()
       },
       error => {
         this.msgForDialog = []
@@ -300,24 +340,24 @@ export class GeneralEFormsScreenComponent implements OnInit {
       }
     });
 
-    
+
   }
 
   archiveFormInstance() {
-    
+
     this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        (async () => {   
+        (async () => {
 
           this.msgForDialog = []
           this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance sucessfully archived!' })
-         
+
           await this.delay(1200)
 
-          this.msgForDialog = [] 
+          this.msgForDialog = []
           this.ngOnInit()
-              
-        })() 
+
+        })()
       },
       error => {
         this.msgForDialog = []
@@ -327,7 +367,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
-  
+
 
   clearDialog() {
     this.msgForDialog = []
@@ -378,7 +418,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 
