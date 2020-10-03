@@ -159,7 +159,7 @@
                                             <div class="ui-g-12 ui-md-12"
                                                 *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                                 <p-checkbox
-                                                    readonly="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
+                                                    [readonly]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
                                                     [ngModelOptions]="{standalone: true}"
                                                     value="{{formFieldOption.formFieldOptionValue}}"
                                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
@@ -232,7 +232,7 @@
                                             <div class="ui-g-12 ui-md-12"
                                                 *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                                 <p-radioButton
-                                                    readonly="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
+                                                    [disabled]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
                                                     [ngModelOptions]="{standalone: true}"
                                                     dataKey="formFieldOptionValue"
                                                     value="{{formFieldOption.formFieldOptionValue}}"
@@ -305,7 +305,7 @@
                 </div>
                 <br />
                 <p-footer>
-                    <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
+                    <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT'">
 
                         <button type="button" pButton pRipple icon="pi pi-save" label="Save"
                             (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
