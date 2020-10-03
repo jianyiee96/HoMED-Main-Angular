@@ -309,15 +309,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   submit(viewFormInstanceDetailsForm: NgForm) {
     this.formInstanceToData()
+    this.failedValidationFieldMappingId = new Set()
     this.msgForDialog = []
-    this.confirmationService.confirm({
-      header: 'Submission Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      message: 'Do you want to save and submit this form instance?',
-      acceptLabel: 'Yes',
-      rejectLabel: 'No',
-      accept: () => {
-        let passValidation = this.validateFormFieldInputs()
+    let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
           this.failedValidationFieldMappingId = new Set()
           if (!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null) {
@@ -326,16 +320,22 @@ export class GeneralEFormsScreenComponent implements OnInit {
             window.scrollTo(0, 0)
           }
           else {
-            this.submitFormInstance()
+            this.confirmationService.confirm({
+              header: 'Submission Confirmation',
+              icon: 'pi pi-exclamation-triangle',
+              message: 'Do you want to save and submit this form instance?',
+              acceptLabel: 'Yes',
+              rejectLabel: 'No',
+              accept: () => {
+                this.submitFormInstance()
+              },
+              reject: () => {
+              }
+            });       
           }       
         } else {
           console.log("Input field validation error")
         }
-      },
-      reject: () => {
-      }
-    });
-
   }
 
   validateFormFieldInputs() {
@@ -431,6 +431,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   clearDialog() {
     this.msgForDialog = []
     this.selected = false
+    this.selectedFieldValues = {}
   }
 
 
