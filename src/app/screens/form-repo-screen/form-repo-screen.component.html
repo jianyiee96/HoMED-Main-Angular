@@ -7,22 +7,23 @@
         <div class="ui-fluid">
             <div class="ui-g-12 ui-lg-6">
                 <div class="card" style="text-align: left;">
-                    <h1>Available Published Templates</h1>
+                    <h1>Form Repository</h1>
                     <p-table #dt [value]="formTemplates" selectionMode="single" [(selection)]="selectedTemplate"
                         dataKey="formTemplateId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>FormTemplate Id</th>
                                 <th>Form Template Name</th>
                                 <th>Privacy</th>
+                                <th>Date Published</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-formTemplate>
                             <tr [pSelectableRow]="formTemplate">
-                                <td>{{formTemplate.formTemplateId}}</td>
                                 <td>{{formTemplate.formTemplateName}}</td>
                                 <td *ngIf="formTemplate.isPublic" >Public</td>
                                 <td *ngIf="!formTemplate.isPublic" >Private</td>
+                                <td *ngIf="formTemplate.datePublished === undefined">N.A</td>
+                                <td *ngIf="formTemplate.datePublished !== undefined">{{ formTemplate.datePublished | date:'dd/MM/yyyy'}}</td>
                             </tr>
                         </ng-template>
                     </p-table>
