@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     
-                    <p-message  style="margin: 0" severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
+                    <p-message severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
 
                     <div *ngFor="let formField of selectedTemplate.formFields" >
                         <div *ngIf="formField.inputType === 'HEADER'">
@@ -117,10 +117,7 @@
                     <br/>
                 </div>
 
-                <div class="card" *ngIf="selectedTemplate.declaration">
-                    <p-message class="inputTypeMsg" severity="info" text="Declaration"></p-message> 
-                    <textarea [rows]="2" [cols]="30" pInputTextarea>{{selectedTemplate.declaration}}</textarea>
-                </div>
+
                 
 
                 </div>

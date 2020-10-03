@@ -1,24 +1,23 @@
 <!doctype html>
 <html>
+    <head>
+        <title>General E-Forms</title>
+    </head>
+    <body>
+<div class="ui-g">
+    <div class="ui-g-12 ui-lg-7">
+        <div class="card">
+            <div class="p-grid ui-g">
+                <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
+                    My Form Instances
+                </div>
+                <div class="ui-g-6 ui-md-6">
+                    <button *ngIf="!archiveMode" class="p-button-outlined" pButton icon="ui-icon-archive" label="View Archived"
+                        (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%; background-color: white;
+                        color: #406E7E;"></button>
 
-<head>
-    <title>General E-Forms</title>
-</head>
-
-<body>
-    <div class="ui-g">
-        <div class="ui-g-12 ui-lg-7">
-            <div class="card">
-                <div class="p-grid ui-g">
-                    <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
-                        My Form Instances
-                    </div>
-                    <div class="ui-g-6 ui-md-6">
-                        <button *ngIf="!archiveMode" pButton icon="ui-icon-archive" label="View Archived"
-                            (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
-
-                        <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="UnView Archived"
-                            (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
+                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="View Archived"
+                        (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
 
 
                         <button pButton icon="ui-icon-add" label="New Form Instance" routerLink="/form-repo-screen"
@@ -325,10 +324,21 @@
                         </div>
 
                     </div>
-                    <br />
-                    <p-footer>
-                        <div id="buttons"
-                            *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
+                    <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
+                        <h4 style="font-weight: bold;">Declaration</h4>
+                        <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
+                        <p-checkbox
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="acceptDeclaration"
+                            label="Accept"
+                            binary="true"
+                            style="float: right;"></p-checkbox>
+                    </div>
+
+                </div>
+                <br />
+                <p-footer>
+                    <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
 
                             <button type="button" pButton pRipple icon="pi pi-save" label="Save"
                                 (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
