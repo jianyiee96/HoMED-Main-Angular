@@ -51,7 +51,7 @@ export class LoginScreenComponent implements OnInit {
 
       this.sessionService.setEmail(this.email)
       this.sessionService.setPassword(this.password)
-
+      
       this.servicemanService.login(this.email, this.password).subscribe(
         response => {
           let serviceman: Serviceman = response.serviceman
@@ -163,7 +163,7 @@ export class LoginScreenComponent implements OnInit {
           await this.delay(1500)
 
           this.clearResetDialog()     
-        })();        
+        })()       
       }, error => {
         this.msgForForgetPasswordDialog = []
         this.msgForForgetPasswordDialog.push({ severity: 'error', summary: '', detail: error.substring(37) })

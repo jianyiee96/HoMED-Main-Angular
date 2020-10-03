@@ -9,6 +9,7 @@ import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/api';
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
+import { GenderEnum } from 'src/app/classes/gender-enum';
 
 @Component({
   selector: 'app-account-screen',
@@ -23,6 +24,7 @@ export class AccountScreenComponent implements OnInit {
   serviceman: Serviceman
   name: string
   password: string
+  gender: GenderEnum
   phoneNumber: string
   rod: Date
   email: string
@@ -54,7 +56,7 @@ export class AccountScreenComponent implements OnInit {
   ) {
       this.breadcrumbService.setItems([
         {label: 'My Information'},
-        {label: 'Account Information', routerLink: ['/information/data']}
+        {label: 'Account Information', routerLink: ['account-screen']}
       ]); 
     }
 
@@ -71,6 +73,7 @@ export class AccountScreenComponent implements OnInit {
     this.unitNumber = this.serviceman.address.unitNumber
     this.buildingName = this.serviceman.address.buildingName
     this.postal = this.serviceman.address.postal
+    this.gender = this.serviceman.gender
 
     this.newPassword=""
     this.confirmNewPassword=""
@@ -98,7 +101,7 @@ export class AccountScreenComponent implements OnInit {
 
       this.servicemanService.updateAccount(this.serviceman).subscribe(
         response => {
-            this.serviceman = response.serviceman
+            // this.serviceman = response.serviceman
             this.sessionService.setCurrentServiceman(this.serviceman)
             this.updateProfile()
             this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Account Updated Successfully' });

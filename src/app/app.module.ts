@@ -13,8 +13,9 @@ import { AppMainComponent } from './layout/app-main/app-main.component';
 import { AppMenuitemComponent } from './layout/app-menu/app.menuitem.component';
 import { SharedModule } from './shared.module';
 
-import {BreadcrumbService} from './services/breadcrum.service';
-import {MenuService} from './services/app.menu.service';
+import { BreadcrumbService } from './services/breadcrum.service';
+import { MenuService } from './services/app.menu.service';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -26,7 +27,7 @@ import {MenuService} from './services/app.menu.service';
     AppMenuComponent,
     AppMenuitemComponent,
     AppBreadcrumbComponent,
-    AppMainComponent,
+    AppMainComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +36,7 @@ import {MenuService} from './services/app.menu.service';
     HttpClientModule,  
     SharedModule
   ],
-  providers: [BreadcrumbService, MenuService],
+  providers: [BreadcrumbService, MenuService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

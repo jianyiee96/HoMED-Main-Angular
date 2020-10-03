@@ -1,0 +1,41 @@
+.headerInput {
+    font-weight: bold;
+    font-size: 23px;
+    font-family:sans-serif
+}
+
+.doctorOnlyMsg {
+    display: inline-block;
+    text-align: right;
+    font-size: 10px;
+}
+
+.isRequiredSymbol {
+    color: red;
+    margin-left: 5px;
+}
+
+.inputTypeMsg {
+    float: right;
+}
+
+.form-status-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    
+    letter-spacing: .3px;
+
+}
+
+.form-instance-status-badge {
+    font-size: 12px;
+    margin: 3px;
+    background: #406E7E;
+    color: #FFFFFF;
+}
+
+:host ::ng-deep .ui-message{ 
+    border:1px solid;margin:0 .25em;padding:.25em .5em;display:inline-block;vertical-align:top
+}
