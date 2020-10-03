@@ -315,13 +315,6 @@
                             </div>
 
                         </div>
-                        <div class="card" style="padding: 25px;"
-                            *ngIf="selectedFormInstance.formTemplateMapping.declaration">
-                            <textarea [rows]="2" [cols]="30"
-                                pInputTextarea>{{selectedFormInstance.formTemplateMapping.declaration}}</textarea>
-                            <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="acceptDeclaration"
-                                label="Accept" binary="true" style="float: right;"></p-checkbox>
-                        </div>
 
                     </div>
                     <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
@@ -361,7 +354,7 @@
                         </div>
                     </p-footer>
 
-                </div>
+
             </form>
 
         </div>
