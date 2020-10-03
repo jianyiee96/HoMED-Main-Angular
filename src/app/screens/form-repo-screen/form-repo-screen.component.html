@@ -101,13 +101,17 @@
                                 <p-calendar [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
+                                <p-message class="inputTypeMsg" severity="info" text="Time"></p-message>
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Insert Time (HH:MM)" ></p-calendar>
                             </div>
                             
                             <div *ngIf="formField.inputType === 'NUMBER'">      
+                                <p-message class="inputTypeMsg" severity="info" text="Number"></p-message>
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
-                                <input  pInputText type="number"  placeholder="Insert Number"/>                           </div>
+                                <input  pInputText type="number"  placeholder="Insert Number"/>                           
+                            </div>
+
                             <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" ></p-fileUpload>
