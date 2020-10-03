@@ -107,7 +107,8 @@
                                 *ngIf="failedValidationFieldMappingId.has(formInstanceField.formFieldMapping.formFieldId)"
                                 severity="error" text="Field is required"></p-message>
 
-                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
+                            <div
+                                *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
                                 <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                             </div>
                             <div class="card" style="padding-top: 1px"
@@ -124,7 +125,8 @@
                                     </h4>
                                     <input
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
-                                        type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Insert Text"
+                                        type="text" pInputText [ngModelOptions]="{standalone: true}"
+                                        placeholder="Insert Text"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                         [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable" />
                                     <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'">
@@ -156,17 +158,17 @@
                                             *</div>
                                     </h4>
                                     <div class="ui-g">
-                                        
-                                            <div class="ui-g-12 ui-md-12"
-                                                *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                                <p-checkbox
-                                                    [readonly]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    value="{{formFieldOption.formFieldOptionValue}}"
-                                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                                    label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
-                                            </div>
-                                        
+
+                                        <div class="ui-g-12 ui-md-12"
+                                            *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                            <p-checkbox
+                                                [readonly]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
+                                                [ngModelOptions]="{standalone: true}"
+                                                value="{{formFieldOption.formFieldOptionValue}}"
+                                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                                label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -229,18 +231,17 @@
                                             *</div>
                                     </h4>
                                     <div class="ui-g">
-                                        
-                                            <div class="ui-g-12 ui-md-12"
-                                                *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
-                                                <p-radioButton
-                                                    [disabled]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    dataKey="formFieldOptionValue"
-                                                    value="{{formFieldOption.formFieldOptionValue}}"
-                                                    [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                                    label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
-                                            </div>
-                                        
+
+                                        <div class="ui-g-12 ui-md-12"
+                                            *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
+                                            <p-radioButton
+                                                [disabled]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
+                                                [ngModelOptions]="{standalone: true}" dataKey="formFieldOptionValue"
+                                                value="{{formFieldOption.formFieldOptionValue}}"
+                                                [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                                label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
@@ -251,7 +252,8 @@
                                     </h4>
                                     <p-calendar
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
-                                        [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)"
+                                        [ngModelOptions]="{standalone: true}" [showIcon]="true"
+                                        placeholder="Insert Date (DD/MM/YYYY)"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                     </p-calendar>
                                     <h4
@@ -288,25 +290,29 @@
 
                         </ng-container>
 
-                    </div>
-                    <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;"
-                        *ngIf="selectedFormInstance.formTemplateMapping.declaration">
-                        <h4 style="font-weight: bold;">Declaration</h4>
-                        <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
-                        <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="acceptDeclaration" label="I agree"
-                            binary="true" style="float: right;"></p-checkbox>
+
+                        <p-message *ngIf="declarationValidationError" severity="error" text="Declaration is required">
+                        </p-message>
+                        <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;"
+                            *ngIf="selectedFormInstance.formTemplateMapping.declaration && selectedFormInstance.formInstanceStatusEnum === 'DRAFT'">
+                            <h4 style="font-weight: bold;">Declaration</h4>
+                            <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
+
+                            <div style="float:right">
+                                <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="acceptDeclaration"
+                                    label="I agree" binary="true"></p-checkbox>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
-                <br />
                 <p-footer>
                     <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT'">
 
                         <button type="button" pButton pRipple icon="pi pi-save" label="Save"
                             (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
 
-                        <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back"
-                            (click)="clearDialog()" style="margin: 3px"></button>
 
                         <button type="button" pButton icon="ui-icon-delete-forever" label="Delete"
                             class="ui-button-danger" style="margin: 3px" (click)="confirmDelete()"></button>
@@ -316,11 +322,7 @@
                             class="ui-button-success" style="margin: 3px"></button>
 
                     </div>
-                    <div *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
 
-                        <button type="button" pButton icon="ui-icon-archive" label="Archive" class="ui-button-warning"
-                            (click)="confirmArchive()"></button>
-                    </div>
                 </p-footer>
             </form>
         </div>

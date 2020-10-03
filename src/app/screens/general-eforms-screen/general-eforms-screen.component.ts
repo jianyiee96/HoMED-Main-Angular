@@ -29,7 +29,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
-  
+
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
 
@@ -42,6 +42,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   containArchiveForms: boolean
 
   acceptDeclaration: boolean
+  declarationValidationError: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
     private service: MessageService, private confirmationService: ConfirmationService
@@ -61,10 +62,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
       response => {
         this.formInstances = response.formInstances
         for (let formInstance of this.formInstances) {
-          console.log(formInstance.formInstanceStatusEnum)
-          console.log(formInstance.formInstanceStatusEnum.toString())
-          console.log(typeof formInstance.formInstanceStatusEnum)
-          console.log(typeof formInstance.formInstanceStatusEnum.toString())
           if (formInstance.formInstanceStatusEnum.toString() === 'ARCHIVED') {
             this.containArchiveForms = true
           }
@@ -84,13 +81,11 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   }
 
-  
+
 
   // Process FormInstanceFields into String[]
   formInstanceToView() {
     this.selectedFieldValues = {}
-    console.log("formInstanceToVIew Called")
-    console.log(this.selectedFieldValues)
     for (let field of this.selectedFormInstance.formInstanceFields) {
 
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT" || field.formFieldMapping.inputType.toString().toUpperCase() === "RADIO_BUTTON") {
@@ -117,8 +112,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
         if (this.selectedFieldValues[field.formInstanceFieldId].length === 0) {
           this.selectedFieldValues[field.formInstanceFieldId].push("")
         }
-        console.log("check")
-        console.log(this.selectedFieldValues[field.formInstanceFieldId])
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "MULTI_DROPDOWN") {
 
@@ -130,11 +123,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
           }
 
         }
-        console.log("printing the multi array")
-        console.log(this.selectedFieldValues[field.formInstanceFieldId])
-        console.log("printint 2")
-        console.log(field.formInstanceFieldValues)
-
 
 
       } else if (field.formFieldMapping.inputType.toString().toUpperCase() === "SINGLE_DROPDOWN") {
@@ -158,9 +146,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
   // Places String[] into respective FormInstanceFields
   formInstanceToData() {
     for (let field of this.selectedFormInstance.formInstanceFields) {
-      console.log("********BEINGCALLED")
-      console.log(field)
-
       if (field.formFieldMapping.inputType.toString().toUpperCase() === "TEXT") {
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
           field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId])
@@ -173,23 +158,16 @@ export class GeneralEFormsScreenComponent implements OnInit {
       }
 
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "CHECK_BOX") {
-        console.log("CAME INTO CHECKBOX AS WELL")
         field.formInstanceFieldValues = []
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
-          console.log(this.selectedFieldValues[field.formInstanceFieldId])
-          if(this.selectedFieldValues[field.formInstanceFieldId][0] === "" && this.selectedFieldValues[field.formInstanceFieldId].length > 1) {
+          if (this.selectedFieldValues[field.formInstanceFieldId][0] === "" && this.selectedFieldValues[field.formInstanceFieldId].length > 1) {
             this.selectedFieldValues[field.formInstanceFieldId].shift()
           }
-          
-          for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-            console.log("CHECKKKK CHECKKKKK available")
-            console.log(inputValue)
-            console.log(inputValue.formFieldOptionValue)
 
+          for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
           }
           if (this.selectedFieldValues[field.formInstanceFieldId].length == 0) {
-            console.log("empty")
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, ""))
           }
         }
@@ -199,8 +177,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
         field.formInstanceFieldValues = []
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
           for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
-            console.log("selected value: " + inputValue.formFieldOptionValue)
-            console.log(inputValue)
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue.formFieldOptionValue))
           }
 
@@ -239,7 +215,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
       let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
       return new Date(Date.UTC(
         parseInt(stringUtcTime.substring(0, 4)),
-        parseInt("" + (+stringUtcTime.substring(5, 7)-1)),
+        parseInt("" + (+stringUtcTime.substring(5, 7) - 1)),
         parseInt(stringUtcTime.substring(8, 10)),
         parseInt(stringUtcTime.substring(11, 13)),
         parseInt(stringUtcTime.substring(14, 16)),
@@ -248,11 +224,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   seek(list: FormFieldOption[], option: FormFieldOption) {
-    console.log("Seek:")
-    console.log(list);
-    
     list.forEach(ffo => {
-      if(ffo.formFieldOptionValue == option.formFieldOptionValue) {
+      if (ffo.formFieldOptionValue == option.formFieldOptionValue) {
         return true
       }
     })
@@ -312,30 +285,24 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.failedValidationFieldMappingId = new Set()
     this.msgForDialog = []
     let passValidation = this.validateFormFieldInputs()
-        if (passValidation) {
-          this.failedValidationFieldMappingId = new Set()
-          if (!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null) {
-            this.msgForDialog = []
-            this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please accept the declaration' })
-            window.scrollTo(0, 0)
-          }
-          else {
-            this.confirmationService.confirm({
-              header: 'Submission Confirmation',
-              icon: 'pi pi-exclamation-triangle',
-              message: 'Do you want to save and submit this form instance?',
-              acceptLabel: 'Yes',
-              rejectLabel: 'No',
-              accept: () => {
-                this.submitFormInstance()
-              },
-              reject: () => {
-              }
-            });       
-          }       
-        } else {
-          console.log("Input field validation error")
+    if (passValidation) {
+      this.failedValidationFieldMappingId = new Set()
+      this.confirmationService.confirm({
+        header: 'Submission Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        message: 'Do you want to save and submit this form instance?',
+        acceptLabel: 'Yes',
+        rejectLabel: 'No',
+        accept: () => {
+          this.submitFormInstance()
+        },
+        reject: () => {
         }
+      });
+
+    } else {
+      console.log("Input field validation error")
+    }
   }
 
   validateFormFieldInputs() {
@@ -366,6 +333,13 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
     });
 
+    if(!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null){
+      this.declarationValidationError = true
+      success = false
+    } else {
+      this.declarationValidationError = false
+    }
+
     return success;
   }
 
@@ -373,7 +347,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
         this.clearDialog()
-        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Submitted Successfully' });          
+        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Submitted Successfully' });
         this.ngOnInit()
       },
       error => {
@@ -395,7 +369,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         this.formService.archiveFormInstance(formInstanceToArchive).subscribe(
           response => {
             this.clearDialog()
-            this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });          
+            this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });
             this.ngOnInit()
           },
           error => {
@@ -416,7 +390,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
       response => {
         this.clearDialog()
-        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });          
+        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });
         this.ngOnInit()
       },
       error => {
@@ -440,6 +414,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.failedValidationFieldMappingId = new Set()
     this.selected = true
     this.selectedFieldValues = {}
+    this.acceptDeclaration = false
+    this.declarationValidationError = false
     this.formInstanceToView()
   }
 
