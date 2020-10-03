@@ -184,6 +184,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
           for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
             console.log("CHECKKKK CHECKKKKK available")
             console.log(inputValue)
+            console.log(inputValue.formFieldOptionValue)
 
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue))
           }
@@ -199,6 +200,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
           for (let inputValue of this.selectedFieldValues[field.formInstanceFieldId]) {
             console.log("selected value: " + inputValue.formFieldOptionValue)
+            console.log(inputValue)
             field.formInstanceFieldValues.push(new FormInstanceFieldValue(undefined, inputValue.formFieldOptionValue))
           }
 

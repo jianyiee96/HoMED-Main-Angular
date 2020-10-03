@@ -1,23 +1,25 @@
 <!doctype html>
 <html>
-    <head>
-        <title>General E-Forms</title>
-    </head>
-    <body>
-<div class="ui-g">
-    <div class="ui-g-12 ui-lg-7">
-        <div class="card">
-            <div class="p-grid ui-g">
-                <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
-                    My Form Instances
-                </div>
-                <div class="ui-g-6 ui-md-6">
-                    <button *ngIf="!archiveMode" class="p-button-outlined" pButton icon="ui-icon-archive" label="View Archived"
-                        (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%; background-color: white;
+
+<head>
+    <title>General E-Forms</title>
+</head>
+
+<body>
+    <div class="ui-g">
+        <div class="ui-g-12 ui-lg-7">
+            <div class="card">
+                <div class="p-grid ui-g">
+                    <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
+                        My Form Instances
+                    </div>
+                    <div class="ui-g-6 ui-md-6">
+                        <button *ngIf="!archiveMode" class="p-button-outlined" pButton icon="ui-icon-archive"
+                            label="View Archived" (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%; background-color: white;
                         color: #406E7E;"></button>
 
-                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="View Archived"
-                        (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
+                        <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="View Archived"
+                            (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
 
 
                         <button pButton icon="ui-icon-add" label="New Form Instance" routerLink="/form-repo-screen"
@@ -153,35 +155,17 @@
                                             *</div>
                                     </h4>
                                     <div class="ui-g">
-                                        <div
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' ">
+                                        
                                             <div class="ui-g-12 ui-md-12"
                                                 *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                                 <p-checkbox
-                                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
+                                                    readonly="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
                                                     [ngModelOptions]="{standalone: true}"
                                                     value="{{formFieldOption.formFieldOptionValue}}"
                                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                                     label="{{formFieldOption.formFieldOptionValue}}"></p-checkbox>
                                             </div>
-                                        </div>
-                                        <p-listbox
-                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        dataKey="formFieldOptionValue"
-                                        [options]="formInstanceField.formFieldMapping.formFieldOptions"
-                                        optionLabel="formFieldOptionValue"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                        multiple="multiple" readonly="true"></p-listbox>
-                                        <div
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-
-                                            <span class="form-status-badge answer-badge"
-                                                *ngFor="let answer of selectedFieldValues[formInstanceField.formInstanceFieldId]">
-                                                {{answer}}
-                                            </span>
-
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -201,8 +185,7 @@
 
                                     <p-listbox
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        dataKey="formFieldOptionValue"
+                                        [ngModelOptions]="{standalone: true}" dataKey="formFieldOptionValue"
                                         [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                         optionLabel="formFieldOptionValue"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
@@ -229,8 +212,7 @@
                                 </h4> -->
                                     <p-listbox
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        dataKey="formFieldOptionValue"
+                                        [ngModelOptions]="{standalone: true}" dataKey="formFieldOptionValue"
                                         [options]="formInstanceField.formFieldMapping.formFieldOptions"
                                         optionLabel="formFieldOptionValue"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
@@ -246,30 +228,18 @@
                                             *</div>
                                     </h4>
                                     <div class="ui-g">
-                                        <div
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' ">
+                                        
                                             <div class="ui-g-12 ui-md-12"
                                                 *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                                 <p-radioButton
-                                                    *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
+                                                    readonly="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
                                                     [ngModelOptions]="{standalone: true}"
+                                                    dataKey="formFieldOptionValue"
                                                     value="{{formFieldOption.formFieldOptionValue}}"
                                                     [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                                     label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
                                             </div>
-                                        </div>
-                                        <h4
-                                            *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-                                            {{selectedFieldValues[formInstanceField.formInstanceFieldId]}}
-                                        </h4>
-                                        <p-listbox
-                                        *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'"
-                                        [ngModelOptions]="{standalone: true}" 
-                                        dataKey="formFieldOptionValue"
-                                        [options]="formInstanceField.formFieldMapping.formFieldOptions"
-                                        optionLabel="formFieldOptionValue"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
-                                        readonly="true"></p-listbox>
+                                        
                                     </div>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
@@ -317,15 +287,12 @@
                         </ng-container>
 
                     </div>
-                    <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
+                    <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;"
+                        *ngIf="selectedFormInstance.formTemplateMapping.declaration">
                         <h4 style="font-weight: bold;">Declaration</h4>
                         <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
-                        <p-checkbox
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="acceptDeclaration"
-                            label="Accept"
-                            binary="true"
-                            style="float: right;"></p-checkbox>
+                        <p-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="acceptDeclaration" label="Accept"
+                            binary="true" style="float: right;"></p-checkbox>
                     </div>
 
                 </div>
@@ -333,31 +300,29 @@
                 <p-footer>
                     <div id="buttons" *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() !== 'SUBMITTED'">
 
-                            <button type="button" pButton pRipple icon="pi pi-save" label="Save"
-                                (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
+                        <button type="button" pButton pRipple icon="pi pi-save" label="Save"
+                            (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
 
-                            <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back"
-                                (click)="clearDialog()" style="margin: 3px"></button>
+                        <button type="button" pButton icon="ui-icon-keyboard-backspace" label="Back"
+                            (click)="clearDialog()" style="margin: 3px"></button>
 
-                            <button type="button" pButton icon="ui-icon-delete-forever" label="Delete"
-                                class="ui-button-danger" style="margin: 3px" (click)="confirmDelete()"></button>
-
-
-                            <button type="button" pButton icon="pi pi-check" type="submit" label="Submit"
-                                class="ui-button-success" style="margin: 3px"></button>
-
-                        </div>
-                        <div *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
-
-                            <button type="button" pButton icon="ui-icon-archive" label="Archive"
-                                class="ui-button-warning" (click)="confirmArchive()"></button>
-                        </div>
-                    </p-footer>
+                        <button type="button" pButton icon="ui-icon-delete-forever" label="Delete"
+                            class="ui-button-danger" style="margin: 3px" (click)="confirmDelete()"></button>
 
 
+                        <button type="button" pButton icon="pi pi-check" type="submit" label="Submit"
+                            class="ui-button-success" style="margin: 3px"></button>
+
+                    </div>
+                    <div *ngIf="selectedFormInstance.formInstanceStatusEnum.toString() === 'SUBMITTED'">
+
+                        <button type="button" pButton icon="ui-icon-archive" label="Archive" class="ui-button-warning"
+                            (click)="confirmArchive()"></button>
+                    </div>
+                </p-footer>
             </form>
-
         </div>
+
     </div>
 </body>
 
