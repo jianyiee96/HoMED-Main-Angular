@@ -18,6 +18,7 @@ export class FormRepoScreenComponent implements OnInit {
   
   
   formTemplates: FormTemplate[]
+  servicemanFormFields: FormField[]
   selectedTemplate: FormTemplate
   selected: boolean
   tempFormFields: FormField[]
@@ -46,7 +47,6 @@ export class FormRepoScreenComponent implements OnInit {
 				console.log(error.substring(32))
 			}
     );
-    
     
   }
 
@@ -81,7 +81,12 @@ export class FormRepoScreenComponent implements OnInit {
     this.selected = true
     this.selectedTemplate.datePublished= this.parseDate(this.selectedTemplate.datePublished).substring(0,10)
     this.selectedTemplate.formFields.sort((x, y) => (x.position - y.position))
-
+    this.servicemanFormFields = []
+    for (let formField of this.selectedTemplate.formFields) {
+      if (formField.isServicemanEditable || formField.inputType.toString() === 'HEADER') {
+        this.servicemanFormFields.push(formField)
+      }
+    }
   }
    
 

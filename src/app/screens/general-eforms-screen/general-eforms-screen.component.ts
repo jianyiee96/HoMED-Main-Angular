@@ -29,7 +29,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
-
+  
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
 
@@ -437,7 +437,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.failedValidationFieldMappingId = new Set()
     this.selected = true
     this.selectedFieldValues = {}
-
     this.formInstanceToView()
   }
 

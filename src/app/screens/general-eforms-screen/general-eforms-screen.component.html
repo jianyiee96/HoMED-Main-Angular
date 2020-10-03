@@ -99,17 +99,17 @@
 
                         <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
-                        <div *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
+                        <ng-container *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
 
                             <p-message
                                 *ngIf="failedValidationFieldMappingId.has(formInstanceField.formFieldMapping.formFieldId)"
                                 severity="error" text="Field is required"></p-message>
 
-                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
+                            <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
                                 <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                             </div>
                             <div class="card" style="padding-top: 1px"
-                                *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+                                *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
                                 <p-message class="doctorOnlyMsg"
                                     *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="info"
                                     text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
@@ -314,7 +314,7 @@
 
                             </div>
 
-                        </div>
+                        </ng-container>
 
                     </div>
                     <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">

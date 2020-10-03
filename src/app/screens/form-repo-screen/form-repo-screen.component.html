@@ -49,9 +49,10 @@
                         </div>
                     </div>
                     
-                    <p-message severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
 
-                    <div *ngFor="let formField of selectedTemplate.formFields" >
+                        <p-message severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
+                    
+                    <div *ngFor="let formField of this.servicemanFormFields" >
                         <div *ngIf="formField.inputType === 'HEADER'">
                             
                             <h4 class="headerInput" >{{formField.question}}</h4>
@@ -120,9 +121,6 @@
                         </div>
                     <br/>
                 </div>
-
-
-                
 
                 </div>
                 <div class="ui-g-6 ui-lg-6">
