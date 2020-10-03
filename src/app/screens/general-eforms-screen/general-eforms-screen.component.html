@@ -63,14 +63,14 @@
                             *ngIf="(formInstance.formInstanceStatusEnum !== 'ARCHIVED' && !archiveMode) || (formInstance.formInstanceStatusEnum === 'ARCHIVED' && archiveMode)">
                             <!-- <td>{{formInstance.formInstanceId}}</td> -->
                             <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
-                            <td>{{ formInstance.dateCreated | date:'medium' }}</td>
+                            <td>{{ formInstance.dateCreated | date:'dd/MM/yyyy HH:mm' }}</td>
                             <td><span
                                     class="form-status-badge form-instance-status-badge">{{formInstance.formInstanceStatusEnum}}</span>
                             </td>
                             <!-- <td>{{formInstance.formInstanceId}}</td> -->
 
                             <td *ngIf="formInstance.dateSubmitted !== undefined">
-                                {{ formInstance.dateSubmitted | date:'medium'}}</td>
+                                {{ formInstance.dateSubmitted | date:'dd/MM/yyyy HH:mm' }}</td>
                             <td *ngIf="formInstance.dateSubmitted === undefined">N.A</td>
                             <td>
                                 <button pButton pRipple type="button" icon="ui-icon-archive" title="Archive"
@@ -124,7 +124,7 @@
                                     </h4>
                                     <input
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
-                                        type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Text"
+                                        type="text" pInputText [ngModelOptions]="{standalone: true}" placeholder="Insert Text"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                         [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable" />
                                     <h4 *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT'">
@@ -140,6 +140,7 @@
                                     <input
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                         type="number" pInputText [ngModelOptions]="{standalone: true}"
+                                        placeholder="Insert Number"
                                         [readonly]="!formInstanceField.formFieldMapping.isServicemanEditable"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]" />
                                     <h4
@@ -250,7 +251,7 @@
                                     </h4>
                                     <p-calendar
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
-                                        [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Date"
+                                        [ngModelOptions]="{standalone: true}" [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)"
                                         [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
                                     </p-calendar>
                                     <h4
@@ -267,7 +268,8 @@
                                     <p-calendar
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                         [ngModelOptions]="{standalone: true}" showTime="true" timeOnly="true"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                        placeholder="Insert Time (HH:MM)">
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">

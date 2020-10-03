@@ -42,6 +42,10 @@ export class FormRepoScreenComponent implements OnInit {
       response => {
         this.formTemplates = response.formTemplates
         this.selected = false
+        for (let template of this.formTemplates) {
+          template.dateCreated = this.convertUTCStringToSingaporeDate(template.dateCreated)
+          template.datePublished = this.convertUTCStringToSingaporeDate(template.datePublished)
+        }
       },
       error => {
 				console.log(error.substring(32))
@@ -89,6 +93,19 @@ export class FormRepoScreenComponent implements OnInit {
     }
   }
    
+  convertUTCStringToSingaporeDate(dateCreated) {
+
+    if (dateCreated != null) {
+      let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
+      return new Date(Date.UTC(
+        parseInt(stringUtcTime.substring(0, 4)),
+        parseInt("" + (+stringUtcTime.substring(5, 7)-1)),
+        parseInt(stringUtcTime.substring(8, 10)),
+        parseInt(stringUtcTime.substring(11, 13)),
+        parseInt(stringUtcTime.substring(14, 16)),
+        parseInt(stringUtcTime.substring(17, 19))));
+    }
+  }
 
   onRowUnselect(event) {
     this.selected = false
