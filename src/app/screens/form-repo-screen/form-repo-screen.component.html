@@ -47,7 +47,6 @@
                         <div class="ui-g-4 ui-md-4">
                             <button icon="ui-icon-add" pButton label="Create Instance" style="float:right; margin-left: 5px; top: 15%;" (click)="confirmCreate()" ></button>
                         </div>
-                        
                     </div>
                     
                     <p-message  style="margin: 0" severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
@@ -57,7 +56,7 @@
                             
                             <h4 class="headerInput" >{{formField.question}}</h4>
                         </div>
-                        <div class="card" style="padding-top: 1px" *ngIf="formField.inputType != 'HEADER'">
+                        <div class="card" style="padding-top: 1px" *ngIf="formField.inputType !== 'HEADER'">
                             <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
                                                 text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">

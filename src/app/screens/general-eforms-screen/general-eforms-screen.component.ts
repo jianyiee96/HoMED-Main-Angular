@@ -59,6 +59,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
       response => {
         this.formInstances = response.formInstances
         for (let formInstance of this.formInstances) {
+          console.log(formInstance.formInstanceStatusEnum)
+          console.log(formInstance.formInstanceStatusEnum.toString())
+          console.log(typeof formInstance.formInstanceStatusEnum)
+          console.log(typeof formInstance.formInstanceStatusEnum.toString())
           if (formInstance.formInstanceStatusEnum.toString() === 'ARCHIVED') {
             this.containArchiveForms = true
           }
