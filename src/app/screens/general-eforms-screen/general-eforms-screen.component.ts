@@ -306,9 +306,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
         let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
           this.failedValidationFieldMappingId = new Set()
-          if (!this.acceptDeclaration) {
+          if (!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null) {
             this.msgForDialog = []
             this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please accept the declaration' })
+            window.scrollTo(0, 0)
           }
           else {
             this.submitFormInstance()

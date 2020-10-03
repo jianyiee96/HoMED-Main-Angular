@@ -12,10 +12,11 @@
                     My Form Instances
                 </div>
                 <div class="ui-g-6 ui-md-6">
-                    <button *ngIf="!archiveMode" pButton icon="ui-icon-archive" label="View Archived"
-                        (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
+                    <button *ngIf="!archiveMode" class="p-button-outlined" pButton icon="ui-icon-archive" label="View Archived"
+                        (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%; background-color: white;
+                        color: #406E7E;"></button>
 
-                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="UnView Archived"
+                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="View Archived"
                         (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
 
 
@@ -269,8 +270,9 @@
                         </div>
 
                     </div>
-                    <div class="card" style="padding: 25px;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
-                        <textarea [rows]="2" [cols]="30" pInputTextarea>{{selectedFormInstance.formTemplateMapping.declaration}}</textarea>
+                    <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
+                        <h4 style="font-weight: bold;">Declaration</h4>
+                        <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
                         <p-checkbox
                             [ngModelOptions]="{standalone: true}"
                             [(ngModel)]="acceptDeclaration"
