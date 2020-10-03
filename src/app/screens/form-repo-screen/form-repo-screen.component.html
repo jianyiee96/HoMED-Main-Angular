@@ -93,7 +93,7 @@
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
                                 <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
                                 <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
-                                <p-listbox [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-listbox>
+                                <p-listbox [options]="formField.formFieldOptions" multiple="multiple" optionLabel="formFieldOptionValue"></p-listbox>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
                                 <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
