@@ -261,7 +261,6 @@ export class GeneralEFormsScreenComponent implements OnInit {
     this.failedValidationFieldMappingId = new Set()
     this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
       response => {
-        this.msgForDialog = []
       },
       error => {
         this.msgForDialog = []
@@ -289,7 +288,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submit(viewFormInstanceDetailsForm: NgForm) {
-
+    this.msgForDialog = []
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -301,7 +300,13 @@ export class GeneralEFormsScreenComponent implements OnInit {
         let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
           this.failedValidationFieldMappingId = new Set()
-          this.submitFormInstance()
+          if (!this.acceptDeclaration) {
+            this.msgForDialog = []
+            this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please accept the declaration' })
+          }
+          else {
+            this.submitFormInstance()
+          }       
         } else {
           console.log("Input field validation error")
         }
