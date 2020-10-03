@@ -13,15 +13,17 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Form Template Name</th>
-                                <th>Privacy</th>
+                                <th>Form Template Privacy</th>
                                 <th>Date Published</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-formTemplate>
                             <tr [pSelectableRow]="formTemplate">
                                 <td>{{formTemplate.formTemplateName}}</td>
-                                <td *ngIf="formTemplate.isPublic" >Public</td>
-                                <td *ngIf="!formTemplate.isPublic" >Private</td>
+                                <td *ngIf="formTemplate.isPublic" > <span
+                                    class="form-status-badge form-instance-status-badge">Public</span></td>
+                                <td *ngIf="!formTemplate.isPublic" ><span
+                                    class="form-status-badge form-instance-status-badge">Private</span></td>
                                 <td *ngIf="formTemplate.datePublished === undefined">N.A</td>
                                 <td *ngIf="formTemplate.datePublished !== undefined">{{ formTemplate.datePublished | date:'dd/MM/yyyy'}}</td>
                             </tr>
