@@ -51,13 +51,13 @@
                     
                     <p-message  style="margin: 0" severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
 
-                    <div *ngFor="let formField of selectedTemplate.formFields">
+                    <div *ngFor="let formField of selectedTemplate.formFields" >
                         <div *ngIf="formField.inputType === 'HEADER'">
                             
                             <h4 class="headerInput" >{{formField.question}}</h4>
                         </div>
-                        <div class="card" style="padding-top: 1px" *ngIf="formField.inputType !== 'HEADER'">
-                            <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="warn" 
+                        <div class="card" style="padding-top: 1px" *ngIf="formField.inputType != 'HEADER'">
+                            <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="info" 
                                                 text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">
                                 
@@ -116,7 +116,16 @@
                         </div>
                     <br/>
                 </div>
-                    <button type="button" pButton label="Create Instance" (click)="confirmCreate()"></button>
+
+                <div class="card" *ngIf="selectedTemplate.declaration">
+                    <p-message class="inputTypeMsg" severity="info" text="Declaration"></p-message> 
+                    <textarea [rows]="2" [cols]="30" pInputTextarea>{{selectedTemplate.declaration}}</textarea>
+                </div>
+                
+
+                </div>
+                <div class="ui-g-6 ui-lg-6">
+                    <button type="button" icon="ui-icon-add" pButton label="Create Instance" (click)="confirmCreate()"></button>
                 </div>
             </div>
         </div>

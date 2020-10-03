@@ -1,3 +1,9 @@
+<!doctype html>
+<html>
+    <head>
+        <title>General E-Forms</title>
+    </head>
+    <body>
 <div class="ui-g">
     <div class="ui-g-12 ui-lg-7">
         <div class="card">
@@ -9,7 +15,7 @@
                     <button *ngIf="!archiveMode" pButton icon="ui-icon-archive" label="View Archived"
                         (click)="viewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
 
-                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="unview Archived"
+                    <button *ngIf="archiveMode" class="" pButton icon="ui-icon-archive" label="UnView Archived"
                         (click)="unviewArchive()" style="float:right; margin-left: 5px; top: 15%;"></button>
 
 
@@ -76,7 +82,7 @@
 
 
         </div>
-        <p-toast key="tst" position="bottom-center"></p-toast>
+        <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
     </div>
     <div class="ui-g-12 ui-lg-5" *ngIf="selected">
         <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
@@ -95,11 +101,10 @@
                         <div *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER'">
                             <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
                         </div>
-                        <div class="card" style="padding-top: 1px"
-                            *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
-                            <p-message class="doctorOnlyMsg"
-                                *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="warn"
-                                text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
+                        <div class="card" style="padding-top: 1px" *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER'">
+                            <p-message class="doctorOnlyMsg" 
+                                    *ngIf="!formInstanceField.formFieldMapping.isServicemanEditable" severity="info"
+                                    text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                             <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
 
                                 <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}}
@@ -259,9 +264,19 @@
                                 <h4 class="ui-g">{{formInstanceField.formFieldMapping.question}} </h4>
                                 <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
                             </div>
+                            
+                            
                         </div>
 
-
+                    </div>
+                    <div class="card" style="padding: 25px;" *ngIf="selectedFormInstance.formTemplateMapping.declaration">
+                        <textarea [rows]="2" [cols]="30" pInputTextarea>{{selectedFormInstance.formTemplateMapping.declaration}}</textarea>
+                        <p-checkbox
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="acceptDeclaration"
+                            label="Accept"
+                            binary="true"
+                            style="float: right;"></p-checkbox>
                     </div>
 
                 </div>
@@ -295,3 +310,5 @@
 
     </div>
 </div>
+    </body>
+</html>

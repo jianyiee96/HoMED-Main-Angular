@@ -41,6 +41,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   containDraftForms: boolean
   containArchiveForms: boolean
 
+  acceptDeclaration: boolean
+
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
     private service: MessageService, private confirmationService: ConfirmationService
   ) {
@@ -81,6 +83,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
     );
 
   }
+
+  
 
   // Process FormInstanceFields into String[]
   formInstanceToView() {
@@ -248,6 +252,21 @@ export class GeneralEFormsScreenComponent implements OnInit {
       response => {
         this.msgForDialog = []
         this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Field Values Updated!' })
+        window.scrollTo(0, 0)
+      },
+      error => {
+        this.msgForDialog = []
+        this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+      }
+    );
+
+  }
+
+  updateFormInstanceBySubmit() {
+    this.formInstanceToData()
+    this.failedValidationFieldMappingId = new Set()
+    this.formService.updateFormInstanceFieldValues(this.selectedFormInstance).subscribe(
+      response => {
       },
       error => {
         this.msgForDialog = []
@@ -276,6 +295,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   submit(viewFormInstanceDetailsForm: NgForm) {
     this.formInstanceToData()
+    this.msgForDialog = []
     this.confirmationService.confirm({
       header: 'Submission Confirmation',
       icon: 'pi pi-exclamation-triangle',
@@ -286,12 +306,16 @@ export class GeneralEFormsScreenComponent implements OnInit {
         let passValidation = this.validateFormFieldInputs()
         if (passValidation) {
           this.failedValidationFieldMappingId = new Set()
-          this.submitFormInstance()
+          if (!this.acceptDeclaration) {
+            this.msgForDialog = []
+            this.msgForDialog.push({ severity: 'error', summary: '', detail: 'Please accept the declaration' })
+          }
+          else {
+            this.submitFormInstance()
+          }       
         } else {
           console.log("Input field validation error")
         }
-
-
       },
       reject: () => {
       }
@@ -333,18 +357,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
   submitFormInstance() {
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        (async () => {
-
-          this.msgForDialog = []
-          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Submitted!' })
-
-          await this.delay(1200)
-
-          this.msgForDialog = []
-          this.selected = false;
-          this.ngOnInit()
-
-        })()
+        this.clearDialog()
+        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Submitted Successfully' });          
+        this.ngOnInit()
       },
       error => {
         this.msgForDialog = []
@@ -364,18 +379,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
       accept: () => {
         this.formService.archiveFormInstance(formInstanceToArchive).subscribe(
           response => {
-            (async () => {
-
-              this.msgForDialog = []
-              this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Archived!' })
-
-              await this.delay(1200)
-
-              this.msgForDialog = []
-              this.selected = false;
-              this.ngOnInit()
-
-            })()
+            this.clearDialog()
+            this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });          
+            this.ngOnInit()
           },
           error => {
             this.msgForDialog = []
@@ -394,18 +400,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
     this.formService.archiveFormInstance(this.selectedFormInstance).subscribe(
       response => {
-        (async () => {
-
-          this.msgForDialog = []
-          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Form Instance Sucessfully Archived!' })
-
-          await this.delay(1200)
-
-          this.msgForDialog = []
-          this.selected = false;
-          this.ngOnInit()
-
-        })()
+        this.clearDialog()
+        this.service.add({ key: 'tst', severity: 'success', summary: '', detail: 'Form Instance Archived Successfully' });          
+        this.ngOnInit()
       },
       error => {
         this.msgForDialog = []
