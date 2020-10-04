@@ -294,7 +294,7 @@
                         <p-message *ngIf="declarationValidationError" severity="error" text="Declaration is required">
                         </p-message>
                         <div class="card" style="padding: 25px;padding-top: 1px;word-wrap: break-word;"
-                            *ngIf="selectedFormInstance.formTemplateMapping.declaration && selectedFormInstance.formInstanceStatusEnum === 'DRAFT'">
+                            *ngIf="selectedFormInstance.formTemplateMapping.declaration && selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT'">
                             <h4 style="font-weight: bold;">Declaration</h4>
                             <p>{{selectedFormInstance.formTemplateMapping.declaration}}</p>
 
