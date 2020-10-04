@@ -67,7 +67,7 @@ export class AccountScreenComponent implements OnInit {
     this.serviceman = this.sessionService.getCurrentServiceman()
     this.name = this.serviceman.name
     this.phoneNumber = this.serviceman.phoneNumber
-    this.rod = this.parseDate(this.serviceman.rod).substring(0,10)
+    this.rod = this.convertUTCStringToSingaporeDate(this.serviceman.rod)
     this.email = this.serviceman.email
     this.streetName = this.serviceman.address.streetName
     this.unitNumber = this.serviceman.address.unitNumber
@@ -195,9 +195,18 @@ export class AccountScreenComponent implements OnInit {
 
   }
 
+  convertUTCStringToSingaporeDate(dateCreated) {
 
-  parseDate(date: any) {
-    return date.toString().replace('[UTC]', '');
+    if (dateCreated != null) {
+      let stringUtcTime = dateCreated.toLocaleString().substring(0, 19)
+      return new Date(Date.UTC(
+        parseInt(stringUtcTime.substring(0, 4)),
+        parseInt("" + (+stringUtcTime.substring(5, 7)-1)),
+        parseInt(stringUtcTime.substring(8, 10)),
+        parseInt(stringUtcTime.substring(11, 13)),
+        parseInt(stringUtcTime.substring(14, 16)),
+        parseInt(stringUtcTime.substring(17, 19))));
+    }
   }
 
   clearDialog(){
