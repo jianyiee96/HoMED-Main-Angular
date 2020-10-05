@@ -178,43 +178,45 @@
 
 
         <form #changePasswordForm="ngForm" (ngSubmit)="change(changePasswordForm)">
-            <div class="ui-g form-group p-fluid">
+            <div class="p-grid p-fluid">
                 <p-dialog header="Change Password" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
                     [draggable]="false" [closable]="false" [resizable]="false">
 
                     <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
 
                     <div class=p-col-12>
-                        <span class="md-inputfield md-inputfield-box">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-key"></i>
                             <input type="text" id="password" name="password" [(ngModel)]="password" type="password"
-                                pInputText>
-                            <label>Enter Current Password</label>
+                                pInputText placeholder="Enter Current Password">
                         </span>
                     </div>
 
                     <div class=p-col-12>
-                        <span class="md-inputfield md-inputfield-box">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-key"></i>
                             <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword"
-                                type="password" pInputText>
-                            <label>Enter New Password</label>
+                                type="password" pInputText placeholder="Enter New Password">
                         </span>
                     </div>
 
                     <div class=p-col-12>
-                        <span class="md-inputfield md-inputfield-box">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-key"></i>
                             <input type="text" name="confirmNewPassword" [(ngModel)]="confirmNewPassword"
-                                type="password" pInputText>
-                            <label>Re-Enter New Password</label>
+                                type="password" pInputText placeholder="Re-Enter New Password">
                         </span>
                     </div>
 
-                    <div class="ui-g-6" style="text-align: center;">
-                        <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit"
-                            label="Change Password"></button>
-                    </div>
-                    <div class="ui-g-6" style="text-align: center;">
-                        <button id="cancelDialogButton" type="button" pButton icon="pi pi-times" label="Cancel"
-                            (click)="clearDialog()"></button>
+                    <div class="p-grid p-col-12">
+                        <div class="p-md-6">
+                            <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit"
+                                label="Submit" class="p-mr-6"></button>
+                        </div>
+                        <div class="p-md-6">
+                            <button id="cancelDialogButton" type="button" pButton icon="pi pi-times" label="Cancel"
+                                (click)="clearDialog()" class="p-mr-4"></button>
+                        </div>
                     </div>
                 </p-dialog>
             </div>
