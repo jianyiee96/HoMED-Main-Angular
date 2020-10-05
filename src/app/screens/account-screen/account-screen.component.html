@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <div class="ui-fluid">
+    <div class=p-fluid>
         <div class="p-grid p-justify-center">
             <div class="ui-g-12 ui-lg-6">
                 <div class="card">
@@ -171,13 +171,13 @@
 
 
         <form #changePasswordForm="ngForm" (ngSubmit)="change(changePasswordForm)">
-            <div class="ui-g form-group ui-fluid">
+            <div class="ui-g form-group p-fluid">
                 <p-dialog header="Change Password" [(visible)]="displayModal" [modal]="true" [style]="{width: '400px'}"
                     [draggable]="false" [closable]="false" [resizable]="false">
 
                     <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
 
-                    <div class="ui-g-12">
+                    <div class=p-col-12>
                         <span class="md-inputfield md-inputfield-box">
                             <input type="text" id="password" name="password" [(ngModel)]="password" type="password"
                                 pInputText>
@@ -185,7 +185,7 @@
                         </span>
                     </div>
 
-                    <div class="ui-g-12">
+                    <div class=p-col-12>
                         <span class="md-inputfield md-inputfield-box">
                             <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword"
                                 type="password" pInputText>
@@ -193,7 +193,7 @@
                         </span>
                     </div>
 
-                    <div class="ui-g-12">
+                    <div class=p-col-12>
                         <span class="md-inputfield md-inputfield-box">
                             <input type="text" name="confirmNewPassword" [(ngModel)]="confirmNewPassword"
                                 type="password" pInputText>

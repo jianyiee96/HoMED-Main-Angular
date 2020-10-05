@@ -2,7 +2,7 @@
      [ngClass]="{'layout-wrapper-static': layoutMode === 'static',
                 'layout-wrapper-active': mobileMenuActive,
                 'layout-menu-horizontal': layoutMode === 'horizontal',
-                'layout-rtl': isRTL}">
+                'layout-rtl': isRTL, 'p-ripple-disabled': !ripple, 'p-input-filled': inputStyle === 'filled'}">
 
     <app-menu></app-menu>
 
