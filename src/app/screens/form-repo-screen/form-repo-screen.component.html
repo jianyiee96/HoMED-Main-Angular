@@ -63,7 +63,7 @@
                         <div class="card"  *ngIf="formField.inputType != 'HEADER'">
 
                             <div *ngIf="formField.inputType === 'CHECK_BOX'">      
-                                <p-message class="inputTypeMsg" severity="info" text="Checkbox"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Checkbox"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                     <div class=p-grid>
                                         <div class="ui-g-12 p-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
@@ -74,12 +74,12 @@
                             </div>
 
                             <div *ngIf="formField.inputType === 'TEXT'">
-                                <p-message class="inputTypeMsg" severity="info" text="Text"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Text"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                     <input pInputText type="text"  placeholder="Insert Text" />
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
-                                <p-message class="inputTypeMsg" severity="info" text="Radio Button"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Radio Button"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <div class=p-grid>
                                     <div class="ui-g-12 p-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
@@ -89,28 +89,28 @@
                                 </div>
                             </div>
                             <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                                <p-message class="inputTypeMsg" severity="info" text="Single Dropdown"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Single Dropdown"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-listbox [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-listbox>
                             </div>
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
-                                <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-listbox [options]="formField.formFieldOptions" multiple="multiple" optionLabel="formFieldOptionValue"></p-listbox>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
-                                <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-calendar [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
-                                <p-message class="inputTypeMsg" severity="info" text="Time"></p-message>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Time"></p-message>
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Insert Time (HH:MM)" ></p-calendar>
                             </div>
                             
                             <div *ngIf="formField.inputType === 'NUMBER'">      
-                                <p-message class="inputTypeMsg" severity="info" text="Number"></p-message>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Number"></p-message>
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <input  pInputText type="number"  placeholder="Insert Number"/>                           
                             </div>

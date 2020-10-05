@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+.messageOveride .p-inline-message {
+    padding: 0.5rem 0.5rem;
+} 
+
+.radioDisabledOverride .p-disabled {
+    opacity: 1;
+}

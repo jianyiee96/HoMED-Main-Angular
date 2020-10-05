@@ -61,7 +61,7 @@
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-6">
                                             <h4><i class="pi pi-mobile" style="font-size: 1rem"></i> Phone
-                                                Number:
+                                                Number
                                             </h4>
                                             <div *ngIf="editFields">
                                                 <input name="phoneNumber" id="value" type="tel" minlength="8"
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6">
-                                            <h4><i class="pi pi-inbox" style="font-size: 1rem"></i> Email:</h4>
+                                            <h4><i class="pi pi-inbox" style="font-size: 1rem"></i> Email</h4>
 
                                             <h4>{{email}}</h4>
 
@@ -86,12 +86,13 @@
                                     </div>
 
                                 </div>
+                                <br/>
                                 <div class="p-col-12">
                                     <h2>Address Details</h2>
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-6">
                                             <h4><i class="pi pi-directions" style="font-size: 1rem"></i> Street
-                                                Name:</h4>
+                                                Name</h4>
                                             <div *ngIf="editFields">
                                                 <input name="streetName" id="value" type="text" minlength="6"
                                                     class="editable" pInputText [(ngModel)]="streetName"
@@ -105,7 +106,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6">
-                                            <h4><i class="pi pi-home" style="font-size: 1rem"></i> Unit Number:</h4>
+                                            <h4><i class="pi pi-home" style="font-size: 1rem"></i> Unit Number</h4>
                                             <div *ngIf="editFields">
                                                 <input name="unitNumber" id="value" type="text" class="editable"
                                                     pInputText [(ngModel)]="unitNumber" [disabled]="!editFields"
@@ -116,7 +117,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6">
-                                            <h4><i class="pi pi-map-marker" style="font-size: 1rem"></i> Building Name:
+                                            <h4><i class="pi pi-map-marker" style="font-size: 1rem"></i> Building Name
                                             </h4>
                                             <div *ngIf="editFields">
                                                 <input name="buildingName" id="value" type="text" class="editable"
@@ -131,7 +132,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6">
-                                            <h4><i class="pi pi-envelope" style="font-size: 1rem"></i> Postal Code:</h4>
+                                            <h4><i class="pi pi-envelope" style="font-size: 1rem"></i> Postal Code</h4>
                                             <div *ngIf="editFields">
                                                 <input name="postal" id="value" type="number" pattern="^\d{6}"
                                                     class="editable" pInputText [(ngModel)]="postal"

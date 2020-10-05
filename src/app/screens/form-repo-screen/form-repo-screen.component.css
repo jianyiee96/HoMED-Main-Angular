@@ -19,6 +19,10 @@
     float: right;
 }
 
+.messageOveride .p-inline-message {
+    padding: 0.5rem 0.5rem;
+} 
+
 .form-status-badge {
     border-radius: 2px;
     padding: .25em .5rem;

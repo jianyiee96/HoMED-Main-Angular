@@ -11,10 +11,10 @@
         <div class="p-col-12 p-lg-6">
             <div class="card">
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-6" style="font-size: 30px; font-weight: bold;">
+                    <div class="p-col-12 p-md-4" style="font-size: 30px; font-weight: bold;">
                         My Form Instances
                     </div>
-                    <div class="p-col-12 p-md-6">
+                    <div class="p-col-12 p-md-8">
                         <button *ngIf="!archiveMode" class="p-button-outlined" pButton icon="pi pi-save"
                             label="View Archived" (click)="viewArchive()" style="float:right; margin-left: 5px; background-color: white;
                         color: #406E7E;"></button>
@@ -68,7 +68,7 @@
                             <td *ngIf="formInstance.dateSubmitted === undefined">N.A</td>
 
                             <td style="margin-right: 10px;" >
-                                <button pButton pRipple type="button" icon="pi pi-save" title="Archive"
+                                <button pButton pRipple type="button" icon="pi pi-replay" title="Archive"
                                     [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
                                     (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
                                 </button>
@@ -228,11 +228,13 @@
                                         <div class="p-col-12 p-md-12"
                                             *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
                                             <p-radioButton
+                                                class="radioDisabledOverride"
                                                 [disabled]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
                                                 [ngModelOptions]="{standalone: true}" dataKey="formFieldOptionValue"
                                                 value="{{formFieldOption.formFieldOptionValue}}"
                                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                                 label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>
+                                                
                                         </div>
 
                                     </div>
