@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreadcrumbService } from '../../services/breadcrum.service';
-import { Message } from 'primeng/primeng';
+import { Message, ConfirmationService } from 'primeng/api';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormTemplate } from 'src/app/classes/formtemplate/formtemplate';
 import { SessionService } from 'src/app/services/session/session.service'
 import { FormField } from 'src/app/classes/formfield/formfield';
 
-import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-repo-screen',

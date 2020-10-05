@@ -13,18 +13,18 @@ import { AppMainComponent } from '../app-main/app-main.component';
     template: `
           <ng-container>
               <a [attr.href]="item.url" (click)="itemClick($event)" *ngIf="!item.routerLink || item.items" (mouseenter)="onMouseEnter()" (keydown.enter)="itemClick($event)"
-                [attr.target]="item.target" [attr.tabindex]="0" class="ripplelink">
-                    <i class="material-icons">{{item.icon}}</i>
+                [attr.target]="item.target" [attr.tabindex]="0"  pRipple>
+                    <i [ngClass]="item.icon"></i>
                     <span class="menuitem-text">{{item.label}}</span>
-                    <i class="material-icons layout-submenu-toggler" *ngIf="item.items">keyboard_arrow_down</i>
+                    <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
                     <span class="menuitem-badge" *ngIf="item.badge">{{item.badge}}</span>
               </a>
               <a (click)="itemClick($event)" (mouseenter)="onMouseEnter()" *ngIf="item.routerLink && !item.items"
-                  [routerLink]="item.routerLink" routerLinkActive="active-menuitem-routerlink" class="ripplelink"
+                  [routerLink]="item.routerLink" routerLinkActive="active-menuitem-routerlink" pRipple
                   [routerLinkActiveOptions]="{exact: true}" [attr.target]="item.target" [attr.tabindex]="0">
-                    <i class="material-icons">{{item.icon}}</i>
+                  <i [ngClass]="item.icon"></i>
                     <span class="menuitem-text">{{item.label}}</span>
-                    <i class="material-icons layout-submenu-toggler" *ngIf="item.items">keyboard_arrow_down</i>
+                    <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items">keyboard_arrow_down</i>
                     <span class="menuitem-badge" *ngIf="item.badge">{{item.badge}}</span>
               </a>
               <ul *ngIf="item.items && active" [@children]="(app.isHorizontal() && root) ? (active ? 'visible' : 'hidden') : (active ? 'visibleAnimated' : 'hiddenAnimated')">

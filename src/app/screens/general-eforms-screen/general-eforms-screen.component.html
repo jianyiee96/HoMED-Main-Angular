@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <div class="ui-g">
+    <div class=p-grid>
         <div class="ui-g-12 ui-lg-7">
             <div class="card">
                 <div class="p-grid ui-g">
@@ -97,7 +97,7 @@
             <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
                 <div class="card" style="text-align: left;">
                     <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
-                    <div id="content" class="ui-fluid">
+                    <div id="content" class=p-fluid>
 
                         <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
 
@@ -118,7 +118,7 @@
                                     text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
 
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -134,7 +134,7 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -152,12 +152,12 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
                                     </h4>
-                                    <div class="ui-g">
+                                    <div class=p-grid>
 
                                         <div class="ui-g-12 ui-md-12"
                                             *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
@@ -173,7 +173,7 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -197,7 +197,7 @@
 
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -225,12 +225,12 @@
 
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
-                                    <h4 style="display: inline-block;" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display: inline-block;" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
                                     </h4>
-                                    <div class="ui-g">
+                                    <div class=p-grid>
 
                                         <div class="ui-g-12 ui-md-12"
                                             *ngFor="let formFieldOption of formInstanceField.formFieldMapping.formFieldOptions">
@@ -245,7 +245,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                                    <h4 style="display: inline-block;" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display: inline-block;" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -262,7 +262,7 @@
                                     </h4>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -281,7 +281,7 @@
 
                                 <div
                                     *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
-                                    <h4 style="display:inline-block" class="ui-g">{{formInstanceField.formFieldMapping.question}} </h4>
+                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}} </h4>
                                     <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
                                 </div>
 

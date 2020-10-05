@@ -27762,7 +27762,7 @@ body .ui-selectbutton .ui-button:not(.ui-state-disabled):not(.ui-state-active):f
   outline: 0 none;
   background-color: #8f8f8f;
 }
-body .ui-fluid .ui-splitbutton .ui-button:first-child {
+body .p-fluid .ui-splitbutton .ui-button:first-child {
   width: calc(100% - 2em);
 }
 body .ui-chkbox {
@@ -28010,7 +28010,7 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-token .ui-autoco
 body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-dropdown.ui-button.ui-button-icon-only {
   bottom: 3px;
 }
-body .ui-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
+body .p-fluid .ui-autocomplete.ui-autocomplete-dd > .ui-inputtext {
   width: 100%;
 }
 body .ui-dropdown {
@@ -28288,11 +28288,11 @@ body .ui-spinner .ui-spinner-down .pi {
 body .ui-spinner .ui-spinner-input {
   padding-right: 30px;
 }
-body .ui-fluid .ui-spinner .ui-spinner-button {
+body .p-fluid .ui-spinner .ui-spinner-button {
   width: 1.786em;
   height: 0.714em;
 }
-body .ui-fluid .ui-spinner .ui-spinner-button .pi {
+body .p-fluid .ui-spinner .ui-spinner-button .pi {
   left: auto;
 }
 body .ui-inputswitch {
@@ -28415,7 +28415,7 @@ body .ui-calendar .ui-datepicker-trigger:enabled:focus {
 body .ui-calendar .ui-datepicker-trigger:enabled:hover {
   background-color: transparent;
 }
-body .ui-fluid .ui-calendar.ui-calendar-w-btn .ui-inputtext {
+body .p-fluid .ui-calendar.ui-calendar-w-btn .ui-inputtext {
   width: 100%;
 }
 body .ui-datepicker {
@@ -28867,12 +28867,12 @@ body .ui-inputgroup .md-inputfield label {
 body .ui-inputgroup .ui-chkbox, body .ui-inputgroup .ui-radiobutton {
   margin-bottom: 0.125em;
 }
-body .ui-fluid .ui-inputgroup .ui-button-icon-only {
+body .p-fluid .ui-inputgroup .ui-button-icon-only {
   width: 2.143em;
   height: 2.143em;
   padding: 0;
 }
-body .ui-fluid .ui-inputgroup .ui-button-icon-only .ui-button-icon-left {
+body .p-fluid .ui-inputgroup .ui-button-icon-only .ui-button-icon-left {
   margin-left: -0.45em;
 }
 body .ui-fileupload .ui-fileupload-buttonbar {
@@ -28948,7 +28948,7 @@ body p-selectbutton.ng-dirty.ng-invalid .ui-button,
 body p-togglebutton.ng-dirty.ng-invalid .ui-button {
   background-image: linear-gradient(to bottom, #e62a10, #e62a10), linear-gradient(to bottom, #e62a10, #e62a10);
 }
-body .ui-fluid .ui-colorpicker-preview {
+body .p-fluid .ui-colorpicker-preview {
   width: 2em;
 }
 

@@ -5,8 +5,7 @@ import { SessionService } from 'src/app/services/session/session.service';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 
-import { Message } from 'primeng/primeng';
-import { MessageService } from 'primeng/api';
+import {Message, MessageService} from 'primeng/api';
 
 import {BreadcrumbService} from '../../services/breadcrum.service';
 import { GenderEnum } from 'src/app/classes/gender-enum';

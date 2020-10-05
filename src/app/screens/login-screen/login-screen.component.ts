@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Message } from 'primeng/primeng';
-import {MessageService} from 'primeng/api';
+import {Message, MessageService} from 'primeng/api';
 
 import { ServicemanService } from 'src/app/services/serviceman/serviceman.service';
 import { SessionService } from 'src/app/services/session/session.service';
@@ -30,6 +29,8 @@ export class LoginScreenComponent implements OnInit {
   msgForForgetPasswordDialog: Message[] = []
   displayActivation: boolean
   displayResetPassDialog: boolean
+
+  EmailValidationError: boolean
   
 
   constructor(

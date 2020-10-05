@@ -4,10 +4,7 @@ import { NgForm } from '@angular/forms';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormInstance, FormInstanceField, FormInstanceFieldValue } from 'src/app/classes/forminstance/forminstance'
 
-import { Message } from 'primeng/primeng';
-import { MessageService } from 'primeng/api';
-import { ConfirmationService } from 'primeng/api';
-
+import {Message, MessageService, ConfirmationService} from 'primeng/api';
 
 import { BreadcrumbService } from '../../services/breadcrum.service';
 import { FormFieldOption } from 'src/app/classes/formfield/formfield';
