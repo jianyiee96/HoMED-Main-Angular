@@ -6,8 +6,9 @@
 </head>
 
 <body>
+
     <div class=p-grid>
-        <div class="ui-g-12 ui-lg-7">
+        <div class="ui-g-12 ui-lg-6">
             <div class="card">
                 <div class="p-grid ui-g">
                     <div class="ui-g-6 ui-md-6" style="font-size: 30px; font-weight: bold;">
@@ -93,7 +94,7 @@
             </div>
             <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
         </div>
-        <div class="ui-g-12 ui-lg-5" *ngIf="selected">
+        <div class="ui-g-12 ui-lg-6" *ngIf="selected">
             <form #viewFormInstanceDetailsForm="ngForm" (ngSubmit)="submit(viewFormInstanceDetailsForm)">
                 <div class="card" style="text-align: left;">
                     <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
