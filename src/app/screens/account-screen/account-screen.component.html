@@ -13,20 +13,25 @@
                     <div class="p-col-12" style="margin-bottom: 1rem">
                         <div class="card">
                             <h2>Personal Particulars</h2>
+                            
                             <div class="p-grid">
 
-                                <div class="p-col-12 p-md-4">
+                                <div class="p-col-12 p-md-6">
                                     <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Name</h4>
                                     <h4>{{name}}</h4>
 
                                 </div>
-                                <div class="p-col-12 p-md-4">
+                                <div class="p-col-12 p-md-6">
                                     <h4><i class="pi pi-check" style="font-size: 1rem"></i> ROD</h4>
                                     <h4>{{rod | date:'dd/MM/yyyy'}}</h4>
                                 </div>
-                                <div class="p-col-12 p-md-4">
+                                <div class="p-col-12 p-md-6">
                                     <h4><i class="pi pi-user" style="font-size: 1rem"></i> Gender</h4>
                                     <h4>{{gender.toString()}}</h4>
+                                </div>
+                                <div class="p-col-12 p-md-6">
+                                    <h4><i class="pi pi-user-edit" style="font-size: 1rem"></i> Role</h4>
+                                    <h4>{{serviceman.role.toString()}}</h4>
                                 </div>
 
                             </div>
