@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import {AppMainComponent} from '../app-main/app-main.component';
+import { Component, OnInit } from '@angular/core';
+import { AppMainComponent } from '../app-main/app-main.component';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './app-menu.component.html',
   styleUrls: ['./app-menu.component.css']
 })
-export class AppMenuComponent {
+export class AppMenuComponent implements OnInit {
 
     model: any[]
 
@@ -14,14 +14,14 @@ export class AppMenuComponent {
 
     ngOnInit() {
         this.model = [
-            {label: 'Home Page', icon: 'home', routerLink: ['/home-screen']},
-            {label: 'Account Information', icon: 'account_circle', routerLink: ['/account-screen']},
+            {label: 'Home Page', icon: 'pi pi-fw pi-home', routerLink: ['/home-screen']},
+            {label: 'Account Information', icon: 'pi pi-fw pi-id-card', routerLink: ['/account-screen']},
             {
-                label: 'eForm Management', icon: 'list',  routerLink: ['/information'], badgeStyleClass: 'orange-badge',
+                label: 'eForm Management', icon: 'pi pi-fw pi-folder',  routerLink: ['/information'],
                 items: [      
 
-                    {label: 'General eForms', icon: 'content_copy', routerLink: ['/general-eforms-screen']},
-                    {label: 'Medical Board eForms', icon: 'content_copy', routerLink: ['/medical-screen']}
+                    {label: 'General eForms', icon: 'pi pi-fw pi-file', routerLink: ['/general-eforms-screen']},
+                    {label: 'Medical Board eForms', icon: 'pi pi-fw pi-file', routerLink: ['/medical-screen']}
                 ]
             },
             

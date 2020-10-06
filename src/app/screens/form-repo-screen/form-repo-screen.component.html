@@ -4,8 +4,8 @@
         <title>Form Repository</title>
     </head>
     <body>
-        <div class="ui-fluid">
-            <div class="ui-g-12 ui-lg-6">
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-lg-6">
                 <div class="card" style="text-align: left;">
                     <h1>Form Repository</h1>
                     <p-table #dt [value]="formTemplates" selectionMode="single" [(selection)]="selectedTemplate"
@@ -31,93 +31,92 @@
                     </p-table>
                     <p-toast key="tst" position="center"></p-toast>
                 </div>
-                <div class="ui-fluid">
-                    <div class="ui-g-3 ui-lg-3">
-                        <button pButton icon="ui-icon-keyboard-backspace" label="Back" routerLink="/general-eforms-screen"></button>
+                <div class=p-fluid>
+                    <div class="p-lg-3">
+                        <button pButton icon="pi pi-arrow-left" label="Back" routerLink="/general-eforms-screen"></button>
                     </div>
                 </div>
                 
                 
             </div>
             
-            <div class="ui-g-12 ui-lg-6" *ngIf="selected">
+            <div class="p-col-12 p-lg-6" *ngIf="selected">
                 <p-messages [closable]="false" [value]="msgForDialog"></p-messages>
                 <div class="card" style="text-align: left;">
-                    <div class="p-grid ui-g">
-                        <div class="ui-g-8 ui-md-8" style="text-align: left; font-weight: 500; font-size: xx-large;">
+                    <div class="p-grid">
+                        <div class="p-md-8" style="text-align: left; font-weight: 500; font-size: xx-large;">
                             {{selectedTemplate.formTemplateName}}
                         </div>
-                        <div class="ui-g-4 ui-md-4">
-                            <button icon="ui-icon-add" pButton label="Create Instance" style="float:right; margin-left: 5px; top: 15%;" (click)="confirmCreate()" ></button>
+                        <div class="p-md-4">
+                            <button icon="pi pi-plus" pButton label="Create Instance" style="float:right;" (click)="confirmCreate()" ></button>
                         </div>
                     </div>
                     
 
-                        <p-message severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
+                    <p-message severity="error" text="Preview Mode! Create Form Instance to fill up form!"></p-message>
                     
                     <div *ngFor="let formField of this.servicemanFormFields" >
                         <div *ngIf="formField.inputType === 'HEADER'">
                             
                             <h4 class="headerInput" >{{formField.question}}</h4>
                         </div>
-                        <div class="card" style="padding-top: 1px" *ngIf="formField.inputType != 'HEADER'">
-                            <p-message class="doctorOnlyMsg" *ngIf="!formField.isServicemanEditable" severity="info" 
-                                                text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
-                            <div *ngIf="formField.inputType === 'CHECK_BOX'">
-                                
-                                <p-message class="inputTypeMsg" severity="info" text="Checkbox"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
-                                    <div class="ui-g">
-                                        <div class="ui-g-12 ui-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
+                        <div class="card"  *ngIf="formField.inputType != 'HEADER'">
+
+                            <div *ngIf="formField.inputType === 'CHECK_BOX'">      
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Checkbox"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                    <div class=p-grid>
+                                        <div class="ui-g-12 p-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
                                             <p-checkbox name="cg" value="{{formFieldOption.formFieldOptionValue}}"
                                                 label="{{formFieldOption.formFieldOptionValue}}" ></p-checkbox>
                                         </div>
                                     </div>
                             </div>
+
                             <div *ngIf="formField.inputType === 'TEXT'">
-                                <p-message class="inputTypeMsg" severity="info" text="Text"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Text"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                     <input pInputText type="text"  placeholder="Insert Text" />
                             </div>
                             <div *ngIf="formField.inputType === 'RADIO_BUTTON'">
-                                <p-message class="inputTypeMsg" severity="info" text="Radio Button"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
-                                <div class="ui-g">
-                                    <div class="ui-g-12 ui-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Radio Button"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <div class=p-grid>
+                                    <div class="ui-g-12 p-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
                                         <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
                                             label="{{formFieldOption.formFieldOptionValue}}" ></p-radioButton>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="formField.inputType === 'SINGLE_DROPDOWN'">
-                                <p-message class="inputTypeMsg" severity="info" text="Single Dropdown"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Single Dropdown"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-listbox [options]="formField.formFieldOptions" optionLabel="formFieldOptionValue"></p-listbox>
                             </div>
                             <div *ngIf="formField.inputType === 'MULTI_DROPDOWN'">
-                                <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-listbox [options]="formField.formFieldOptions" multiple="multiple" optionLabel="formFieldOptionValue"></p-listbox>
                             </div>
                             <div *ngIf="formField.inputType === 'DATE'">
-                                <p-message class="inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-calendar [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)" ></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
-                                <p-message class="inputTypeMsg" severity="info" text="Time"></p-message>
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Time"></p-message>
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-calendar showTime="true" [timeOnly]="true" placeholder="Insert Time (HH:MM)" ></p-calendar>
                             </div>
                             
                             <div *ngIf="formField.inputType === 'NUMBER'">      
-                                <p-message class="inputTypeMsg" severity="info" text="Number"></p-message>
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <p-message class="messageOveride inputTypeMsg" severity="info" text="Number"></p-message>
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <input  pInputText type="number"  placeholder="Insert Number"/>                           
                             </div>
 
                             <div *ngIf="formField.inputType === 'FILE_UPLOAD' || formField.inputType === 'IMAGE_UPLOAD'">
-                                <h4 class="ui-g">{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
+                                <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple" ></p-fileUpload>
                             </div>
                             
@@ -126,8 +125,8 @@
                 </div>
 
                 </div>
-                <div class="ui-g-6 ui-lg-6">
-                    <button type="button" icon="ui-icon-add" pButton label="Create Instance" (click)="confirmCreate()"></button>
+                <div class="p-lg-6">
+                    <button type="button" icon="pi pi-plus" pButton label="Create Instance" (click)="confirmCreate()"></button>
                 </div>
             </div>
         </div>

@@ -5,42 +5,42 @@
     </head>
     <body>
         <div class="login-body">
-            <div class="login-panel ui-fluid">
+            <div class="login-panel p-fluid">
                 <div class="login-panel-header">
                     <img style="width: 30%;height: auto;" src="./assets/layout/images/logo-HoMED-white.svg">
                 </div>
                 <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" name="loginForm">
                     <div class="login-panel-content">
 
-                        <div class="ui-g">
-                            <div class="ui-g-12">
+                        <div class=p-grid>
+                            <div class=p-col-12>
                                 <h1>HoMED Serviceman Application</h1>
 
                                 <p-messages [closable]="false" [value]="msgs"></p-messages>
 
                             </div>
 
-                            <div class="ui-g-12">
-                                <span class="md-inputfield">
+                            <div class=p-col-12>
+                                <span class="p-float-label">
                                     <input type="text" id="email" pInputText name="email" [(ngModel)]="email" minlength="9"
                                         maxlength="64" required>
                                     <label>Email</label>
                                 </span>
                             </div>
 
-                            <div class="ui-g-12">
-                                <span class="md-inputfield">
+                            <div class=p-col-12>
+                                <span class=p-float-label>
                                     <input type="text" name="password" [(ngModel)]="password" type="password" minlength="8"
                                         maxlength="64" required pInputText>
-                                    <label id="lblName">Password</label>
+                                    <label>Password/OTP</label>
                                 </span>
                             </div>
 
-                            <div class="ui-g-12">
+                            <div class=p-col-12>
                                 <button pButton type="button" [disabled]="loginForm.invalid" type="submit" label="Login"
-                                    icon="ui-icon-person"></button>
+                                    icon="pi pi-sign-in"></button>
                             </div>
-                            <div class="ui-g-12">
+                            <div class=p-col-12>
                                 Forget Password/OTP? <a href="javascript:void(0)" (click)="displayResetPassDialog=true">Click here</a> <br><br>
                             </div>
                         </div>
@@ -49,35 +49,36 @@
             </div>
 
             <form #activationForm="ngForm" (ngSubmit)="activate(activationForm)">
-                <div class="ui-g form-group ui-fluid">
+                <div class="p-grid p-fluid">
                     <p-dialog header="Account Activation" [(visible)]="displayActivation" [modal]="true" [style]="{width: '350px'}"
                         [draggable]="false" [closable]="false" [resizable]="false">
 
                         <p-messages [closable]="false" [value]="msgForActivationDialog"></p-messages>
 
-                        <div class="ui-g-12">
-                            <span class="md-inputfield md-inputfield-box">
+                        <div class=p-col-12>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-key"></i>
                                 <input type="text" id="newPassword" name="newPassword" [(ngModel)]="newPassword" type="password"
-                                    pInputText>
-                                <label>Enter New Password</label>
+                                    pInputText placeholder="Enter New Password">
                             </span>
                         </div>
 
-                        <div class="ui-g-12">
-                            <span class="md-inputfield md-inputfield-box">
-                                <input type="text" name="confirmNewPassword" [(ngModel)]="confirmNewPassword" type="password" pInputText>
-                                <label>Re-Enter New Password</label>
+                        <div class=p-col-12>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-key"></i>
+                                <input type="text" name="confirmNewPassword" [(ngModel)]="confirmNewPassword" 
+                                type="password" pInputText placeholder="Re-Enter New Password">
                             </span>
                         </div>
 
-                        <div class="ui-g-12">
-                            <div class="ui-g-6" style="text-align: center;">
+                        <div class="p-grid p-col-12">
+                            <div class="p-md-6">
                                 <button id="activationButton" type="button" pButton icon="pi pi-check" type="submit"
-                                    label="Activate"></button>
+                                    label="Activate" class="p-mr-4"></button>
                             </div>
-                            <div class="ui-g-6" style="text-align: center;">
+                            <div class="p-md-6">
                                 <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearDialog()"
-                                    label="Cancel"></button>
+                                    label="Cancel" class="p-mr-4"></button>
                             </div>
                         </div>
                     </p-dialog>
@@ -85,36 +86,37 @@
             </form>
 
             <form #forgetPasswordForm="ngForm" (ngSubmit)="reset(forgetPasswordForm)">
-                <div class="ui-g form-group ui-fluid">
+                <div class="p-grid p-fluid">
                     <p-dialog header="Request for OTP" [(visible)]="displayResetPassDialog" [modal]="true" [style]="{width: '350px'}"
                         [draggable]="false" [closable]="false" [resizable]="false">
 
                         <p-messages [closable]="false" [value]="msgForForgetPasswordDialog"></p-messages>
 
-                        <div class="ui-g-12">
-                            <span class="md-inputfield md-inputfield-box">
-                                <input type="text" name="emailResetPass" [(ngModel)]="emailResetPass" type="text" pInputText>
-                                <label>Enter your Email</label>
+                        <div class="p-col-12">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-inbox"></i>
+                                <input type="text" name="emailResetPass" [(ngModel)]="emailResetPass" type="text" pInputText placeholder="Email">
                             </span>
                         </div>
-                        <div class="ui-g-12">
-                            <span class="md-inputfield md-inputfield-box">
+                        <div class="p-col-12">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-mobile"></i>
                                 <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber"
-                                maxlength="8" type="text" pInputText>
-                                <label>Enter your Phone Number</label>
+                                maxlength="8" type="number" pInputText placeholder="Phone Number">
                             </span>
                         </div>
 
-                        <div class="ui-g-12">
-                            <div class="ui-g-6" style="text-align: center;">
-                                <button id="resetButton" type="button" pButton icon="ui-icon-send" type="submit"
-                                    label="Send OTP"></button>
-                            </div>
-                            <div class="ui-g-6" style="text-align: center;">
+                        <div class="p-grid p-col-12">
+                            <div class="p-md-6">
+                                <button id="resetButton" type="button" pButton icon="pi pi-check" type="submit"
+                                    label="Send OTP" class="p-mr-4"></button>
+                             </div>
+                            <div class="p-md-6">
                                 <button id="cancelButton" type="button" pButton icon="pi pi-times" (click)="clearResetDialog()"
-                                    label="Cancel"></button>
+                                    label="Cancel"  class="p-mr-4"></button>
                             </div>
                         </div>
+                        
                     </p-dialog>
                 </div>
             </form>
