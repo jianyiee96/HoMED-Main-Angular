@@ -5,10 +5,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
+import { SessionService } from '../session/session.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +18,25 @@ export class ServicemanService {
 
   baseUrl: string = "/api/Serviceman"
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private sessionService: SessionService) {}
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
+  
 
   login(email: string, password: string): Observable<any> {
     let loginReq = {
       "email": email,
       "password": password
     }
-
-    return this.httpClient.post<any>(this.baseUrl + "/login", loginReq, httpOptions).pipe(
+    
+    return this.httpClient.post<any>(this.baseUrl + "/login", loginReq, this.httpOptions).pipe(
       catchError(this.handleError)
     )
+    
+    
   }
   
   activateAccount(email: string, newPassword: string, confirmNewPassword: string): Observable<any> {
@@ -37,7 +45,7 @@ export class ServicemanService {
       "newPassword": newPassword,
       "confirmNewPassword" : confirmNewPassword
     }
-    return this.httpClient.post<any>(this.baseUrl + "/activateAccount", activateAccountReq, httpOptions).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/activateAccount", activateAccountReq, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
@@ -49,7 +57,9 @@ export class ServicemanService {
       "newPassword": newPassword,
       "confirmNewPassword" : confirmNewPassword
     }
-    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, httpOptions).pipe(
+    
+    
+    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, this.sessionService.securedHttpOptions).pipe(
       catchError(this.handleError)
     );
   }
@@ -60,7 +70,7 @@ export class ServicemanService {
       "phoneNumber": phoneNumber
     }
 
-    return this.httpClient.post<any>(this.baseUrl + "/resetPassword", resetPasswordReq, httpOptions).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/resetPassword", resetPasswordReq, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
@@ -71,7 +81,8 @@ export class ServicemanService {
       "serviceman": accountToUpdate
     }
 
-    return this.httpClient.post<any>(this.baseUrl + "/updateServiceman", updateAccountReq, httpOptions).pipe(
+
+    return this.httpClient.post<any>(this.baseUrl + "/updateServiceman", updateAccountReq, this.sessionService.securedHttpOptions).pipe(
       catchError(this.handleError)
     );
   }

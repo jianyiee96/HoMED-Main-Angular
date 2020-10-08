@@ -8,9 +8,13 @@ import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 export class SessionService {
 
   constructor() { }
+	securedHttpOptions = {}
 
+	checkToken(currentToken : string) {
+		
+	}
 
-  getIsLogin(): boolean {
+  	getIsLogin(): boolean {
 		if (sessionStorage.isLogin == "true") {
 			return true
 		}
@@ -26,6 +30,7 @@ export class SessionService {
 	getCurrentServiceman(): Serviceman {
 		return JSON.parse(sessionStorage.currentServiceman)
 	}
+
 
 	setCurrentServiceman(currentServiceman: Serviceman): void {
 		sessionStorage.currentServiceman = JSON.stringify(currentServiceman)

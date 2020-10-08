@@ -16,9 +16,11 @@ export class Serviceman {
     address: Address
     isActivated: boolean
     role : ServicemanRoleEnum
+    token : string
 
     constructor(servicemanId?: number, name?: string, email?: string , phoneNumber?: string, rod?: Date, 
-            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean, role?: ServicemanRoleEnum) {
+            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean, role?: ServicemanRoleEnum, 
+            token?: string) {
 
         this.servicemanId = servicemanId
         this.name = name
@@ -31,6 +33,7 @@ export class Serviceman {
         this.address = address
         this.isActivated = isActivated
         this.role = role
+        this.token = token
     }
 
 }
