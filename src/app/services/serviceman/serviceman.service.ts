@@ -59,7 +59,7 @@ export class ServicemanService {
     }
     
     
-    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, this.sessionService.securedHttpOptions).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/changePassword", changePasswordReq, this.sessionService.getSecuredHttpOptions()).pipe(
       catchError(this.handleError)
     );
   }
@@ -82,7 +82,7 @@ export class ServicemanService {
     }
 
 
-    return this.httpClient.post<any>(this.baseUrl + "/updateServiceman", updateAccountReq, this.sessionService.securedHttpOptions).pipe(
+    return this.httpClient.post<any>(this.baseUrl + "/updateServiceman", updateAccountReq, this.sessionService.getSecuredHttpOptions()).pipe(
       catchError(this.handleError)
     );
   }

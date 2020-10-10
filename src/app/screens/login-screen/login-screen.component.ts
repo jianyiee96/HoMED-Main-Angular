@@ -69,14 +69,8 @@ export class LoginScreenComponent implements OnInit {
                 this.sessionService.setCurrentServiceman(this.serviceman)
                 this.app.startTimer()
                 this.router.navigate(['/home-screen'])
-                this.sessionService.securedHttpOptions = {
-                  headers: new HttpHeaders({ 
-                    'Content-Type': 'application/json',
-                     'Token' : this.serviceman.token,
-                     'Id' : this.serviceman.servicemanId.toString()
-                  })
-                } 
-                
+                this.sessionService.setToken(this.serviceman.token)
+                console.log(this.sessionService.getToken)
               }
               else {
                 this.msgs = []  
