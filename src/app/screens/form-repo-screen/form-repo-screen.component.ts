@@ -23,6 +23,7 @@ export class FormRepoScreenComponent implements OnInit {
   tempFormFields: FormField[]
   privacy: String
   msgForDialog: Message[] = []
+  radioSet: { [id: number]: any } = {}
 
 
   constructor(private router: Router, private breadcrumbService: BreadcrumbService, private formService: FormService, 
