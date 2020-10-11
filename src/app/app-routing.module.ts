@@ -39,6 +39,11 @@ const routes: Routes = [
         loadChildren: () => import('./screens/form-repo-screen/form-repo-screen.module').then(m => m.FormRepoScreenComponentModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'booking-management-screen',
+        loadChildren: () => import('./screens/booking-management-screen/booking-management-screen.module').then(m => m.BookingManagementScreenComponentModule),
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {

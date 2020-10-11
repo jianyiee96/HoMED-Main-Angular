@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Manage Booking</title>
+</head>
+
+<body>
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-lg-6">
+            <div class="card" style="text-align: left;">
+                <h1>My Bookings</h1>
+                <button pButton icon="pi pi-plus" label="Create New Booking" (click)="displayNewBoookingCreation()"></button>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6">
+            <div *ngIf="newBookingCreationDisplay" class="card" style="text-align: left;">
+                <h1>Schedule New Booking</h1>
+                <form #createNewBookingForm="ngForm" (ngSubmit)="submit(createNewBookingForm)">
+                    <h4>Select Consultation Purpose</h4>
+                    <p-dropdown [options]="consultationPurposes" [(ngModel)]="selectedConsultationPurpose" 
+                    placeholder="Select a purpose" optionLabel="consultationPurposeName" [showClear]="true"></p-dropdown>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
