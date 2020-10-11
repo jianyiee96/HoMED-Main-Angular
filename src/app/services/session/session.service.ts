@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
@@ -8,9 +9,29 @@ import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 export class SessionService {
 
   constructor() { }
+	
+  	setToken(token: string){
+		sessionStorage.token = token
+  	}
 
+  	getToken(): string {
+		return sessionStorage.token;
+	 }
+	 
+	getSecuredHttpOptions() {
+		return {
+			headers: new HttpHeaders(
+				{
+					'Content-Type': 'application/json',
+					'Id': this.getCurrentServiceman().servicemanId.toString(),
+					'Token': sessionStorage.token
+				}
+			)
+		}
+	}
+	
 
-  getIsLogin(): boolean {
+  	getIsLogin(): boolean {
 		if (sessionStorage.isLogin == "true") {
 			return true
 		}
@@ -26,6 +47,7 @@ export class SessionService {
 	getCurrentServiceman(): Serviceman {
 		return JSON.parse(sessionStorage.currentServiceman)
 	}
+
 
 	setCurrentServiceman(currentServiceman: Serviceman): void {
 		sessionStorage.currentServiceman = JSON.stringify(currentServiceman)

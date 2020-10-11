@@ -230,7 +230,8 @@
                                             <p-radioButton
                                                 class="radioDisabledOverride"
                                                 [disabled]="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' "
-                                                [ngModelOptions]="{standalone: true}" dataKey="formFieldOptionValue"
+                                                [ngModelOptions]="{standalone: true}" 
+                                                dataKey="formFieldOptionValue"
                                                 value="{{formFieldOption.formFieldOptionValue}}"
                                                 [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
                                                 label="{{formFieldOption.formFieldOptionValue}}"></p-radioButton>

@@ -68,7 +68,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
         }
       },
       error => {
-        console.log(error.substring(32));
+        console.log(error);
       }
     );
 

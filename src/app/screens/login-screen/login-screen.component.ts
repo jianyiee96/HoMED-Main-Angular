@@ -8,6 +8,7 @@ import { ServicemanService } from 'src/app/services/serviceman/serviceman.servic
 import { SessionService } from 'src/app/services/session/session.service';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 import { AppComponent } from '../../app.component'
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-screen',
@@ -60,13 +61,16 @@ export class LoginScreenComponent implements OnInit {
           this.serviceman = response.serviceman
 
           if (serviceman != null) {
-
+            
+            
             if (serviceman.isActivated) {
-                
+              
                 this.sessionService.setIsLogin(true)
                 this.sessionService.setCurrentServiceman(this.serviceman)
                 this.app.startTimer()
                 this.router.navigate(['/home-screen'])
+                this.sessionService.setToken(this.serviceman.token)
+                console.log(this.sessionService.getToken)
               }
               else {
                 this.msgs = []  

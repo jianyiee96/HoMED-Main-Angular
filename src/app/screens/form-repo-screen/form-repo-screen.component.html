@@ -83,8 +83,11 @@
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
                                 <div class=p-grid>
                                     <div class="ui-g-12 p-md-12" *ngFor="let formFieldOption of formField.formFieldOptions">
-                                        <p-radioButton name="rg" value="{{formFieldOption.formFieldOptionValue}}"
-                                            label="{{formFieldOption.formFieldOptionValue}}" ></p-radioButton>
+                                        <p-radioButton value="{{formFieldOption.formFieldOptionValue}}"
+                                            label="{{formFieldOption.formFieldOptionValue}}" 
+                                            dataKey="formFieldOptionValue"
+                                            [ngModelOptions]="{standalone: true}"formFieldOptionId
+                                             ></p-radioButton>
                                     </div>
                                 </div>
                             </div>
