@@ -1,5 +1,5 @@
 export enum BookingStatusEnum {
-    PAST = ("Past"),
+    Past = ("Past"),
     Upcoming = ("Upcoming"),
     Present = ("Present"),
     Cancelled = ("Cancelled"),
