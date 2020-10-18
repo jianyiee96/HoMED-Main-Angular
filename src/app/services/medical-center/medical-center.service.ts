@@ -12,7 +12,7 @@ import { SessionService } from '../session/session.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MedicalCenterService {
+export class MedicalCentreService {
   
 
   baseUrl: string = "/api/MedicalCentre"

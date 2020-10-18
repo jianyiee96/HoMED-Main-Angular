@@ -24,7 +24,6 @@
     padding: .25em .5rem;
     text-transform: uppercase;
     font-weight: 700;
-    
     letter-spacing: .3px;
 
 }
@@ -36,9 +35,32 @@
     color: #FFFFFF;
 }
 
-.form-instance-status-badge {
+.form-instance-status-badge-draft {
     font-size: 12px;
     margin: 3px;
     background: #406E7E;
     color: #FFFFFF;
+}
+
+.form-instance-status-badge-submitted {
+    font-size: 12px;
+    margin: 3px;
+    background: #4ccc52;
+    color: #FFFFFF;
+}
+
+.form-instance-status-badge-archived {
+    font-size: 12px;
+    margin: 3px;
+    background: #eb7979;
+    color: #FFFFFF;
+}
+
+.linkageInfo {
+    background: #2196F3;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
 }

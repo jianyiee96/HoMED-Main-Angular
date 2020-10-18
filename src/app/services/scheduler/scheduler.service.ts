@@ -45,6 +45,15 @@ export class SchedulerService {
       );
   }
 
+  cancelBooking(bookingId): Observable<any> {
+    let cancelBookingReq = {
+        "bookingId": bookingId,
+    }
+    return this.httpClient.post<any>(this.baseUrl + "/cancelBooking", cancelBookingReq, this.sessionService.getSecuredHttpOptions()).pipe(
+        catchError(this.handleError)
+      );
+  }  
+
   retrieveAllServicemanBookings(): Observable<any> {
 
     return this.httpClient.get<any>(this.baseUrl + "/retrieveAllServicemanBookings?servicemanId=" + 
