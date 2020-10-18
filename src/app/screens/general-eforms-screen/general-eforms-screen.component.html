@@ -35,15 +35,15 @@
 
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="formTemplateMapping.formTemplateName">Form Template Name <p-sortIcon
+                            <th pSortableColumn="formTemplateMapping.formTemplateName">Name <p-sortIcon
                                     field="formTemplateMapping.formTemplateName">
                                 </p-sortIcon>
                             </th>
-                            <th pSortableColumn="dateCreated">Form Instance Date Created <p-sortIcon
+                            <th pSortableColumn="dateCreated">Date Created <p-sortIcon
                                     field="dateCreated">
                                 </p-sortIcon>
                             </th>
-                            <th pSortableColumn="formInstanceStatusEnum">Form Instance Status <p-sortIcon
+                            <th pSortableColumn="formInstanceStatusEnum">Status <p-sortIcon
                                     field="formInstanceStatusEnum">
                                 </p-sortIcon>
                             </th>
@@ -60,7 +60,10 @@
                             <td>{{formInstance.formTemplateMapping.formTemplateName}}</td>
                             <td>{{ formInstance.dateCreated | date:'dd/MM/yyyy HH:mm' }}</td>
                             <td>
-                            <span class="form-status-badge form-instance-status-badge">{{formInstance.formInstanceStatusEnum}}</span>
+                            <span *ngIf="formInstance.formInstanceStatusEnum === 'SUBMITTED'" class="form-status-badge form-instance-status-badge-submitted">{{formInstance.formInstanceStatusEnum}}</span>
+                            <span *ngIf="formInstance.formInstanceStatusEnum === 'DRAFT'" class="form-status-badge form-instance-status-badge-draft">{{formInstance.formInstanceStatusEnum}}</span>
+                            <span *ngIf="formInstance.formInstanceStatusEnum === 'ARCHIVED'" class="form-status-badge form-instance-status-badge-archived">{{formInstance.formInstanceStatusEnum}}</span>
+                            
                             </td>
 
                             <td *ngIf="formInstance.dateSubmitted !== undefined">
@@ -68,7 +71,7 @@
                             <td *ngIf="formInstance.dateSubmitted === undefined">N.A</td>
 
                             <td style="margin-right: 10px;" >
-                                <button pButton pRipple type="button" icon="pi pi-replay" title="Archive"
+                                <button pButton pRipple type="button" icon="pi pi-folder" title="Archive"
                                     [disabled]="formInstance.formInstanceStatusEnum !== 'SUBMITTED'"
                                     (click)="archive(formInstance)" class="p-button-rounded p-button-outlined">
                                 </button>
@@ -93,6 +96,10 @@
                     <div id="content" class=p-fluid>
 
                         <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
+                        <div class="linkageInfo" *ngIf="correspondingBooking !== undefined"> 
+                            This form is linked to <a style="color: black;"href="/booking-management-screen/{{correspondingBooking.bookingSlot.slotId}}">Booking {{attachedBookingId}}</a>
+                        </div>
+                        
 
                         <ng-container *ngFor="let formInstanceField of this.selectedFormInstance.formInstanceFields">
 
@@ -102,7 +109,7 @@
 
                             <div
                                 *ngIf="formInstanceField.formFieldMapping.inputType === 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
-                                <h4 class="headerInput">{{formInstanceField.formFieldMapping.question}}</h4>
+                                <h4 class="headerInput" style="padding-left: 7px;">{{formInstanceField.formFieldMapping.question}}</h4>
                             </div>
                             <div class="card"
                                 *ngIf="formInstanceField.formFieldMapping.inputType != 'HEADER' && formInstanceField.formFieldMapping.isServicemanEditable">
@@ -111,7 +118,7 @@
                                     text="Doctor To Fill" style="font-size: 15px; margin-top: 18px;"></p-message>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TEXT'">
 
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -127,7 +134,7 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'NUMBER'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -145,7 +152,7 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'CHECK_BOX'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -166,7 +173,7 @@
                                 </div>
 
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'MULTI_DROPDOWN'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -190,7 +197,7 @@
 
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'SINGLE_DROPDOWN'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -218,7 +225,7 @@
 
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'RADIO_BUTTON'">
-                                    <h4 style="display: inline-block;" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display: inline-block;" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -241,7 +248,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'DATE'">
-                                    <h4 style="display: inline-block;" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display: inline-block;" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -258,7 +265,7 @@
                                     </h4>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}}
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}}
                                         <span class="isRequiredSymbol"
                                             *ngIf="formInstanceField.formFieldMapping.isRequired">
                                             *</span>
@@ -277,7 +284,7 @@
 
                                 <div
                                     *ngIf="formInstanceField.formFieldMapping.inputType === 'FILE_UPLOAD' || formInstanceField.formFieldMapping.inputType === 'IMAGE_UPLOAD'">
-                                    <h4 style="display:inline-block" class=p-grid>{{formInstanceField.formFieldMapping.question}} </h4>
+                                    <h4 style="display:inline-block" style="padding-left: 7px;"class=p-grid>{{formInstanceField.formFieldMapping.question}} </h4>
                                     <p-fileUpload name="myfile[]" url="./upload.php" multiple="multiple"></p-fileUpload>
                                 </div>
 
@@ -309,8 +316,8 @@
                         <button type="button" pButton pRipple icon="pi pi-save" label="Save"
                             (click)="updateFormInstance()" class="ui-button-info" style="margin: 3px"></button>
 
-
-                        <button type="button" pButton icon="pi pi-trash" label="Delete"
+                        
+                        <button *ngIf="selectedFormInstance.booking === undefined" type="button" pButton icon="pi pi-trash" label="Delete"
                             class="ui-button-danger" style="margin: 3px" (click)="confirmDelete()"></button>
 
 

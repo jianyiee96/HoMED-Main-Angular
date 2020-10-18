@@ -2,6 +2,7 @@ import { FormInstanceStatusEnum } from '../forminstancestatus-enum'
 import { FormTemplate } from '../formtemplate/formtemplate'
 import { Serviceman } from '../serviceman/serviceman'
 import { FormField } from '../formfield/formfield'
+import { Booking } from '../booking/booking'
 
 export class FormInstance {
 
@@ -12,11 +13,12 @@ export class FormInstance {
     formTemplateMapping: FormTemplate
     formInstanceFields: FormInstanceField[]
     serviceman: Serviceman
+    booking: Booking
 
     constructor(formInstanceId?: number, dateCreated?: Date, dateSubmitted?: Date, formInstanceStatusEnum?: FormInstanceStatusEnum,
         formTemplateMapping?: FormTemplate, formInstanceFields?: FormInstanceField[], 
-        serviceman?: Serviceman) {
-
+        serviceman?: Serviceman, booking?: Booking) {
+        this.booking = booking
         this.formInstanceId = formInstanceId
         this.dateCreated = dateCreated
         this.dateSubmitted = dateSubmitted

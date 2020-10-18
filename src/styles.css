@@ -7,3 +7,7 @@
 .radioDisabledOverride .p-disabled {
     opacity: 1;
 }
+
+.messageOveride2 .p-inline-message {
+    justify-content: left;
+}

@@ -4,10 +4,13 @@ import { NgForm } from '@angular/forms';
 import { FormService } from 'src/app/services/form/form.service';
 import { FormInstance, FormInstanceField, FormInstanceFieldValue } from 'src/app/classes/forminstance/forminstance'
 
-import {Message, MessageService, ConfirmationService} from 'primeng/api';
+import { Message, MessageService, ConfirmationService } from 'primeng/api';
 
 import { BreadcrumbService } from '../../services/breadcrum.service';
 import { FormFieldOption } from 'src/app/classes/formfield/formfield';
+import { ActivatedRoute } from '@angular/router';
+import { SchedulerService } from 'src/app/services/scheduler/scheduler.service';
+import { Booking } from 'src/app/classes/booking/booking';
 
 
 @Component({
@@ -22,12 +25,13 @@ export class GeneralEFormsScreenComponent implements OnInit {
   formInstances: FormInstance[]
   selectedFormInstance: FormInstance
   testDate: Date
-
+  passedFormInstanceId: number
   selectedFieldValues: { [id: number]: any } = {}
   failedValidationFieldMappingId: Set<number> = new Set()
-
+  myBookings: Booking[] = []
+  attachedBookingId: number
   archiveMode: boolean
-
+  correspondingBooking: Booking
   msgForDialog: Message[] = []
   selected: boolean
 
@@ -38,7 +42,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
   declarationValidationError: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
-    private service: MessageService, private confirmationService: ConfirmationService
+    private service: MessageService, private confirmationService: ConfirmationService,
+    private activatedRoute: ActivatedRoute, private schedulerService: SchedulerService
   ) {
     this.breadcrumbService.setItems([
       { label: 'eForm Management' },
@@ -47,10 +52,12 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   ngOnInit() {
+    let tempString = this.activatedRoute.snapshot.paramMap.get('formInstanceId')
     this.containDraftForms = false
     this.containArchiveForms = false
     this.archiveMode = false
     this.failedValidationFieldMappingId = new Set()
+    this.selected = false;
     this.formService.retrieveAllServicemanFormInstances().subscribe(
       response => {
         this.formInstances = response.formInstances
@@ -65,6 +72,19 @@ export class GeneralEFormsScreenComponent implements OnInit {
           formInstance.dateCreated = date1
           let date2 = this.convertUTCStringToSingaporeDate(formInstance.dateSubmitted)
           formInstance.dateSubmitted = date2
+        }
+        if (tempString !== null) {
+          this.passedFormInstanceId = parseInt(tempString)
+          let a = 1
+
+          for (var index = 0; index < this.formInstances.length; index++) {
+
+            if (this.formInstances[index].formInstanceId == this.passedFormInstanceId) {
+              this.selectedFormInstance = this.formInstances[index]
+              break;
+            }
+          }
+          this.onRowSelect(a);
         }
       },
       error => {
@@ -326,7 +346,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
     });
 
-    if(!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null){
+    if (!this.acceptDeclaration && this.selectedFormInstance.formTemplateMapping.declaration != null) {
       this.declarationValidationError = true
       success = false
     } else {
@@ -403,12 +423,41 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
 
   onRowSelect(event) {
+    this.correspondingBooking = undefined
+    console.log("row select Called")
     this.msgForDialog = []
     this.failedValidationFieldMappingId = new Set()
     this.selected = true
     this.selectedFieldValues = {}
     this.acceptDeclaration = false
     this.declarationValidationError = false
+    console.log("BOOKINGGG")
+    console.log(this.selectedFormInstance)
+    console.log(this.selectedFormInstance.booking)
+    this.schedulerService.retrieveAllServicemanBookings().subscribe(
+      response => {
+
+        console.log("here")
+        this.myBookings = response.bookings
+        for (let a of this.myBookings) {
+          a.bookingSlot.endDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.endDateTime)
+          a.bookingSlot.startDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.startDateTime)
+        }
+        for (let booking of this.myBookings) {
+          for (let fi of booking.formInstances) {
+            if (fi.formInstanceId === this.selectedFormInstance.formInstanceId) {
+              this.attachedBookingId = booking.bookingId
+              this.correspondingBooking = booking
+            }
+          }
+        }
+        
+      }, error => {
+        console.error(error)
+      }
+    )
+    
+    console.log(this.attachedBookingId)
     this.formInstanceToView()
   }
 

@@ -1,0 +1,29 @@
+.form-instance-status-badge-draft {
+    font-size: 12px;
+    margin: 3px;
+    background: #406E7E;
+    color: #FFFFFF;
+}
+
+.form-instance-status-badge-submitted {
+    font-size: 12px;
+    margin: 3px;
+    background: #4ccc52;
+    color: #FFFFFF;
+}
+
+.form-instance-status-badge-archived {
+    font-size: 12px;
+    margin: 3px;
+    background: #eb7979;
+    color: #FFFFFF;
+}
+
+.form-status-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: .3px;
+
+}

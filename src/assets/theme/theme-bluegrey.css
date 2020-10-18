@@ -1822,7 +1822,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-width: 0 0 1px 0;
   font-weight: 500;
   color: #000001;
-  background: #ffffff;
+  background: #f8f9fa;
   transition: none;
 }
 .p-datatable .p-datatable-tfoot > tr > td {
