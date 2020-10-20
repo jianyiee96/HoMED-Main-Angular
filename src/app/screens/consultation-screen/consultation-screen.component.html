@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Consultation</title>
+</head>
+
+<body>
+  <div class="p-grid p-fluid">
+    <div class="p-col-12 p-lg-6">
+      <p-card>
+        <h1>My Consultations</h1>
+        <ng-container *ngIf="myConsultations.length === 0">
+          <h4>You currently have no consultation</h4>
+        </ng-container>
+        <ng-container *ngIf="myConsultations.length !== 0">
+          <p-table #dt [value]="myConsultations" selectionMode="single" [(selection)]="selectedConsultation"
+            dataKey="consultationId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+            styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id">Id
+                  <p-sortIcon field="id">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="ConsultationPurpose">Consultation Purpose
+                  <p-sortIcon field="ConsultationPurpose">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="status">Status
+                  <p-sortIcon field="status">
+                  </p-sortIcon>
+                </th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-consultation>
+              <tr [pSelectableRow]="consultation">
+                <td>{{consultation.consultationId}}</td>
+                <td>{{consultation.booking.consultationPurpose.consultationPurposeName}}</td>
+                <td>{{consultation.consultationStatusEnum}}</td>
+
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-container>
+      </p-card>
+    </div>
+    <div class="p-col-12 p-lg-6">
+      <p-card *ngIf="isSelected">
+
+        <div class="p-grid">
+
+          <div class="p-col-12 p-md-6">
+
+            <h4><i class="pi pi-calendar"></i> Consultation Slot</h4>
+            <p><span style="font-weight: bold;">Booking Id:
+              </span>{{selectedConsultation.booking.bookingId}}</p>
+            <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'WAITING'">
+              <p><span style="font-weight: bold;">No. of patient(s) ahead:
+                </span>{{queueNumber - 1}}</p>
+              <p><span style="font-weight: bold;">Estimated Waiting Time:
+                </span>{{(queueNumber - 1)*15}}</p>
+            </ng-container>
+            <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'ONGOING'">
+              <p><span style="font-weight: bold;">Consultation is currently Ongoing!
+                </span></p>
+            </ng-container>
+            <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'COMPLETED'">
+              <p><span style="font-weight: bold;">Consultation Date:
+                </span>{{selectedConsultation.startDateTime | date:'dd/MM/yyyy' }}</p>
+              <p><span style="font-weight: bold;">Consultation Start Time:
+                </span>{{selectedConsultation.startDateTime | date:'HH:mm' }}</p>
+              <p><span style="font-weight: bold;">Consultation End Time:
+                </span>{{selectedConsultation.endDateTime | date:'HH:mm' }}</p>
+            </ng-container>
+
+
+          </div>
+          <div class="p-col-12 p-md-6">
+
+            <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
+            <p style="font-weight: bold;">
+              {{selectedConsultation.booking.consultationPurpose.consultationPurposeName}}</p>
+
+          </div>
+        </div>
+        <h4><i class="pi pi-map-marker"></i> Venue</h4>
+        <p-card>
+          <h5 style="font-weight: bold;">{{selectedConsultation.booking.bookingSlot.medicalCentre.name}}</h5>
+          <p><span style="font-weight: bold;">Phone:
+            </span>{{selectedConsultation.booking.bookingSlot.medicalCentre.phone}}</p>
+          <p><span style="font-weight: bold;">Address:
+            </span>{{selectedConsultation.booking.bookingSlot.medicalCentre.address.streetName}}
+            S{{selectedConsultation.booking.bookingSlot.medicalCentre.address.postal}}</p>
+        </p-card>
+
+        <ng-container *ngIf="selectedConsultation.booking.formInstances.length !== 0">
+          <h4><i class="pi pi-tags"></i> Submitted Forms</h4>
+          <p-table [value]="selectedConsultation.booking.formInstances">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Form Name</th>
+                <th>Status</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-fi>
+              <tr>
+                <td><a
+                    href="/general-eforms-screen/{{fi.formInstanceId}}">{{fi.formTemplateMapping.formTemplateName}}</a>
+                </td>
+                <td>
+                  <span
+                    class="form-status-badge form-instance-status-badge-submitted">{{fi.formInstanceStatusEnum}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-container>
+        <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'COMPLETED'">
+          <h4>Consultation Remarks</h4>
+          <p>{{selectedConsultation.remarksForServiceman}}</p>
+        </ng-container>
+
+      </p-card>
+    </div>
+  </div>
+</body>
+
+</html>

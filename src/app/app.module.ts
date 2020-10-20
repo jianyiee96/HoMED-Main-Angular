@@ -16,7 +16,7 @@ import { SharedModule } from './shared.module';
 import { BreadcrumbService } from './services/breadcrum.service';
 import { MenuService } from './services/app.menu.service';
 import { DatePipe } from '@angular/common';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -27,14 +27,16 @@ import { DatePipe } from '@angular/common';
     AppMenuComponent,
     AppMenuitemComponent,
     AppBreadcrumbComponent,
-    AppMainComponent
+    AppMainComponent,
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,  
-    SharedModule
+    SharedModule,
+    FontAwesomeModule
   ],
   providers: [BreadcrumbService, MenuService, DatePipe],
   bootstrap: [AppComponent]

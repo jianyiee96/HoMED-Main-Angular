@@ -29,6 +29,7 @@
                 </div>
 
                 <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
+                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"    
                     dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
                     *ngIf="(archiveMode && containArchiveForms) || (!archiveMode && containDraftForms)" 
                     styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
@@ -97,7 +98,7 @@
 
                         <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
                         <div class="linkageInfo" *ngIf="correspondingBooking !== undefined"> 
-                            This form is linked to <a style="color: black;"href="/booking-management-screen/{{correspondingBooking.bookingSlot.slotId}}">Booking {{attachedBookingId}}</a>
+                            This form is linked to <a style="color: black;"href="/booking-management-screen/{{correspondingBooking.bookingId}}">Booking {{attachedBookingId}}</a>
                         </div>
                         
 
