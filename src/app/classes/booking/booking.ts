@@ -13,14 +13,19 @@ export class Booking{
     bookingSlot: BookingSlot
     formInstances: FormInstance[]
     bookingStatusEnum: BookingStatusEnum
+    bookingComment: string
+    cancellationComment: string
 
     constructor(bookingId?: number, serviceman?: Serviceman, consultationPurpose?: ConsultationPurpose,
-        consultation?: Consultation, bookingSlot?: BookingSlot, formInstances?: FormInstance[], bookingStatusEnum?: BookingStatusEnum) {
+        consultation?: Consultation, bookingSlot?: BookingSlot, formInstances?: FormInstance[], bookingStatusEnum?: BookingStatusEnum,
+        bookingComment?: string, cancellationComment?: string) {
             this.bookingId = bookingId
             this.serviceman = serviceman
             this.consultationPurpose = consultationPurpose
             this.consultation = consultation
             this.bookingSlot = bookingSlot
             this.formInstances = formInstances
+            this.bookingComment = bookingComment
+            this.cancellationComment = cancellationComment
     }
 }

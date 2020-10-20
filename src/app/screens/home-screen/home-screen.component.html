@@ -19,7 +19,7 @@
                         <ng-template pTemplate="body" let-formInstance>
                             <tr>
                                 <td><a href="/general-eforms-screen/{{formInstance.formInstanceId}}">{{formInstance.formTemplateMapping.formTemplateName}}</a></td>
-                                <td></td>
+                                <td>{{formInstance.booking.bookingSlot.startDateTime | date:'dd/MM/yyyy HH:mm'}}</td>
                             </tr>
                         </ng-template>
                         

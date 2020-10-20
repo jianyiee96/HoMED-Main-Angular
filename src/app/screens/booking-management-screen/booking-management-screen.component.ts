@@ -38,6 +38,8 @@ export class BookingManagementScreenComponent implements OnInit {
   passedBookingId: number
   unsubmittedFormMessages: Message[] = [];
   createdBookingId: number
+  bookingComment: string
+
   constructor(private breadcrumbService: BreadcrumbService, private consultationService: ConsultationService,
     private medicalCentreService: MedicalCentreService, private schedulerService: SchedulerService,
     private sessionService: SessionService, private confirmationService: ConfirmationService, private datepipe: DatePipe,
@@ -74,6 +76,8 @@ export class BookingManagementScreenComponent implements OnInit {
       response => {
         (async () => {
           this.myBookings = response.bookings
+          // this.myBookings.sort((x,y) => (x.bookingStatusEnum.toString() > y.bookingStatusEnum.toString()) ? 1 : ((x.bookingStatusEnum.toString() > y.bookingStatusEnum.toString()) ? -1 : 0))
+          
           for (let a of this.myBookings) {
             a.bookingSlot.endDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.endDateTime)
             a.bookingSlot.startDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.startDateTime)
@@ -127,7 +131,7 @@ export class BookingManagementScreenComponent implements OnInit {
   async createBooking() {
     return new Promise((resolve, reject) => {
       this.schedulerService.scheduleBooking(this.sessionService.getCurrentServiceman().servicemanId,
-      this.selectedConsultationPurpose.consultationPurposeId, this.selectedSlot.slotId).subscribe(
+      this.selectedConsultationPurpose.consultationPurposeId, this.selectedSlot.slotId, this.bookingComment).subscribe(
         async response => {
 
           this.createdBookingId = response.bookingId
@@ -147,7 +151,7 @@ export class BookingManagementScreenComponent implements OnInit {
   }
 
   cancelBooking() {
-    this.schedulerService.cancelBooking(this.selectedBooking.bookingId).subscribe(
+    this.schedulerService.cancelBooking(this.selectedBooking.bookingId, null).subscribe(
       response => {
         (async () => {
           this.msgForDialog = []
@@ -162,6 +166,22 @@ export class BookingManagementScreenComponent implements OnInit {
       }
     );
 
+  }
+
+  confirmCancel() {
+    this.confirmationService.confirm({
+      header: 'Confirm Booking?',
+      icon: 'pi pi-exclamation-triangle',
+      message: "Are you sure you would like to cancel the booking?",
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: async () => {
+        this.cancelBooking()
+        
+      },
+      reject: () => {
+      }
+    });
   }
 
   confirmCreateMessage() {
@@ -193,6 +213,8 @@ export class BookingManagementScreenComponent implements OnInit {
     });
   }
 
+  
+
   displayAvailableSlots() {
     console.log("called")
     this.selectedSlot = null
@@ -210,7 +232,7 @@ export class BookingManagementScreenComponent implements OnInit {
               console.log("here1")
               console.log(ts)
               if (recvDate > currDate) {
-                if (ts.booking == null || ts.booking.bookingStatusEnum.toString() == "CANCELLED") {
+                if (ts.booking == null) {
                   console.log("here2")
                   console.log(ts)
                   ts.startDateTime = this.convertUTCStringToSingaporeDate(ts.startDateTime)

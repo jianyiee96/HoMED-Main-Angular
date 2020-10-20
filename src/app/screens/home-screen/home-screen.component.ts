@@ -13,6 +13,7 @@ import {BreadcrumbService} from '../../services/breadcrum.service';
   styleUrls: ['./home-screen.component.css']
 })
 export class HomeScreenComponent implements OnInit {
+  myBookings: Booking[]
   upcomingBookings: Booking[] = []
   unsubmittedForms: FormInstance[] = []
   faCoffee = faCoffee
@@ -27,8 +28,8 @@ export class HomeScreenComponent implements OnInit {
     this.schedulerService.retrieveAllServicemanBookings().subscribe(
       response => {
         (async () => {
-          let tempBookings = response.bookings
-          for (let a of tempBookings) {
+          this.myBookings = response.bookings
+          for (let a of this.myBookings) {
             if(a.bookingStatusEnum.toString().toUpperCase() === 'UPCOMING') {
               a.bookingSlot.endDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.endDateTime)
               a.bookingSlot.startDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.startDateTime)
@@ -38,6 +39,7 @@ export class HomeScreenComponent implements OnInit {
           for (let a of this.upcomingBookings) {
             for (let b of a.formInstances) {
               if (b.formInstanceStatusEnum.toString().toUpperCase() === 'DRAFT') {
+                b.booking = a
                 this.unsubmittedForms.push(b)
               }
             }
