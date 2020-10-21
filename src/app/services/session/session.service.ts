@@ -4,20 +4,20 @@ import { Injectable } from '@angular/core';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class SessionService {
 
-  constructor() { }
-	
-  	setToken(token: string){
-		sessionStorage.token = token
-  	}
+	constructor() { }
 
-  	getToken(): string {
+	setToken(token: string) {
+		sessionStorage.token = token
+	}
+
+	getToken(): string {
 		return sessionStorage.token;
-	 }
-	 
+	}
+
 	getSecuredHttpOptions() {
 		return {
 			headers: new HttpHeaders(
@@ -29,9 +29,9 @@ export class SessionService {
 			)
 		}
 	}
-	
 
-  	getIsLogin(): boolean {
+
+	getIsLogin(): boolean {
 		if (sessionStorage.isLogin == "true") {
 			return true
 		}
@@ -67,7 +67,17 @@ export class SessionService {
 
 	setPassword(password: string): void {
 		sessionStorage.password = password
-  	}
+	}
 
-  
+	setLogoutMessage(message: string): void {
+		sessionStorage.logoutMessage = message
+	}
+
+	getLogoutMessage(): string {
+		let message = sessionStorage.logoutMessage
+		this.setLogoutMessage("-")
+		return message
+	}
+
+
 }

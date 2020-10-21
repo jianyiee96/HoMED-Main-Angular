@@ -24,7 +24,9 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
 
                 if (error.error.message.toLowerCase().includes("json")) {
+
                     this.logout();
+
                 }
 
                 return throwError(error)
@@ -36,6 +38,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     logout() {
         this.sessionService.setIsLogin(false);
         this.sessionService.setCurrentServiceman(null);
+        this.sessionService.setLogoutMessage("DUPLICATE");
         this.router.navigate(["/login-screen"]);
     }
 

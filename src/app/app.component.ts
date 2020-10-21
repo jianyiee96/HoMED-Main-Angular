@@ -82,12 +82,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  addSessionToast() {
-    this.messageService.add({
-      key: 'session', severity: 'info', summary: 'Duplicate login detected',
-      detail: 'You have been logged out due to security reasons', life: 30000
-    });
-  }
 
 
   confirm() {
