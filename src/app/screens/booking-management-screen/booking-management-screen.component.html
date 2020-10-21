@@ -6,6 +6,7 @@
 </head>
 
 <body>
+  <p-toast></p-toast>
   <div class="p-grid p-fluid">
     <div class="p-col-12 p-lg-6">
       <div class="card" style="text-align: left;">
@@ -22,10 +23,10 @@
           <h4>You currently have no booking</h4>
         </ng-container>
         <ng-container *ngIf="myBookings.length !== 0">
-          <p-table #dt [value]="myBookings" selectionMode="single" [(selection)]="selectedBooking" dataKey="bookingStatusEnum"
-          sortField="bookingStatusEnum" [sortOrder]="-1"
-          [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
-            (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+          <p-table #dt [value]="myBookings" selectionMode="single" [(selection)]="selectedBooking"
+            dataKey="bookingStatusEnum" sortField="bookingStatusEnum" [sortOrder]="-1" [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[10,25,50]" (onRowSelect)="onRowSelect($event)"
+            (onRowUnselect)="onRowUnselect($event)"
             styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
             <ng-template pTemplate="header">
               <tr>
@@ -107,9 +108,6 @@
           <p-calendar [(ngModel)]="selectedDate" name="selectedDate" placeholder="Select Date (DD/MM/YYYY)"
             (onSelect)="displayAvailableSlots()"></p-calendar>
           <ng-container *ngIf="dateRetrieved">
-            <textarea [(ngModel)]="bookingComment" pInputTextarea></textarea>
-          </ng-container>
-          <ng-container *ngIf="dateRetrieved">
             <br />
             <ng-container *ngIf="availableSlots.length != 0">
               <p-scrollPanel [style]="{width: '100%', height: '280px'}">
@@ -132,7 +130,10 @@
                         label="Book Slot" disabled="true">
                         </button>
                     </ng-container> -->
+
           <ng-container *ngIf="selectedSlot != null">
+            <h4>Booking Comments</h4>
+            <textarea pInputTextarea placeholder="This section is optional" [(ngModel)]=bookingComment></textarea>
             <button pButton icon="pi pi-calender"
               label="Book Slot ({{selectedSlot.startDateTime | date:'HH:mm'}} - {{selectedSlot.endDateTime | date:'HH:mm'}})"
               (click)="confirmCreate()">
@@ -143,6 +144,7 @@
       <ng-container *ngIf="displayDetails">
         <p-card>
           <div class="p-grid">
+            
             <div class="p-col-12 p-md-9" style="font-size: 30px; font-weight: bold;">
               Booking Details
             </div>
@@ -216,11 +218,28 @@
               </ng-template>
             </p-table>
           </ng-container>
+          <ng-container *ngIf="selectedBooking.bookingComment !== undefined">
+            <h4>Booking Comment</h4>
+            <p>{{selectedBooking.bookingComment}}</p>
+          </ng-container>
+          <ng-container *ngIf="selectedBooking.cancellationComment !== undefined && selectedBooking.bookingStatusEnum.toString() === 'CANCELLED'">
+            <h4>Cancellation Comment</h4>
+            <p>{{selectedBooking.cancellationComment}}</p>
+          </ng-container>
 
         </p-card>
       </ng-container>
     </div>
   </div>
+  <p-dialog header="Cancel Booking?" [(visible)]="displayCancelDialog"  [baseZIndex]="10000">
+    <p>Are you sure you would like to cancel the booking? Once cancelled, it is irreversable</p>
+    <h4>Add Cancellation Comment</h4>
+    <textarea pInputTextarea style="width: 520px;"placeholder="This section is optional" [(ngModel)]="cancellationComment"></textarea>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-times" (click)="displayCancelDialog=false" label="No" styleClass="p-button-danger"></p-button>
+      <p-button icon="pi pi-check" (click)="cancelBooking()" label="Yes" styleClass="p-button-info"></p-button>
+    </ng-template>
+  </p-dialog>
 
 </body>
 

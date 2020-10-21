@@ -39,11 +39,13 @@ export class BookingManagementScreenComponent implements OnInit {
   unsubmittedFormMessages: Message[] = [];
   createdBookingId: number
   bookingComment: string
+  cancellationComment: string
+  displayCancelDialog: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private consultationService: ConsultationService,
     private medicalCentreService: MedicalCentreService, private schedulerService: SchedulerService,
     private sessionService: SessionService, private confirmationService: ConfirmationService, private datepipe: DatePipe,
-    private router: Router, private activatedRoute: ActivatedRoute) {
+    private router: Router, private activatedRoute: ActivatedRoute, private messageService: MessageService) {
     this.breadcrumbService.setItems([
       { label: 'Manage Booking' }
     ])
@@ -51,6 +53,7 @@ export class BookingManagementScreenComponent implements OnInit {
 
   ngOnInit() {
     let tempString = this.activatedRoute.snapshot.paramMap.get('slotId')
+    this.displayCancelDialog = false
     this.newBookingCreationDisplay = false
     this.dateRetrieved = false
     this.displayDetails = false
@@ -151,7 +154,7 @@ export class BookingManagementScreenComponent implements OnInit {
   }
 
   cancelBooking() {
-    this.schedulerService.cancelBooking(this.selectedBooking.bookingId, null).subscribe(
+    this.schedulerService.cancelBooking(this.selectedBooking.bookingId, this.cancellationComment).subscribe(
       response => {
         (async () => {
           this.msgForDialog = []
@@ -161,27 +164,30 @@ export class BookingManagementScreenComponent implements OnInit {
         this.ngOnInit()
       },
       error => {
-        this.msgForDialog = []
-        this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
+        console.log("HJEHEHE")
+        this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(32)});
+        console.log("HEHEHEHEE")
+        // this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
       }
     );
 
   }
 
   confirmCancel() {
-    this.confirmationService.confirm({
-      header: 'Confirm Booking?',
-      icon: 'pi pi-exclamation-triangle',
-      message: "Are you sure you would like to cancel the booking?",
-      acceptLabel: 'Yes',
-      rejectLabel: 'No',
-      accept: async () => {
-        this.cancelBooking()
+    this.displayCancelDialog = true
+    // this.confirmationService.confirm({
+    //   header: 'Confirm Booking?',
+    //   icon: 'pi pi-exclamation-triangle',
+    //   message: "Are you sure you would like to cancel the booking?",
+    //   acceptLabel: 'Yes',
+    //   rejectLabel: 'No',
+    //   accept: async () => {
+    //     this.cancelBooking()
         
-      },
-      reject: () => {
-      }
-    });
+    //   },
+    //   reject: () => {
+    //   }
+    // });
   }
 
   confirmCreateMessage() {
