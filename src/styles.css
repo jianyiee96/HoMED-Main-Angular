@@ -12,7 +12,43 @@
     justify-content: left;
 }
 
-.cardBackgroundOverride .p-card {
-    background:#ff564a;
+/* #overrideAccordion .p-accordion-content {
+    background:#ffb0b0 !important;
 }
+#overrideAccordion .p-accordion-header-link {
+    background:#ffb0b0 !important;
+} */
+
+
+.cardBackgroundOverride .p-card {
+    background: linear-gradient(180deg, #ffb0b0 20%, #ffffff 50%);
+}
+/* 
+.accordionOverride .p-accordion .p-accordion-header .p-accordion-header-link {
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-content {
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link{
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link{
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link{
+    background: #ffb0b0;
+}
+
+.accordionOverride .p-accordion .p-accordion-header:.p-disabled .p-highlight .p-accordion-header-link{
+    background: #ffb0b0;
+} */
 

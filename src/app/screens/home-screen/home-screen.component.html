@@ -9,7 +9,7 @@
 <body>
     <div class="p-grid p-fluid">
         <div class="p-col-12 p-lg-6" *ngIf="unsubmittedForms.length !== 0" >
-            <p-card  class="cardBackgroundOverride">
+            <p-card class="cardBackgroundOverride">
                 <div class="p-grid">
                     <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
                         <i class="pi pi-exclamation-triangle" style="font-size: 0.8em;"></i>{{unsubmittedForms.length}} unsubmitted form(s)
@@ -21,8 +21,8 @@
                 </div>
                 
                 <h4>You are required to submit these forms before your consultation!</h4>
-                <p-accordion>
-                    <p-accordionTab header="Unsubmitted Forms">
+                <p-accordion id="overrideAccordion">
+                    <p-accordionTab id="overrideAccordion" header="Unsubmitted Forms" class="accordionOverride">
                         <p-table [value]="unsubmittedForms" [paginator]="true" [rows]="5">
                             <ng-template pTemplate="header">
                                 <tr>
