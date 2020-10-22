@@ -17,9 +17,9 @@ export class HomeScreenComponent implements OnInit {
   upcomingBookings: Booking[] = []
   unsubmittedForms: FormInstance[] = []
   sortOrder: number;
-
+  nextBooking: Booking
   sortField: string;
-
+  mostRecentBookingDate: Date
 
   constructor(private breadcrumbService: BreadcrumbService, private schedulerService: SchedulerService) {
     this.breadcrumbService.setItems([
@@ -39,6 +39,14 @@ export class HomeScreenComponent implements OnInit {
             a.bookingSlot.endDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.endDateTime)
             a.bookingSlot.startDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.startDateTime)
             this.upcomingBookings.push(a)
+            
+            if (this.mostRecentBookingDate === undefined) {
+              this.mostRecentBookingDate = a.bookingSlot.startDateTime
+              this.nextBooking = a
+            } else if (this.mostRecentBookingDate > a.bookingSlot.startDateTime) {
+              this.mostRecentBookingDate = a.bookingSlot.startDateTime
+              this.nextBooking = a
+            }
           }
         }
         for (let a of this.upcomingBookings) {
@@ -49,7 +57,6 @@ export class HomeScreenComponent implements OnInit {
             }
           }
         }
-        console.log("here")
 
       }, error => {
         console.error(error)

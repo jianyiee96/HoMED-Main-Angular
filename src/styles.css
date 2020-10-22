@@ -11,3 +11,8 @@
 .messageOveride2 .p-inline-message {
     justify-content: left;
 }
+
+.cardBackgroundOverride .p-card {
+    background:#ff564a;
+}
+
