@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class="card">
-            <p-dataView #dv [value]="unsubmittedForms" [paginator]="true" filterBy="name" [rows]="3" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder"
+            <p-dataView #dv [value]="unsubmittedForms" [paginator]="true" filterBy="name" [rows]="20" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder"
                 layout="grid" >
                 <ng-template pTemplate="header">
                     <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
@@ -62,7 +62,7 @@
                 </ng-template>
             </p-dataView>
         </div>
-        <!-- <div class="p-grid p-fluid">
+        <div class="p-grid p-fluid">
             <div class="p-col-12 p-lg-6">
                 <p-card *ngIf="unsubmittedForms.length !== 0">
                     <h1><i class="fas fa-exclamation"></i>Unsubmitted Forms</h1>
@@ -105,7 +105,7 @@
 
                 </p-card>
             </div>
-        </div> -->
+        </div>
     </body>
 </html>
 

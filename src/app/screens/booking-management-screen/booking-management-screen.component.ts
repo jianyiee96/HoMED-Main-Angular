@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
-import { delay } from 'rxjs/operators';
+import { delay, ignoreElements } from 'rxjs/operators';
 import { BookingSlot } from 'src/app/classes/booking-slot/booking-slot';
 import { Booking } from 'src/app/classes/booking/booking';
 import { ConsultationPurpose } from 'src/app/classes/consultationpurpose/consultationpurpose';
@@ -165,7 +165,7 @@ export class BookingManagementScreenComponent implements OnInit {
       },
       error => {
         console.log("HJEHEHE")
-        this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(32)});
+        this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(48)});
         console.log("HEHEHEHEE")
         // this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
       }
@@ -173,8 +173,19 @@ export class BookingManagementScreenComponent implements OnInit {
 
   }
 
+  sameDay(d1, d2) {
+    return d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate();
+  }
+
   confirmCancel() {
-    this.displayCancelDialog = true
+    if (this.sameDay(this.selectedBooking.bookingSlot.startDateTime, new Date())) {
+      this.messageService.add({severity:'error', summary: 'Error', detail: "You cannot cancel today's booking"});
+    } else {
+      this.displayCancelDialog = true
+    }
+
     // this.confirmationService.confirm({
     //   header: 'Confirm Booking?',
     //   icon: 'pi pi-exclamation-triangle',

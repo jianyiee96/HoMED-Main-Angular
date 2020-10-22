@@ -19,7 +19,7 @@
             styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="id">Id
+                <th pSortableColumn="id" style="width: 4rem;">Id
                   <p-sortIcon field="id">
                   </p-sortIcon>
                 </th>
@@ -38,9 +38,18 @@
               <tr [pSelectableRow]="consultation">
                 <td>{{consultation.consultationId}}</td>
                 <td>{{consultation.booking.consultationPurpose.consultationPurposeName}}</td>
-                <td>{{consultation.consultationStatusEnum}}</td>
-
-
+                <td *ngIf="consultation.consultationStatusEnum === 'WAITING'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-draft">{{consultation.consultationStatusEnum}}</span>
+                </td>
+                <td *ngIf="consultation.consultationStatusEnum === 'ONGOING'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-archived">{{consultation.consultationStatusEnum}}</span>
+                </td>
+                <td *ngIf="consultation.consultationStatusEnum === 'COMPLETED'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-submitted">{{consultation.consultationStatusEnum}}</span>
+                </td>
               </tr>
             </ng-template>
           </p-table>
@@ -54,14 +63,17 @@
 
           <div class="p-col-12 p-md-6">
 
-            <h4><i class="pi pi-calendar"></i> Consultation Slot</h4>
+            <h4><i class="pi pi-calendar"></i> Consultation Details</h4>
             <p><span style="font-weight: bold;">Booking Id:
               </span>{{selectedConsultation.booking.bookingId}}</p>
+
             <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'WAITING'">
-              <p><span style="font-weight: bold;">No. of patient(s) ahead:
-                </span>{{queueNumber - 1}}</p>
-              <p><span style="font-weight: bold;">Estimated Waiting Time:
-                </span>{{(queueNumber - 1)*15}}</p>
+              <p><span style="font-weight: bold;">Joined Queue At:
+                </span>{{selectedConsultation.joinQueueDateTime | date:'dd/MM/yyyy HH:mm'}}</p>
+              <p><span style="font-weight: bold;">Position In Queue:
+                </span>{{queueNumber}}</p>
+              <p><span style="font-weight: bold;">Est. Waiting Time:
+                </span>{{queueNumber * 15}}min</p>
             </ng-container>
             <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'ONGOING'">
               <p><span style="font-weight: bold;">Consultation is currently Ongoing!
@@ -74,15 +86,28 @@
                 </span>{{selectedConsultation.startDateTime | date:'HH:mm' }}</p>
               <p><span style="font-weight: bold;">Consultation End Time:
                 </span>{{selectedConsultation.endDateTime | date:'HH:mm' }}</p>
+              <p><span style="font-weight: bold;">Consultated by:
+                </span>Dr. {{selectedConsultation.medicalOfficer.name}}</p>
             </ng-container>
 
 
           </div>
           <div class="p-col-12 p-md-6">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
+                <p style="font-weight: bold;">
+                  {{selectedConsultation.booking.consultationPurpose.consultationPurposeName}}</p>
+              </div>
+              
+              <div class="p-col-12" style="margin-top: 15px;" *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'COMPLETED'">
+                
+                  <h4><i class="pi pi-user-edit"></i> Consultation Remarks</h4>
+                  <p>{{selectedConsultation.remarksForServiceman}}</p>
+                
+              </div>
+            </div>
 
-            <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
-            <p style="font-weight: bold;">
-              {{selectedConsultation.booking.consultationPurpose.consultationPurposeName}}</p>
 
           </div>
         </div>
@@ -117,10 +142,6 @@
               </tr>
             </ng-template>
           </p-table>
-        </ng-container>
-        <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'COMPLETED'">
-          <h4>Consultation Remarks</h4>
-          <p>{{selectedConsultation.remarksForServiceman}}</p>
         </ng-container>
 
       </p-card>

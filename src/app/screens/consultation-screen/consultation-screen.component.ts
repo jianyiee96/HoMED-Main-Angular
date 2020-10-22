@@ -47,9 +47,12 @@ export class ConsultationScreenComponent implements OnInit {
                 }, error => {
                     console.error(error)
                 }
+                
             )
+            this.selectedConsultation.joinQueueDateTime = this.convertUTCStringToSingaporeDate(this.selectedConsultation.joinQueueDateTime)
         } else if (this.selectedConsultation.consultationStatusEnum.toString().toUpperCase() === 'COMPLETED') {
             if (this.selectedConsultation.startDateTime.toString().includes("UTC")) {
+                
                 this.selectedConsultation.startDateTime = this.convertUTCStringToSingaporeDate(this.selectedConsultation.startDateTime)
                 this.selectedConsultation.endDateTime = this.convertUTCStringToSingaporeDate(this.selectedConsultation.endDateTime)
             }

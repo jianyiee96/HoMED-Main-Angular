@@ -43,7 +43,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
     private service: MessageService, private confirmationService: ConfirmationService,
-    private activatedRoute: ActivatedRoute, private schedulerService: SchedulerService
+    private activatedRoute: ActivatedRoute, private schedulerService: SchedulerService,
+    private messageService: MessageService
   ) {
     this.breadcrumbService.setItems([
       { label: 'eForm Management' },
@@ -386,8 +387,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
             this.ngOnInit()
           },
           error => {
-            this.msgForDialog = []
-            this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+            if(!this.selected) {
+              this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(47)});
+            }
+            
           }
         );
       },
