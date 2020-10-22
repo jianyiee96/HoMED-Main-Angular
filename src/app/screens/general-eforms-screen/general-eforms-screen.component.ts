@@ -387,9 +387,9 @@ export class GeneralEFormsScreenComponent implements OnInit {
             this.ngOnInit()
           },
           error => {
-            if(!this.selected) {
-              this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(47)});
-            }
+            
+              this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(37)});
+            
             
           }
         );
