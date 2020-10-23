@@ -103,7 +103,7 @@
                             <div *ngIf="formField.inputType === 'DATE'">
                                 <p-message class="messageOveride inputTypeMsg" severity="info" text="Multi-dropdown"></p-message> 
                                 <h4 class=p-grid>{{formField.question}} <div class="isRequiredSymbol" *ngIf="formField.isRequired">*</div></h4>
-                                <p-calendar [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)" ></p-calendar>
+                                <p-calendar [showIcon]="true" placeholder="Insert Date (DD/MM/YYYY)" dateFormat="DD/MM/YYYY"></p-calendar>
                             </div>
                             <div *ngIf="formField.inputType === 'TIME'">
                                 <p-message class="messageOveride inputTypeMsg" severity="info" text="Time"></p-message>

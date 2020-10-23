@@ -90,7 +90,8 @@ export class BookingManagementScreenComponent implements OnInit {
             for (var index = 0; index < this.myBookings.length; index++) {
               if (this.myBookings[index].bookingId === this.passedBookingId) {
                 this.selectedBooking = this.myBookings[index];
-                this.displayDetails = true
+                let a = ''
+                this.onRowSelect(a)
                 break;
               }
             }
@@ -191,6 +192,7 @@ export class BookingManagementScreenComponent implements OnInit {
 
         })
         this.messageService.add({ severity: 'success', summary: '', detail: 'Booking Cancelled Successfully' })
+        this.msgForDialog = []
         this.ngOnInit()
       },
       error => {

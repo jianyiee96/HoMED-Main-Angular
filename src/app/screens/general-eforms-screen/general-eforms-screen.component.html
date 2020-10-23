@@ -258,7 +258,8 @@
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                         [ngModelOptions]="{standalone: true}" [showIcon]="true"
                                         placeholder="Insert Date (DD/MM/YYYY)"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                        dateFormat="DD/MM/YYYY">
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">

@@ -107,7 +107,7 @@
           </ng-container>
           <h4>Select Date</h4>
           <p-calendar [(ngModel)]="selectedDate" name="selectedDate" placeholder="Select Date (DD/MM/YYYY)"
-            (onSelect)="displayAvailableSlots()"></p-calendar>
+            (onSelect)="displayAvailableSlots()" dateFormat="DD/MM/YYYY"></p-calendar>
           <ng-container *ngIf="dateRetrieved">
             <br />
             <ng-container *ngIf="availableSlots.length != 0">
@@ -225,7 +225,8 @@
             <h4><i class="pi pi-pencil"></i> Booking Comment</h4>
             <p>{{selectedBooking.bookingComment}}</p>
           </ng-container>
-          <ng-container *ngIf="selectedBooking.cancellationComment !== undefined && selectedBooking.bookingStatusEnum.toString() === 'CANCELLED'">
+          <ng-container *ngIf="selectedBooking.cancellationComment !== undefined && 
+          (selectedBooking.bookingStatusEnum.toString() === 'CANCELLED' || selectedBooking.bookingStatusEnum.toString() === 'CANCELLED')">
             <h4><i class="pi pi-calendar-times"></i> Cancellation Reason</h4>
             <p>{{selectedBooking.cancellationComment}}</p>
           </ng-container>
