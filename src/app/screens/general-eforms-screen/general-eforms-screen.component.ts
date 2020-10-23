@@ -213,7 +213,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "DATE" || field.formFieldMapping.inputType.toString().toUpperCase() === "TIME") {
 
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
-          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toString())
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toISOString())
         }
       }
 
@@ -358,6 +358,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submitFormInstance() {
+    
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
         this.clearDialog()
