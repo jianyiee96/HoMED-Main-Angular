@@ -107,7 +107,7 @@
           </ng-container>
           <h4>Select Date</h4>
           <p-calendar [(ngModel)]="selectedDate" name="selectedDate" placeholder="Select Date (DD/MM/YYYY)"
-            (onSelect)="displayAvailableSlots()" dateFormat="DD/MM/YYYY"></p-calendar>
+            (onSelect)="displayAvailableSlots()" dateFormat="dd/mm/yy"></p-calendar>
           <ng-container *ngIf="dateRetrieved">
             <br />
             <ng-container *ngIf="availableSlots.length != 0">
