@@ -2,213 +2,248 @@
 <html>
 
 <head>
-    <title>Manage Booking</title>
+  <title>Manage Booking</title>
 </head>
 
 <body>
-    <div class="p-grid p-fluid">
-        <div class="p-col-12 p-lg-6">
-            <div class="card" style="text-align: left;">
-                <div class="p-grid p-fluid">
-                    <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
-                        My Bookings
-                    </div>
-                    <div class="p-col-12 p-md-4">
-                        <button pButton icon="pi pi-plus" label="Create New Booking"
-                            (click)="displayNewBoookingCreation()" style="float:right; margin-left: 5px;"></button>
-                    </div>
-                </div>
-                <ng-container *ngIf="myBookings.length === 0">
-                    <h4>You currently have no booking</h4>
-                </ng-container>
-                <ng-container *ngIf="myBookings.length !== 0">
-                    <p-table #dt [value]="myBookings" selectionMode="single" [(selection)]="selectedBooking"
-                        dataKey="bookingId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
-                        styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="bookingId">Booking Id
-                                    <p-sortIcon field="bookingId">
-                                    </p-sortIcon>
-                                </th>
-                                <th pSortableColumn="consultationPurpose.consultationPurposeName">Consultation Purpose
-                                    <p-sortIcon field="consultationPurpose.consultationPurposeName">
-                                    </p-sortIcon>
-                                </th>
-                                <th pSortableColumn="bookingSlot.startDateTime">Booking Slot<p-sortIcon
-                                        field="bookingSlot.startDateTime">
-                                    </p-sortIcon>
-                                </th>
-                                <th pSortableColumn="bookingStatusEnum">Consultation Status <p-sortIcon
-                                        field="bookingStatusEnum">
-                                    </p-sortIcon>
-                                </th>
-                                <th pSortableColumn="formInstance.length">Forms Needed<p-sortIcon
-                                        field="formInstance.length">
-                                    </p-sortIcon>
-                                </th>
-
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-booking>
-                            <tr [pSelectableRow]="booking">
-                                <td>{{booking.bookingId}}</td>
-                                <td>{{booking.consultationPurpose.consultationPurposeName}}</td>
-                                <td>{{booking.bookingSlot.startDateTime | date:'dd/MM/yyyy'}}
-                                    {{booking.bookingSlot.startDateTime | date:'HH:mm' }} -
-                                    {{booking.bookingSlot.endDateTime | date:'HH:mm' }}</td>
-                                <td *ngIf="booking.bookingStatusEnum === 'UPCOMING'">
-                                    <span class="form-status-badge form-instance-status-badge-draft">{{booking.bookingStatusEnum}}</span>
-                                </td>
-                                <td *ngIf="booking.bookingStatusEnum === 'CANCELLED'">
-                                    <span class="form-status-badge form-instance-status-badge-archived">{{booking.bookingStatusEnum}}</span>
-                                </td>
-                                <td *ngIf="booking.bookingStatusEnum === 'ABSENT'">
-                                    <span class="form-status-badge form-instance-status-badge-archived">{{booking.bookingStatusEnum}}</span>
-                                </td>
-                                <td *ngIf="booking.bookingStatusEnum === 'PRESENT'">
-                                    <span class="form-status-badge form-instance-status-badge-submitted">{{booking.bookingStatusEnum}}</span>
-                                </td>
-                                <td>{{booking.formInstances.length}}</td>
-
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </ng-container>
-
-
-
-            </div>
+  <p-toast></p-toast>
+  <div class="p-grid p-fluid">
+    <div class="p-col-12 p-lg-6">
+      <div class="card" style="text-align: left;">
+        <div class="p-grid p-fluid">
+          <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
+            My Bookings
+          </div>
+          <div class="p-col-12 p-md-4">
+            <button pButton icon="pi pi-plus" label="Create New Booking" (click)="displayNewBoookingCreation()"
+              style="float:right; margin-left: 5px;"></button>
+          </div>
         </div>
-        <div class="p-col-12 p-lg-6">
-            <div *ngIf="newBookingCreationDisplay" class="card" style="text-align: left;">
-                <h1>Schedule New Booking</h1>
-                <form #createNewBookingForm="ngForm" (ngSubmit)="submit(createNewBookingForm)">
-                    <h4>Select Consultation Purpose</h4>
-                    <p-dropdown [options]="consultationPurposes" [(ngModel)]="selectedConsultationPurpose"
-                        placeholder="Select a purpose" optionLabel="consultationPurposeName" [showClear]="true"
-                        name="consultationPurpose" (onChange)="displayAvailableSlots()"
-                        placeholder="Select Consultation Purpose"></p-dropdown>
-                    <h4>Select Medical Centre</h4>
-                    <p-dropdown [options]="medicalCentres" [(ngModel)]="selectedMedicalCentre"
-                        placeholder="Select a Medical Centre" optionLabel="name" [showClear]="true" name="medicalCentre"
-                        placeholder="Select Medical Centre" (onChange)="displayAvailableSlots()"></p-dropdown>
-                    <ng-container *ngIf="selectedMedicalCentre != null">
-                        <p-card>
-                            <h4>{{selectedMedicalCentre.name}}</h4>
-                            <p>Phone: {{selectedMedicalCentre.phone}}</p>
-                            <p>Address: {{selectedMedicalCentre.address.streetName}}
-                                S{{selectedMedicalCentre.address.postal}}</p>
-                        </p-card>
-                    </ng-container>
-                    <h4>Select Date</h4>
-                    <p-calendar [(ngModel)]="selectedDate" name="selectedDate" placeholder="Select Date (DD/MM/YYYY)"
-                        (onSelect)="displayAvailableSlots()"></p-calendar>
-                    <ng-container *ngIf="dateRetrieved">
-                        <br />
-                        <ng-container *ngIf="availableSlots.length != 0">
-                            <p-scrollPanel [style]="{width: '100%', height: '280px'}">
+        <ng-container *ngIf="myBookings.length === 0">
+          <h4>You currently have no booking</h4>
+        </ng-container>
+        <ng-container *ngIf="myBookings.length !== 0">
+          <p-table #dt [value]="myBookings" selectionMode="single" [(selection)]="selectedBooking"
+            dataKey="bookingId" sortField="bookingStatusEnum" [sortOrder]="-1" [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[10,25,50]" (onRowSelect)="onRowSelect($event)"
+            (onRowUnselect)="onRowUnselect($event)"
+            styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="bookingId">Booking Id
+                  <p-sortIcon field="bookingId">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="consultationPurpose.consultationPurposeName">Consultation Purpose
+                  <p-sortIcon field="consultationPurpose.consultationPurposeName">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="bookingSlot.startDateTime">Booking Slot<p-sortIcon
+                    field="bookingSlot.startDateTime">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="bookingStatusEnum">Booking Status <p-sortIcon field="bookingStatusEnum">
+                  </p-sortIcon>
+                </th>
+                <th pSortableColumn="formInstance.length">Form Quantity<p-sortIcon field="formInstance.length">
+                  </p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-booking>
+              <tr [pSelectableRow]="booking">
+                <td>{{booking.bookingId}}</td>
+                <td>{{booking.consultationPurpose.consultationPurposeName}}</td>
+                <td>{{booking.bookingSlot.startDateTime | date:'dd/MM/yyyy'}}
+                  {{booking.bookingSlot.startDateTime | date:'HH:mm' }} -
+                  {{booking.bookingSlot.endDateTime | date:'HH:mm' }}</td>
+                <td *ngIf="booking.bookingStatusEnum === 'UPCOMING'">
+                  <span class="form-status-badge form-instance-status-badge-draft">{{booking.bookingStatusEnum}}</span>
+                </td>
+                <td *ngIf="booking.bookingStatusEnum === 'CANCELLED'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-archived">{{booking.bookingStatusEnum}}</span>
+                </td>
+                <td *ngIf="booking.bookingStatusEnum === 'ABSENT'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-archived">{{booking.bookingStatusEnum}}</span>
+                </td>
+                <td *ngIf="booking.bookingStatusEnum === 'PAST'">
+                  <span
+                    class="form-status-badge form-instance-status-badge-submitted">{{booking.bookingStatusEnum}}</span>
+                </td>
+                <td>{{booking.formInstances.length}}</td>
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-container>
 
 
-                                <div *ngFor="let availableSlot of availableSlots">
-                                    <h4>
-                                        <p-radioButton [value]="availableSlot"
-                                            label="{{availableSlot.startDateTime | date:'HH:mm'}} - {{availableSlot.endDateTime | date:'HH:mm'}}"
-                                            [ngModelOptions]="{standalone: true}" dataKey="slotId"
-                                            [(ngModel)]="selectedSlot" name="slot"></p-radioButton>
-                                    </h4>
-                                </div>
-                            </p-scrollPanel>
-                        </ng-container>
-                        <ng-container *ngIf="availableSlots.length == 0">
-                            <h4>There is no available slot</h4>
-                        </ng-container>
-                    </ng-container>
-                    <!-- <ng-container *ngIf="selectedSlot == null">
+
+      </div>
+    </div>
+    <div class="p-col-12 p-lg-6">
+      <div *ngIf="newBookingCreationDisplay" class="card" style="text-align: left;">
+        <h1>Schedule New Booking</h1>
+        <form #createNewBookingForm="ngForm" (ngSubmit)="submit(createNewBookingForm)">
+          <h4>Select Consultation Purpose</h4>
+          <p-dropdown [options]="consultationPurposes" [(ngModel)]="selectedConsultationPurpose"
+            placeholder="Select a purpose" optionLabel="consultationPurposeName" [showClear]="true"
+            name="consultationPurpose" (onChange)="displayAvailableSlots()" placeholder="Select Consultation Purpose">
+          </p-dropdown>
+          <h4>Select Medical Centre</h4>
+          <p-dropdown [options]="medicalCentres" [(ngModel)]="selectedMedicalCentre"
+            placeholder="Select a Medical Centre" optionLabel="name" [showClear]="true" name="medicalCentre"
+            placeholder="Select Medical Centre" (onChange)="displayAvailableSlots()"></p-dropdown>
+          <ng-container *ngIf="selectedMedicalCentre != null">
+            <p-card>
+              <h4>{{selectedMedicalCentre.name}}</h4>
+              <p>Phone: {{selectedMedicalCentre.phone}}</p>
+              <p>Address: {{formatAddress(selectedMedicalCentre.address.streetName, selectedMedicalCentre.address.buildingName,
+                selectedMedicalCentre.address.unitNumber,
+                selectedMedicalCentre.address.country, selectedMedicalCentre.address.postal)}}</p>
+            </p-card>
+          </ng-container>
+          <h4>Select Date</h4>
+          <p-calendar [(ngModel)]="selectedDate" name="selectedDate" placeholder="Select Date (DD/MM/YYYY)"
+            (onSelect)="displayAvailableSlots()" dateFormat="DD/MM/YYYY"></p-calendar>
+          <ng-container *ngIf="dateRetrieved">
+            <br />
+            <ng-container *ngIf="availableSlots.length != 0">
+              <p-scrollPanel [style]="{width: '100%', height: '280px'}">
+                <div *ngFor="let availableSlot of availableSlots">
+                  <h4>
+                    <p-radioButton [value]="availableSlot"
+                      label="{{availableSlot.startDateTime | date:'HH:mm'}} - {{availableSlot.endDateTime | date:'HH:mm'}}"
+                       dataKey="slotId" [(ngModel)]="selectedSlot" name="slot">
+                    </p-radioButton>
+                  </h4>
+                </div>
+              </p-scrollPanel>
+            </ng-container>
+            <ng-container *ngIf="availableSlots.length == 0">
+              <h4>There is no available slot</h4>
+            </ng-container>
+          </ng-container>
+          <!-- <ng-container *ngIf="selectedSlot == null">
                         <button pButton icon="pi pi-calender"
                         label="Book Slot" disabled="true">
                         </button>
                     </ng-container> -->
-                    <ng-container *ngIf="selectedSlot != null">
-                        <button pButton icon="pi pi-calender"
-                            label="Book Slot ({{selectedSlot.startDateTime | date:'HH:mm'}} - {{selectedSlot.endDateTime | date:'HH:mm'}})"
-                            (click)="confirmCreate()">
-                        </button>
-                    </ng-container>
-                </form>
+
+          <ng-container *ngIf="selectedSlot != null">
+            <h4>Booking Comments</h4>
+            <textarea pInputTextarea placeholder="This section is optional" [(ngModel)]=bookingComment name="bookingComment"></textarea>
+            <button pButton icon="pi pi-calender"
+              label="Book Slot ({{selectedSlot.startDateTime | date:'HH:mm'}} - {{selectedSlot.endDateTime | date:'HH:mm'}})"
+              (click)="confirmCreate()">
+            </button>
+          </ng-container>
+        </form>
+      </div>
+      <ng-container *ngIf="displayDetails">
+        <p-card>
+          <div class="p-grid">
+            
+            <div class="p-col-12 p-md-9" style="font-size: 30px; font-weight: bold;">
+              Booking Details
             </div>
-            <ng-container *ngIf="displayDetails">
-                <p-card>
-                    <div class="p-grid">
-                        <div class="p-col-12 p-md-9" style="font-size: 30px; font-weight: bold;">
-                            Booking Details
-                        </div>
-                        <div class="p-col-12 p-md-3">
-                            <button class="" pButton icon="pi pi-calendar-times" label="Cancel Booking"
-                                *ngIf="selectedBooking.bookingStatusEnum.toString() === 'UPCOMING'"
-                                (click)="cancelBooking()" class="p-button-danger"
-                                style=" float:right; margin-left: 5px;"></button>
-                        </div>
-                    </div>
+            <div class="p-col-12 p-md-3">
+              <button class="" pButton icon="pi pi-calendar-times" label="Cancel Booking"
+                *ngIf="selectedBooking.bookingStatusEnum.toString() === 'UPCOMING'" (click)="confirmCancel()"
+                class="p-button-danger" style=" float:right; margin-left: 5px;"></button>
+            </div>
+          </div>
 
-                    <p-messages [(value)]="unsubmittedFormMessages" [enableService]="false"></p-messages>
-                    <div class="p-grid">
-                        <div class="p-col-12 p-md-6">
+          <p-messages [(value)]="unsubmittedFormMessages" [enableService]="false"></p-messages>
+          <div class="p-grid">
 
-                            <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
-                            <p>{{selectedBooking.consultationPurpose.consultationPurposeName}}</p>
+            <div class="p-col-12 p-md-6">
 
-                        </div>
-                        <div class="p-col-12 p-md-6">
+              <h4><i class="pi pi-calendar"></i> Booking Slot</h4>
+              <p><span style="font-weight: bold;">Booking Date:
+                </span>{{selectedBooking.bookingSlot.startDateTime | date:'dd/MM/yyyy'}}</p>
+              <p><span style="font-weight: bold;">Estimated Start Time:
+                </span>{{selectedBooking.bookingSlot.startDateTime | date:'HH:mm' }}</p>
+              <p><span style="font-weight: bold;">Estimated End Time:
+                </span>{{selectedBooking.bookingSlot.endDateTime | date:'HH:mm' }}</p>
 
-                            <h4><i class="pi pi-calendar"></i> Booking Slot</h4>
-                            <p><span style="font-weight: bold;">Booking Date: </span>{{selectedBooking.bookingSlot.startDateTime | date:'dd/MM/yyyy'}}</p>
-                            <p><span style="font-weight: bold;">Estimated Start Time: </span>{{selectedBooking.bookingSlot.startDateTime | date:'HH:mm' }}</p>
-                            <p><span style="font-weight: bold;">Estimated End Time: </span>{{selectedBooking.bookingSlot.endDateTime | date:'HH:mm' }}</p>
+            </div>
+            <div class="p-col-12 p-md-6">
 
-                        </div>
-                    </div>
-                    <h4><i class="pi pi-map-marker"></i> Venue</h4>
-                    <p-card>
-                        <p style="font-weight: bold;">{{selectedBooking.bookingSlot.medicalCentre.name}}</p>
-                        <p>Phone: {{selectedBooking.bookingSlot.medicalCentre.phone}}</p>
-                        <p>Address: {{selectedBooking.bookingSlot.medicalCentre.address.streetName}}
-                            S{{selectedBooking.bookingSlot.medicalCentre.address.postal}}</p>
-                    </p-card>
+              <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
+              <p style="font-weight: bold;">
+                {{selectedBooking.consultationPurpose.consultationPurposeName}}</p>
 
-                    <ng-container *ngIf="selectedBooking.formInstances.length !== 0">
-                        <h4><i class="pi pi-tags"></i> Required Forms</h4>
-                        <p-table [value]="selectedBooking.formInstances">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Form Name</th>
-                                    <th>Status</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-fi>
-                                <tr>
-                                    <td><a
-                                            href="/general-eforms-screen/{{fi.formInstanceId}}">{{fi.formTemplateMapping.formTemplateName}}</a>
-                                    </td>
-                                    <td *ngIf="fi.formInstanceStatusEnum === 'SUBMITTED'">
-                                        <span  class="form-status-badge form-instance-status-badge-submitted">{{fi.formInstanceStatusEnum}}</span>
-                                    </td>
-                                    <td *ngIf="fi.formInstanceStatusEnum === 'DRAFT'">
-                                        <span class="form-status-badge form-instance-status-badge-draft">{{fi.formInstanceStatusEnum}}</span>
-                                    </td>
-                                    <td *ngIf="fi.formInstanceStatusEnum === 'ARCHIVED'">
-                                        <span class="form-status-badge form-instance-status-badge-archived">{{fi.formInstanceStatusEnum}}</span>
-                                    </td>
+            </div>
+          </div>
+          <h4><i class="pi pi-map-marker"></i> Venue</h4>
+          <p-card>
+            <h5 style="font-weight: bold;">{{selectedBooking.bookingSlot.medicalCentre.name}}</h5>
+            <p><span style="font-weight: bold;">Phone:
+              </span>{{selectedBooking.bookingSlot.medicalCentre.phone}}</p>
+            <p><span style="font-weight: bold;">Address:
+              
+              </span>{{formatAddress(selectedBooking.bookingSlot.medicalCentre.address.streetName, selectedBooking.bookingSlot.medicalCentre.address.buildingName,
+                selectedBooking.bookingSlot.medicalCentre.address.unitNumber,
+                selectedBooking.bookingSlot.medicalCentre.address.country, selectedBooking.bookingSlot.medicalCentre.address.postal)}}</p>
+          </p-card>
 
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </ng-container>
+          <ng-container *ngIf="selectedBooking.formInstances.length !== 0">
+            <h4><i class="pi pi-tags"></i> Required Forms</h4>
+            <p-table [value]="selectedBooking.formInstances">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Form Name</th>
+                  <th>Status</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-fi>
+                <tr>
+                  <td><a
+                      href="/general-eforms-screen/{{fi.formInstanceId}}">{{fi.formTemplateMapping.formTemplateName}}</a>
+                  </td>
+                  <td *ngIf="fi.formInstanceStatusEnum === 'SUBMITTED'">
+                    <span
+                      class="form-status-badge form-instance-status-badge-submitted">{{fi.formInstanceStatusEnum}}</span>
+                  </td>
+                  <td *ngIf="fi.formInstanceStatusEnum === 'DRAFT'">
+                    <span
+                      class="form-status-badge form-instance-status-badge-draft">{{fi.formInstanceStatusEnum}}</span>
+                  </td>
+                  <td *ngIf="fi.formInstanceStatusEnum === 'ARCHIVED'">
+                    <span
+                      class="form-status-badge form-instance-status-badge-archived">{{fi.formInstanceStatusEnum}}</span>
+                  </td>
 
-                </p-card>
-            </ng-container>
-        </div>
+                </tr>
+              </ng-template>
+            </p-table>
+          </ng-container>
+          <ng-container *ngIf="selectedBooking.bookingComment !== '' ">
+            <h4><i class="pi pi-pencil"></i> Booking Comment</h4>
+            <p>{{selectedBooking.bookingComment}}</p>
+          </ng-container>
+          <ng-container *ngIf="selectedBooking.cancellationComment !== undefined && 
+          (selectedBooking.bookingStatusEnum.toString() === 'CANCELLED' || selectedBooking.bookingStatusEnum.toString() === 'CANCELLED')">
+            <h4><i class="pi pi-calendar-times"></i> Cancellation Reason</h4>
+            <p>{{selectedBooking.cancellationComment}}</p>
+          </ng-container>
+
+        </p-card>
+      </ng-container>
     </div>
+  </div>
+  <p-dialog header="Cancel Booking?" [(visible)]="displayCancelDialog"  [baseZIndex]="10000">
+    <p>Are you sure you would like to cancel the booking? Once cancelled, it is irreversable</p>
+    <h4>Add Cancellation Reason</h4>
+    <textarea pInputTextarea style="width: 520px;"placeholder="This section is optional" [(ngModel)]="cancellationComment"></textarea>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-times" (click)="displayCancelDialog=false" label="No" styleClass="p-button-danger"></p-button>
+      <p-button icon="pi pi-check" (click)="cancelBooking()" label="Yes" styleClass="p-button-info"></p-button>
+    </ng-template>
+  </p-dialog>
 
 </body>
 

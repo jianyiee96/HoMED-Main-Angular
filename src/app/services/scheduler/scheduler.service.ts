@@ -34,20 +34,22 @@ export class SchedulerService {
     );
   }
 
-  scheduleBooking(servicemanId: number, consultationPurposeId: number, bookingSlotId): Observable<any> {
+  scheduleBooking(servicemanId: number, consultationPurposeId: number, bookingSlotId: number, bookingComment: string): Observable<any> {
     let scheduleBookingreq = {
         "servicemanId": servicemanId,
         "consultationPurposeId": consultationPurposeId,
-        "bookingSlotId": bookingSlotId
+        "bookingSlotId": bookingSlotId,
+        "bookingComment": bookingComment
     }
     return this.httpClient.post<any>(this.baseUrl + "/scheduleBooking", scheduleBookingreq, this.sessionService.getSecuredHttpOptions()).pipe(
         catchError(this.handleError)
       );
   }
 
-  cancelBooking(bookingId): Observable<any> {
+  cancelBooking(bookingId, cancellationComment): Observable<any> {
     let cancelBookingReq = {
         "bookingId": bookingId,
+        "cancellationComment": cancellationComment
     }
     return this.httpClient.post<any>(this.baseUrl + "/cancelBooking", cancelBookingReq, this.sessionService.getSecuredHttpOptions()).pipe(
         catchError(this.handleError)
@@ -69,7 +71,7 @@ export class SchedulerService {
       errorMessage = "An unknown error has occurred: " + error.error.message;
     }
     else {
-      errorMessage = "A HTTP error has occurred: " + `HTTP ${error.status}: ${error.error.message}`;
+      errorMessage = "A HTTP error has occurred: " + `HTTP Error code ${error.status}: ${error.error.message}`;
     }
     console.error(errorMessage);
     return throwError(errorMessage);

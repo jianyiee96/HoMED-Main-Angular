@@ -5,6 +5,7 @@ import { SharedModule } from '../../shared.module';
 
 import { HomeScreenComponentRoutingModule } from './home-screen-routing.module';
 import { HomeScreenComponent } from './home-screen.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -12,7 +13,8 @@ import { HomeScreenComponent } from './home-screen.component';
   imports: [
     CommonModule,
     SharedModule,
-    HomeScreenComponentRoutingModule
+    HomeScreenComponentRoutingModule,
+    FontAwesomeModule
   ],
   declarations: [HomeScreenComponent]
 })

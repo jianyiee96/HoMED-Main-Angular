@@ -5,7 +5,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
-const PRIMARY_TIMER_SEC: number = 15*60
+const PRIMARY_TIMER_SEC: number = 15 * 60
 const SECONDARY_TIMER_SEC: number = 60
 
 @Component({
@@ -17,47 +17,46 @@ const SECONDARY_TIMER_SEC: number = 60
 
 export class AppComponent implements OnInit {
 
-  primaryTimer : BnNgIdleService
-  interval : any
+  primaryTimer: BnNgIdleService
+  interval: any
   timeLeft: number
 
   title = 'HoMED-Main-Angular'
 
-  constructor( private messageService: MessageService, 
-              private router: Router, private sessionService: SessionService,
-              private confirmationService: ConfirmationService) {}
+  constructor(private messageService: MessageService,
+    private router: Router, private sessionService: SessionService,
+    private confirmationService: ConfirmationService) { }
 
 
   ngOnInit() {
     if (this.sessionService.getCurrentServiceman() != null) {
-      this.startTimer()   
+      this.startTimer()
     }
-  }   
-  
-       
+  }
+
   startTimer() {
     this.messageService.clear(); // clear all toast
     this.primaryTimer = new BnNgIdleService()
     this.primaryTimer.startWatching(PRIMARY_TIMER_SEC).subscribe((primaryTimedOut: boolean) => {
-        if (primaryTimedOut) {
-          this.primaryTimer.stopTimer()
+      if (primaryTimedOut) {
+        this.primaryTimer.stopTimer()
 
-          this.timeLeft = SECONDARY_TIMER_SEC
-          this.interval = setInterval(() => {
-            if(this.timeLeft > 0) {
-              this.timeLeft--;
-            } else {
-              clearInterval(this.interval);
-              this.logout()
-              this.addTimeoutToast()
-              this.confirmationService.close()
-              this.timeLeft = SECONDARY_TIMER_SEC;
-            }
-          },1000)
+        this.timeLeft = SECONDARY_TIMER_SEC
+        this.interval = setInterval(() => {
+          if (this.timeLeft > 0) {
+            this.timeLeft--;
+          } else {
+            clearInterval(this.interval);
+            this.logout()
+            this.addTimeoutToast()
+            this.confirmationService.close()
+            this.timeLeft = SECONDARY_TIMER_SEC;
+          }
+        }, 1000)
 
-          this.confirm()  
-        }
-      
+        this.confirm()
+      }
+
     });
 
   }
@@ -77,29 +76,32 @@ export class AppComponent implements OnInit {
   }
 
   addTimeoutToast() {
-    this.messageService.add({ key: 'timeout', severity: 'info', summary: 'Your session has expired', 
-          detail: 'You have been logged out due to security reasons', life:30000 });
-  } 
+    this.messageService.add({
+      key: 'timeout', severity: 'info', summary: 'Your session has expired',
+      detail: 'You have been logged out due to security reasons', life: 30000
+    });
+  }
+
 
 
   confirm() {
     this.confirmationService.confirm({
-        header: 'Your session will expire in '+ this.timeLeft+' seconds',
-        icon: 'pi pi-exclamation-triangle',
-        message: 'Would you like to extend your session?',
-        acceptLabel: 'Extend',
-        rejectLabel: 'Logout',
-        accept: () => {
-          clearInterval(this.interval);
-          this.timeLeft = SECONDARY_TIMER_SEC
-          this.startTimer()
-        },
-        reject: () => {
-          clearInterval(this.interval);
-          this.timeLeft = SECONDARY_TIMER_SEC
-          this.logout()
-          this.addTimeoutToast()          
-        }
+      header: 'Your session will expire in ' + this.timeLeft + ' seconds',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'Would you like to extend your session?',
+      acceptLabel: 'Extend',
+      rejectLabel: 'Logout',
+      accept: () => {
+        clearInterval(this.interval);
+        this.timeLeft = SECONDARY_TIMER_SEC
+        this.startTimer()
+      },
+      reject: () => {
+        clearInterval(this.interval);
+        this.timeLeft = SECONDARY_TIMER_SEC
+        this.logout()
+        this.addTimeoutToast()
+      }
     });
   }
 

@@ -1,16 +1,119 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Home Page</title>
-    </head>
-    <body>
-        <div class=p-grid>
-            <div class=p-col-12>
-                <div class="card">
-                    <h1>Home Page</h1>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
 
+<head>
+
+    <title>Home Page</title>
+</head>
+
+<body>
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-lg-6" *ngIf="unsubmittedForms.length !== 0" >
+            <p-card class="cardBackgroundOverride">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
+                        <i class="pi pi-exclamation-triangle" style="font-size: 0.8em;"></i> {{unsubmittedForms.length}} unsubmitted form(s)
+                    </div>
+                    <div class="p-col-12 p-md-4">
+                        <button pButton icon="pi pi-chevron-right"
+                            label="View All Forms" routerLink="/general-eforms-screen"></button>
+                    </div>
+                </div>
+                
+                <h4 style=" color: red;">You are required to submit these forms before your consultation!</h4>
+                <p-accordion id="overrideAccordion">
+                    <p-accordionTab id="overrideAccordion" header="Unsubmitted Forms" class="accordionOverride">
+                        <p-table [value]="unsubmittedForms" [paginator]="true" [rows]="5">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Form Name</th>
+                                    <th>Consultation Purpose</th>
+                                    <th>Due Date</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-formInstance>
+                                <tr>
+                                    <td><a
+                                            href="/general-eforms-screen/{{formInstance.formInstanceId}}">{{formInstance.formTemplateMapping.formTemplateName}}</a>
+                                    </td>
+                                    <td>{{formInstance.booking.consultationPurpose.consultationPurposeName}}</td>
+                                    <td>{{formInstance.booking.bookingSlot.startDateTime | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                            </ng-template>
+        
+                        </p-table>
+                    </p-accordionTab>
+                </p-accordion>
+                
+            </p-card>
+        </div>
+        <div class="p-col-12 p-lg-6">
+            <p-card >
+                <p-header>
+                <img src="../../../assets/doctorcard.jpg" library="serenity-layout" />
+                </p-header>
+                <ng-container *ngIf="nextBooking !== undefined">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
+                            <h1>Upcoming Booking</h1>
+                        </div>
+                        <div class="p-col-12 p-md-4">
+                            <button pButton icon="pi pi-chevron-right"
+                                label="View Booking" routerLink="/booking-management-screen/{{nextBooking.bookingId}}"></button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-grid">
+                        <div class="p-col-6">
+                            <h4><i class="pi pi-check-square"></i> Consultation Purpose</h4>
+                            <p>{{nextBooking.consultationPurpose.consultationPurposeName}}</p>
+                        </div>
+                        <div class="p-col-6">
+                            <h4><i class="pi pi-map-marker"></i> Venue</h4>
+                            <p>{{nextBooking.bookingSlot.medicalCentre.name}}</p>
+                        </div>
+                        <div class="p-col-6">
+                            <h4><i class="pi pi-calendar"></i> Date</h4>
+                            <p>{{nextBooking.bookingSlot.startDateTime | date:'dd/MM/yyyy HH:mm'}}</p>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="nextBooking === undefined">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
+                            <h1>Upcoming Booking</h1>
+                            
+                        </div>
+                        <div class="p-col-12">
+                            <p>You have no upcoming booking</p>
+                        </div>
+                        
+                    </div>
+                </ng-container>
+                
+
+                <!-- <p-table [value]="upcomingBookings" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Consultation Purpose</th>
+                            <th>Booking Slot</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-booking>
+                        <tr>
+                            <td><a
+                                    href="/booking-management-screen/{{booking.bookingId}}">{{booking.consultationPurpose.consultationPurposeName}}</a>
+                            </td>
+                            <td>{{booking.bookingSlot.startDateTime | date:'dd/MM/yyyy'}}
+                                {{booking.bookingSlot.startDateTime | date:'HH:mm' }} -
+                                {{booking.bookingSlot.endDateTime | date:'HH:mm' }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table> -->
+
+            </p-card>
+        </div>
+    </div>
+</body>
+
+</html>

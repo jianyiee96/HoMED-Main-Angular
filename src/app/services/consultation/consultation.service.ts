@@ -31,6 +31,23 @@ export class ConsultationService {
     );
   }
 
+
+  retrieveConsultationQueuePosition(consultationId?: number): Observable<any> {
+    console.log(this.sessionService.getSecuredHttpOptions())
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveConsultationQueuePosition?consultationId=" + 
+    consultationId, this.sessionService.getSecuredHttpOptions()).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  retrieveServicemanConsultations(): Observable<any> {
+    console.log(this.sessionService.getSecuredHttpOptions())
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveServicemanConsultations?servicemanId=" + 
+    this.sessionService.getCurrentServiceman().servicemanId, this.sessionService.getSecuredHttpOptions()).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage: string = "";
 

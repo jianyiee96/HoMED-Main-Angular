@@ -6,7 +6,7 @@
 </head>
 
 <body>
-
+    <p-toast *ngIf="!selected"></p-toast>
     <div class=p-grid>
         <div class="p-col-12 p-lg-6">
             <div class="card">
@@ -29,6 +29,7 @@
                 </div>
 
                 <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
+                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"    
                     dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
                     *ngIf="(archiveMode && containArchiveForms) || (!archiveMode && containDraftForms)" 
                     styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
@@ -97,7 +98,7 @@
 
                         <h1>{{selectedFormInstance.formTemplateMapping.formTemplateName}}</h1>
                         <div class="linkageInfo" *ngIf="correspondingBooking !== undefined"> 
-                            This form is linked to <a style="color: black;"href="/booking-management-screen/{{correspondingBooking.bookingSlot.slotId}}">Booking {{attachedBookingId}}</a>
+                            This form is linked to <a style="color: black;"href="/booking-management-screen/{{correspondingBooking.bookingId}}">Booking {{attachedBookingId}}</a>
                         </div>
                         
 
@@ -257,11 +258,12 @@
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() === 'DRAFT' "
                                         [ngModelOptions]="{standalone: true}" [showIcon]="true"
                                         placeholder="Insert Date (DD/MM/YYYY)"
-                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]">
+                                        [(ngModel)]="selectedFieldValues[formInstanceField.formInstanceFieldId]"
+                                        dateFormat="dd/MM/yyyy">
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'longDate' }}
+                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'dd/MM/yyyy' }}
                                     </h4>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
@@ -278,7 +280,7 @@
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'shortTime' }}
+                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'HH:mm' }}
                                     </h4>
                                 </div>
 

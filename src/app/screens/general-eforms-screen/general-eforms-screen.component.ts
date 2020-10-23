@@ -43,7 +43,8 @@ export class GeneralEFormsScreenComponent implements OnInit {
 
   constructor(private breadcrumbService: BreadcrumbService, private formService: FormService,
     private service: MessageService, private confirmationService: ConfirmationService,
-    private activatedRoute: ActivatedRoute, private schedulerService: SchedulerService
+    private activatedRoute: ActivatedRoute, private schedulerService: SchedulerService,
+    private messageService: MessageService
   ) {
     this.breadcrumbService.setItems([
       { label: 'eForm Management' },
@@ -212,7 +213,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
       else if (field.formFieldMapping.inputType.toString().toUpperCase() === "DATE" || field.formFieldMapping.inputType.toString().toUpperCase() === "TIME") {
 
         if (this.selectedFieldValues[field.formInstanceFieldId] !== undefined) {
-          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toString())
+          field.formInstanceFieldValues[0] = new FormInstanceFieldValue(undefined, this.selectedFieldValues[field.formInstanceFieldId].toISOString())
         }
       }
 
@@ -357,6 +358,7 @@ export class GeneralEFormsScreenComponent implements OnInit {
   }
 
   submitFormInstance() {
+    
     this.formService.submitFormInstance(this.selectedFormInstance).subscribe(
       response => {
         this.clearDialog()
@@ -386,8 +388,10 @@ export class GeneralEFormsScreenComponent implements OnInit {
             this.ngOnInit()
           },
           error => {
-            this.msgForDialog = []
-            this.msgForDialog.push({ severity: 'error', summary: '', detail: error.substring(32) })
+            
+              this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(37)});
+            
+            
           }
         );
       },
