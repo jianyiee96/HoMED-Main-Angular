@@ -36,6 +36,27 @@ export class ConsultationScreenComponent implements OnInit {
         this.isSelected = false
     }
 
+    formatAddress(streetName: string, unitNumber: string, buildingName: string, country: string, postal: string) {
+        let str = streetName
+        if (unitNumber !== undefined && unitNumber.trim() !== "") {
+          str += ", " + unitNumber;
+        }
+    
+        if (buildingName !== undefined && buildingName.trim() !== "") {
+          str += ", " + buildingName;
+        }
+    
+        if (country !== undefined && country.trim() !== "") {
+          str += ", " + country;
+        }
+    
+        if (postal !== undefined && postal.trim() !== "") {
+          str += " " + postal;
+        }
+    
+        return str;
+      }
+
     onRowSelect(event) {
         this.isSelected = true
         if (this.selectedConsultation.consultationStatusEnum.toString().toUpperCase() === 'WAITING') {
@@ -76,4 +97,9 @@ export class ConsultationScreenComponent implements OnInit {
             ));
         }
     }
+
+    calculateQueueNumber(bookingId: number) {
+        var mod = bookingId % 1000
+        return ("000" + mod).slice(-3)
+      }
 }

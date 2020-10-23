@@ -80,12 +80,12 @@ export class BookingManagementScreenComponent implements OnInit {
         (async () => {
           this.myBookings = response.bookings
           // this.myBookings.sort((x,y) => (x.bookingStatusEnum.toString() > y.bookingStatusEnum.toString()) ? 1 : ((x.bookingStatusEnum.toString() > y.bookingStatusEnum.toString()) ? -1 : 0))
-          
+
           for (let a of this.myBookings) {
             a.bookingSlot.endDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.endDateTime)
             a.bookingSlot.startDateTime = this.convertUTCStringToSingaporeDate(a.bookingSlot.startDateTime)
           }
-          if (tempString !== null) {
+          if (tempString !== '') {
             this.passedBookingId = parseInt(tempString)
             for (var index = 0; index < this.myBookings.length; index++) {
               if (this.myBookings[index].bookingId === this.passedBookingId) {
@@ -109,6 +109,8 @@ export class BookingManagementScreenComponent implements OnInit {
     this.unsubmittedFormMessages = []
     this.displayDetails = true
     this.newBookingCreationDisplay = false;
+    console.log("booking comment is HERE")
+    console.log(this.selectedBooking.bookingComment)
     for (let form of this.selectedBooking.formInstances) {
       if (form.formInstanceStatusEnum.toString().toUpperCase() === "DRAFT") {
         this.unsubmittedFormMessages.push({ severity: 'warn', summary: 'Warning', detail: form.formTemplateMapping.formTemplateName + " is not submitted yet!" });
@@ -131,9 +133,9 @@ export class BookingManagementScreenComponent implements OnInit {
     return this.selectedMedicalCentre == null || this.selectedConsultationPurpose == null || this.selectedDate == null;
   }
 
-  async createBooking() {
-    return new Promise((resolve, reject) => {
-      this.schedulerService.scheduleBooking(this.sessionService.getCurrentServiceman().servicemanId,
+  createBooking() {
+    console.log(this.bookingComment)
+    this.schedulerService.scheduleBooking(this.sessionService.getCurrentServiceman().servicemanId,
       this.selectedConsultationPurpose.consultationPurposeId, this.selectedSlot.slotId, this.bookingComment).subscribe(
         async response => {
 
@@ -142,31 +144,58 @@ export class BookingManagementScreenComponent implements OnInit {
           this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Booking Created Successfully' })
           this.newBookingCreationDisplay = false
           console.log(this.createdBookingId)
-          this.router.navigate(['/booking-management-screen/' + this.createdBookingId])
+          // this.router.navigate(['/booking-management-screen/' + this.createdBookingId])
+          window.location.href = '/booking-management-screen/' + this.createdBookingId
+          // location.reload()
         },
         error => {
           this.msgForDialog = []
           this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
         }
       );
-    });
-    
+
+
   }
+
+  formatAddress(streetName: string, unitNumber: string, buildingName: string, country: string, postal: string) {
+    let str = streetName
+    if (unitNumber !== undefined && unitNumber.trim() !== "") {
+      str += ", " + unitNumber;
+    }
+
+    if (buildingName !== undefined && buildingName.trim() !== "") {
+      str += ", " + buildingName;
+    }
+
+    if (country !== undefined && country.trim() !== "") {
+      str += ", " + country;
+    }
+
+    if (postal !== undefined && postal.trim() !== "") {
+      str += " " + postal;
+    }
+
+    return str;
+  }
+
+
+
 
   cancelBooking() {
     this.schedulerService.cancelBooking(this.selectedBooking.bookingId, this.cancellationComment).subscribe(
       response => {
         (async () => {
           this.msgForDialog = []
-          this.msgForDialog.push({ severity: 'success', summary: '', detail: 'Booking Cancelled Successfully' })
+          this.messageService.add({ severity: 'success', summary: '', detail: 'Booking Cancelled Successfully' })
           this.newBookingCreationDisplay = false
+
         })
+        this.messageService.add({ severity: 'success', summary: '', detail: 'Booking Cancelled Successfully' })
         this.ngOnInit()
       },
       error => {
-        console.log("HJEHEHE")
-        this.messageService.add({severity:'error', summary: 'Error', detail: error.substring(48)});
-        console.log("HEHEHEHEE")
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.substring(48) });
+
         // this.msgForDialog.push({ severity: 'success', summary: '', detail: error.substring(32) })
       }
     );
@@ -181,7 +210,7 @@ export class BookingManagementScreenComponent implements OnInit {
 
   confirmCancel() {
     if (this.sameDay(this.selectedBooking.bookingSlot.startDateTime, new Date())) {
-      this.messageService.add({severity:'error', summary: 'Error', detail: "You cannot cancel today's booking"});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: "You cannot cancel today's booking" });
     } else {
       this.displayCancelDialog = true
     }
@@ -194,7 +223,7 @@ export class BookingManagementScreenComponent implements OnInit {
     //   rejectLabel: 'No',
     //   accept: async () => {
     //     this.cancelBooking()
-        
+
     //   },
     //   reject: () => {
     //   }
@@ -217,20 +246,13 @@ export class BookingManagementScreenComponent implements OnInit {
       rejectLabel: 'No',
       accept: async () => {
         this.createBooking()
-        console.log(this.createdBookingId)
-        
-        
-        
-        console.log(this.createdBookingId)
-        
-        
       },
       reject: () => {
       }
     });
   }
 
-  
+
 
   displayAvailableSlots() {
     console.log("called")

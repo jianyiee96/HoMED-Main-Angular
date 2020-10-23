@@ -20,9 +20,14 @@
 } */
 
 
-.cardBackgroundOverride .p-card {
-    background: linear-gradient(180deg, #ffb0b0 20%, #ffffff 50%);
-}
+/* .cardBackgroundOverride .p-card {
+    background:#ffb0b0;
+} */
+
+/* .cardBackgroundOverride .p-card {
+    background: linear-gradient(180deg, #ff5656 20%, #ffffff 50%);
+} */
+
 /* 
 .accordionOverride .p-accordion .p-accordion-header .p-accordion-header-link {
     background: #ffb0b0;

@@ -100,8 +100,9 @@
             <p-card>
               <h4>{{selectedMedicalCentre.name}}</h4>
               <p>Phone: {{selectedMedicalCentre.phone}}</p>
-              <p>Address: {{selectedMedicalCentre.address.streetName}}
-                S{{selectedMedicalCentre.address.postal}}</p>
+              <p>Address: {{formatAddress(selectedMedicalCentre.address.streetName, selectedMedicalCentre.address.buildingName,
+                selectedMedicalCentre.address.unitNumber,
+                selectedMedicalCentre.address.country, selectedMedicalCentre.address.postal)}}</p>
             </p-card>
           </ng-container>
           <h4>Select Date</h4>
@@ -115,7 +116,7 @@
                   <h4>
                     <p-radioButton [value]="availableSlot"
                       label="{{availableSlot.startDateTime | date:'HH:mm'}} - {{availableSlot.endDateTime | date:'HH:mm'}}"
-                      [ngModelOptions]="{standalone: true}" dataKey="slotId" [(ngModel)]="selectedSlot" name="slot">
+                       dataKey="slotId" [(ngModel)]="selectedSlot" name="slot">
                     </p-radioButton>
                   </h4>
                 </div>
@@ -133,7 +134,7 @@
 
           <ng-container *ngIf="selectedSlot != null">
             <h4>Booking Comments</h4>
-            <textarea pInputTextarea placeholder="This section is optional" [(ngModel)]=bookingComment></textarea>
+            <textarea pInputTextarea placeholder="This section is optional" [(ngModel)]=bookingComment name="bookingComment"></textarea>
             <button pButton icon="pi pi-calender"
               label="Book Slot ({{selectedSlot.startDateTime | date:'HH:mm'}} - {{selectedSlot.endDateTime | date:'HH:mm'}})"
               (click)="confirmCreate()">
@@ -183,8 +184,10 @@
             <p><span style="font-weight: bold;">Phone:
               </span>{{selectedBooking.bookingSlot.medicalCentre.phone}}</p>
             <p><span style="font-weight: bold;">Address:
-              </span>{{selectedBooking.bookingSlot.medicalCentre.address.streetName}}
-              S{{selectedBooking.bookingSlot.medicalCentre.address.postal}}</p>
+              
+              </span>{{formatAddress(selectedBooking.bookingSlot.medicalCentre.address.streetName, selectedBooking.bookingSlot.medicalCentre.address.buildingName,
+                selectedBooking.bookingSlot.medicalCentre.address.unitNumber,
+                selectedBooking.bookingSlot.medicalCentre.address.country, selectedBooking.bookingSlot.medicalCentre.address.postal)}}</p>
           </p-card>
 
           <ng-container *ngIf="selectedBooking.formInstances.length !== 0">
@@ -218,12 +221,12 @@
               </ng-template>
             </p-table>
           </ng-container>
-          <ng-container *ngIf="selectedBooking.bookingComment !== ''">
-            <h4>Booking Comment</h4>
+          <ng-container *ngIf="selectedBooking.bookingComment !== '' ">
+            <h4><i class="pi pi-pencil"></i> Booking Comment</h4>
             <p>{{selectedBooking.bookingComment}}</p>
           </ng-container>
           <ng-container *ngIf="selectedBooking.cancellationComment !== undefined && selectedBooking.bookingStatusEnum.toString() === 'CANCELLED'">
-            <h4>Cancellation Reason</h4>
+            <h4><i class="pi pi-calendar-times"></i> Cancellation Reason</h4>
             <p>{{selectedBooking.cancellationComment}}</p>
           </ng-container>
 

@@ -65,7 +65,7 @@
 
             <h4><i class="pi pi-calendar"></i> Consultation Details</h4>
             <p><span style="font-weight: bold;">Booking Id:
-              </span>{{selectedConsultation.booking.bookingId}}</p>
+              </span><a href="/booking-management-screen/{{selectedConsultation.booking.bookingId}}">{{selectedConsultation.booking.bookingId}}</a></p>
 
             <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'WAITING'">
               <p><span style="font-weight: bold;">Joined Queue At:
@@ -74,6 +74,9 @@
                 </span>{{queueNumber}}</p>
               <p><span style="font-weight: bold;">Est. Waiting Time:
                 </span>{{queueNumber * 15}}min</p>
+                <p><span style="font-weight: bold;">Queue No.:
+                </span>{{calculateQueueNumber(selectedConsultation.booking.bookingId)}}</p>
+                
             </ng-container>
             <ng-container *ngIf="selectedConsultation.consultationStatusEnum.toString() === 'ONGOING'">
               <p><span style="font-weight: bold;">Consultation is currently Ongoing!
@@ -86,7 +89,7 @@
                 </span>{{selectedConsultation.startDateTime | date:'HH:mm' }}</p>
               <p><span style="font-weight: bold;">Consultation End Time:
                 </span>{{selectedConsultation.endDateTime | date:'HH:mm' }}</p>
-              <p><span style="font-weight: bold;">Consultated by:
+              <p><span style="font-weight: bold;">Medical Officer:
                 </span>Dr. {{selectedConsultation.medicalOfficer.name}}</p>
             </ng-container>
 
@@ -117,8 +120,10 @@
           <p><span style="font-weight: bold;">Phone:
             </span>{{selectedConsultation.booking.bookingSlot.medicalCentre.phone}}</p>
           <p><span style="font-weight: bold;">Address:
-            </span>{{selectedConsultation.booking.bookingSlot.medicalCentre.address.streetName}}
-            S{{selectedConsultation.booking.bookingSlot.medicalCentre.address.postal}}</p>
+            </span>{{formatAddress(selectedConsultation.booking.bookingSlot.medicalCentre.address.streetName, selectedConsultation.booking.bookingSlot.medicalCentre.address.buildingName,
+              selectedConsultation.booking.bookingSlot.medicalCentre.address.unitNumber,
+              selectedConsultation.booking.bookingSlot.medicalCentre.address.country, selectedConsultation.booking.bookingSlot.medicalCentre.address.postal)}}</p>
+
         </p-card>
 
         <ng-container *ngIf="selectedConsultation.booking.formInstances.length !== 0">

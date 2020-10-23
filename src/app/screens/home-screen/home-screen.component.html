@@ -12,7 +12,7 @@
             <p-card class="cardBackgroundOverride">
                 <div class="p-grid">
                     <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
-                        <i class="pi pi-exclamation-triangle" style="font-size: 0.8em;"></i>{{unsubmittedForms.length}} unsubmitted form(s)
+                        <i class="pi pi-exclamation-triangle" style="font-size: 0.8em;"></i> {{unsubmittedForms.length}} unsubmitted form(s)
                     </div>
                     <div class="p-col-12 p-md-4">
                         <button pButton icon="pi pi-chevron-right"
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 
-                <h4>You are required to submit these forms before your consultation!</h4>
+                <h4 style=" color: red;">You are required to submit these forms before your consultation!</h4>
                 <p-accordion id="overrideAccordion">
                     <p-accordionTab id="overrideAccordion" header="Unsubmitted Forms" class="accordionOverride">
                         <p-table [value]="unsubmittedForms" [paginator]="true" [rows]="5">
@@ -79,7 +79,16 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="nextBooking === undefined">
-                    <h1>You have no upcoming booking</h1>
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-8" style="font-size: 30px; font-weight: bold;">
+                            <h1>Upcoming Booking</h1>
+                            
+                        </div>
+                        <div class="p-col-12">
+                            <p>You have no upcoming booking</p>
+                        </div>
+                        
+                    </div>
                 </ng-container>
                 
 

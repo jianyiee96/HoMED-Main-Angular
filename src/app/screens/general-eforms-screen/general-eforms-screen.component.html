@@ -262,7 +262,7 @@
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'longDate' }}
+                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'dd/MM/yyyy' }}
                                     </h4>
                                 </div>
                                 <div *ngIf="formInstanceField.formFieldMapping.inputType === 'TIME'">
@@ -279,7 +279,7 @@
                                     </p-calendar>
                                     <h4
                                         *ngIf="this.selectedFormInstance.formInstanceStatusEnum.toString() !== 'DRAFT' ">
-                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'shortTime' }}
+                                        {{ selectedFieldValues[formInstanceField.formInstanceFieldId] | date:'HH:mm' }}
                                     </h4>
                                 </div>
 

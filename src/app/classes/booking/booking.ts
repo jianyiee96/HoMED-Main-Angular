@@ -25,6 +25,7 @@ export class Booking{
             this.consultation = consultation
             this.bookingSlot = bookingSlot
             this.formInstances = formInstances
+            this.bookingStatusEnum = bookingStatusEnum
             this.bookingComment = bookingComment
             this.cancellationComment = cancellationComment
     }
