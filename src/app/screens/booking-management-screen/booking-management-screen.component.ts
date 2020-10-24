@@ -212,7 +212,7 @@ export class BookingManagementScreenComponent implements OnInit {
 
   confirmCancel() {
     if (this.sameDay(this.selectedBooking.bookingSlot.startDateTime, new Date())) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: "You cannot cancel today's booking" });
+      this.messageService.add({ severity: 'error', summary: 'Unable to cancel booking', detail: "You are not allowed to cancel today's booking" });
     } else {
       this.displayCancelDialog = true
     }
