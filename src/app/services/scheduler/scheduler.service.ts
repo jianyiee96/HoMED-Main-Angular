@@ -34,12 +34,13 @@ export class SchedulerService {
     );
   }
 
-  scheduleBooking(servicemanId: number, consultationPurposeId: number, bookingSlotId: number, bookingComment: string): Observable<any> {
+  scheduleBooking(servicemanId: number, consultationPurposeId: number, bookingSlotId: number, bookingComment: string, isForReview: boolean): Observable<any> {
     let scheduleBookingreq = {
         "servicemanId": servicemanId,
         "consultationPurposeId": consultationPurposeId,
         "bookingSlotId": bookingSlotId,
-        "bookingComment": bookingComment
+        "bookingComment": bookingComment,
+        "isForReview": isForReview
     }
     return this.httpClient.post<any>(this.baseUrl + "/scheduleBooking", scheduleBookingreq, this.sessionService.getSecuredHttpOptions()).pipe(
         catchError(this.handleError)
