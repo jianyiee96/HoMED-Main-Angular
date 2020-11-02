@@ -1,0 +1,19 @@
+.unread {
+  background: aliceblue;
+}
+
+.astext {
+  background:none;
+  border:none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+  color: #337ab7;
+  float: right;
+  padding-top: 2px;
+}
+
+.astext:hover {
+  text-decoration: underline;
+  color: #64a3da;
+}

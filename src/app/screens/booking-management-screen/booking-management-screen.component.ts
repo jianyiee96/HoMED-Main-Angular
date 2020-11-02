@@ -259,7 +259,6 @@ export class BookingManagementScreenComponent implements OnInit {
 
   displayAvailableSlots() {
     console.log("called")
-    this.isForReview = false;
     this.selectedSlot = null
     this.availableSlots = []
     if (this.selectedMedicalCentre != null && this.selectedConsultationPurpose != null && this.selectedDate != null) {

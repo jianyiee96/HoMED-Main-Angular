@@ -30,7 +30,7 @@
             styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="bookingId">Booking Id
+                <th pSortableColumn="bookingId" style="width:8rem">Booking Id
                   <p-sortIcon field="bookingId">
                   </p-sortIcon>
                 </th>
@@ -38,16 +38,17 @@
                   <p-sortIcon field="consultationPurpose.consultationPurposeName">
                   </p-sortIcon>
                 </th>
-                <th pSortableColumn="bookingSlot.startDateTime">Booking Slot<p-sortIcon
+                <th pSortableColumn="bookingSlot.startDateTime" style="width:13rem">Booking Slot<p-sortIcon
                     field="bookingSlot.startDateTime">
                   </p-sortIcon>
                 </th>
-                <th pSortableColumn="bookingStatusEnum">Booking Status <p-sortIcon field="bookingStatusEnum">
+                <th pSortableColumn="bookingStatusEnum" style="width:10rem">Booking Status <p-sortIcon field="bookingStatusEnum">
                   </p-sortIcon>
                 </th>
-                <th pSortableColumn="formInstance.length">Form Quantity<p-sortIcon field="formInstance.length">
+                <th pSortableColumn="formInstance.length" style="width:7rem">Forms<p-sortIcon field="formInstance.length">
                   </p-sortIcon>
                 </th>
+                
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-booking>
@@ -111,28 +112,21 @@
           <ng-container *ngIf="dateRetrieved">
             <br />
             <ng-container *ngIf="availableSlots.length != 0">
-              <div class="p-grid">
-                <div class="p-col-12 p-lg-6">
-                  <p-scrollPanel [style]="{width: '100%', height: '280px'}">
-                    <div *ngFor="let availableSlot of availableSlots">
-                      <h4>
-                        <p-radioButton [value]="availableSlot"
-                          label="{{availableSlot.startDateTime | date:'HH:mm'}} - {{availableSlot.endDateTime | date:'HH:mm'}}"
-                          dataKey="slotId" [(ngModel)]="selectedSlot" name="slot">
-                        </p-radioButton>
-                      </h4>
-                    </div>
-                  </p-scrollPanel>
+
+              <p-scrollPanel [style]="{width: '100%', height: '280px'}">
+                <div *ngFor="let availableSlot of availableSlots">
+                  <h4>
+                    <p-radioButton [value]="availableSlot"
+                      label="{{availableSlot.startDateTime | date:'HH:mm'}} - {{availableSlot.endDateTime | date:'HH:mm'}}"
+                      dataKey="slotId" [(ngModel)]="selectedSlot" name="slot">
+                    </p-radioButton>
+                  </h4>
                 </div>
-                <div class="p-col-12 p-lg-6">
-                  <h4>Would you like this booking to be a medical review?</h4>
-                  <div class="p-field-checkbox">
-                    <p-checkbox [(ngModel)]="isForReview" [binary]="true" inputId="binary1" name="binary"></p-checkbox>
-                    <label for="binary1" *ngIf="isForReview"> Yes</label>
-                    <label for="binary1" *ngIf="!isForReview"> No</label>
-                  </div>
-                </div>
-              </div>
+              </p-scrollPanel>
+
+
+
+
 
             </ng-container>
             <ng-container *ngIf="availableSlots.length == 0">
@@ -149,6 +143,17 @@
             <h4>Booking Comments</h4>
             <textarea pInputTextarea placeholder="This section is optional" [(ngModel)]=bookingComment
               name="bookingComment"></textarea>
+            <h4>Consultation type</h4>
+            
+            <div class="p-field-radiobutton">
+            <h4>
+            <p-radioButton  inputId="review" type="radio" name="food" [(ngModel)]="isForReview" [value]="true"></p-radioButton>
+            <label for="review" style="margin-right: 15px;" > Medical Review</label>
+            <p-radioButton inputId="general" type="radio" name="food" [(ngModel)]="isForReview" [value]="false"></p-radioButton>
+            <label for="general" > General Consultation</label>
+          </h4>
+            </div>
+
             <button pButton icon="pi pi-calender"
               label="Book Slot ({{selectedSlot.startDateTime | date:'HH:mm'}} - {{selectedSlot.endDateTime | date:'HH:mm'}})"
               (click)="confirmCreate()">
@@ -170,7 +175,7 @@
                 class="p-button-danger" style=" float:right; margin-left: 5px;"></button>
             </div>
           </div>
-          <p-messages *ngIf="selectedBooking.isForReview"severity="info">
+          <p-messages *ngIf="selectedBooking.isForReview" severity="info">
             <ng-template pTemplate>
               <i class="pi pi-info-circle"></i>
               <div class="p-ml-2">This consultation is also a medical review.</div>

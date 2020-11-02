@@ -1,5 +1,6 @@
+<p-toast></p-toast>
 <div class="layout-topbar">
-
+    
     <a routerLink="/" *ngIf="app.isHorizontal() && !app.isMobile()" class="topbar-logo">
         <img alt="logo" src="assets/layout/images/logo-HoMED-white.svg" />
     </a>
@@ -41,25 +42,50 @@
             <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" (click)="app.onTopbarRootItemClick($event, notifications)">
                 <a href="#">
                     <i class="topbar-icon pi pi-bell"></i>
-                    <span class="topbar-badge animated rubberBand">2</span>
+                    <span class="topbar-badge animated rubberBand">{{unreadCounter}}</span>
                     <span class="topbar-item-name">Notifications</span>
                 </a>
-                <ul class="fadeInDown">
+                <ul class="triangleOverride fadeInDown" style="width: 500px;">
                     <li role="menuitem">
-                        <a href="#">
-                            <i class="pi pi-calendar"></i>
-                            <span>Medical Review at 3</span>
-                        </a>
+                        <div style="padding: 10px 10px 10px 10px;
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        color: #909090;
+                        background: #e1e1e1">
+                            
+                            <span style="font-size: large;">Notifications</span>
+                            <button class="astext" (click)="deleteAllNotifications()">Delete All</button>
+                            <button class="astext" (click)="readAllNotifications()" style="padding-right: 10px;">Mark All as Read</button>
+                        </div>
                     </li>
-                    <li role="menuitem">
-                        <a href="#">
-                            <i class="pi pi-comment"></i>
-                            <span>Check FFI Results</span>
-                        </a>
-                    </li>
+                    <ng-container *ngFor="let notification of this.allNotifications">
+                        <li role="menuitem" (mouseover)="notiHover=true" (mouseout)="notiHover=false">
+                            <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}">
+                                <div class="p-grid">
+                                    <div *ngIf="notification.isRead" class="p-col-10">
+                                        <h5>{{notification.title}}</h5>
+                                        <span>{{notification.message}}</span>
+                                        <br/>
+                                        <p style="font-size:0.8rem; color: #65676b">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                                    </div>
+                                    <div *ngIf="!notification.isRead" class="p-col-10">
+                                        <h5 style="font-weight: bold;">{{notification.title}}</h5>
+                                        <span style="font-weight: bold;">{{notification.message}}</span>
+                                        <br/>
+                                        <p style="color: #73acf7; font-weight: bold;">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                                    </div>
+                                    <div class="p-col-2" style="display: flex; align-items: center; justify-content: center;">
+                                        <button pButton pRipple (click)="deleteNotification(notification)" type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined"></button>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ng-container>
                 </ul>
             </li>
         </ul>
     </div>
 </div>
+
 

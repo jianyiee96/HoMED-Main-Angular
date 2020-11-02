@@ -2079,7 +2079,6 @@ a:hover {
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > ul a i, .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > ul a img, .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > ul a span {
   vertical-align: middle;
-  display: inline-block;
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > ul a .topbar-submenuitem-badge {
   background-color: #7CB342;
@@ -2111,7 +2110,7 @@ a:hover {
   content: " ";
   position: absolute;
   top: -15px;
-  left: 232px;
+  left: 482px;
 }
 .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li.active-topmenuitem > ul {
   display: block;
