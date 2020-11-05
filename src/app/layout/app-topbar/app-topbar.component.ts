@@ -4,7 +4,7 @@ import { AppMainComponent } from '../app-main/app-main.component';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session/session.service';
 import { Serviceman } from 'src/app/classes/serviceman/serviceman';
-import { Message, ConfirmationService } from 'primeng/api';
+import { Message, ConfirmationService, LazyLoadEvent, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { AppComponent } from '../../app.component'
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Notification } from 'src/app/classes/notification/notification';
@@ -28,11 +28,16 @@ export class AppTopbarComponent implements OnInit {
   selectedNotification: Notification
   unreadCounter: number
   pollInterval: number
+  items: MenuItem[];
+  display: boolean = false;
+  displayNotfication: Notification
+
   constructor(public app: AppMainComponent, private router: Router, private sessionService: SessionService,
-    private notificationService: NotificationService, private messageService: MessageService,
+    private notificationService: NotificationService, private messageService: MessageService, private primengConfig: PrimeNGConfig,
     public appForTimer: AppComponent) { }
 
   ngOnInit() {
+    
     this.loadHomeContent()
     this.pollInterval = 3000
 
@@ -53,8 +58,31 @@ export class AppTopbarComponent implements OnInit {
     )
   }
 
+  showDialog(notification: Notification) {
+    this.display = true;
+    this.displayNotfication = notification
+  }
+
+  getMenuItems(notification: Notification): MenuItem[] {
+    return [{
+      label: 'Update',
+      icon: 'pi pi-refresh',
+      command: () => {
+        this.deleteNotification(notification);
+      }
+    },
+    {
+      label: 'Delete',
+      icon: 'pi pi-times',
+      command: () => {
+
+      }
+    }
+    ];
+  }
 
   loadHomeContent() {
+    this.displayNotfication = new Notification
     this.unreadCounter = 0;
     this.notiHover = false
     this.serviceman = this.sessionService.getCurrentServiceman()

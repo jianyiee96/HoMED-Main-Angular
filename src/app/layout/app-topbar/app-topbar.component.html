@@ -39,7 +39,7 @@
                     </li>
                 </ul>
             </li>
-            <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" (click)="app.onTopbarRootItemClick($event, notifications)">
+            <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" style="cursor: pointer;"(click)="app.onTopbarRootItemClick($event, notifications)">
                 <a href="#">
                     <i class="topbar-icon pi pi-bell"></i>
                     <span class="topbar-badge animated rubberBand">{{unreadCounter}}</span>
@@ -59,33 +59,60 @@
                             <button class="astext" (click)="readAllNotifications()" style="padding-right: 10px;">Mark All as Read</button>
                         </div>
                     </li>
-                    <ng-container *ngFor="let notification of this.allNotifications">
-                        <li role="menuitem" (mouseover)="notiHover=true" (mouseout)="notiHover=false">
-                            <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}">
-                                <div class="p-grid">
-                                    <div *ngIf="notification.isRead" class="p-col-10">
-                                        <h5>{{notification.title}}</h5>
-                                        <span>{{notification.message}}</span>
-                                        <br/>
-                                        <p style="font-size:0.8rem; color: #65676b">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                    <p-scrollPanel [style]="{width: '100%', height: '700px'}">
+                        <ng-container *ngIf="this.allNotifications.length === 0">
+                            <p-messages severity="info">
+                                <ng-template pTemplate>
+                                    <i class="pi pi-info-circle"></i>
+                                    <div class="p-ml-2">You have no notification!!</div>
+                                </ng-template>
+                            </p-messages>
+                        </ng-container>
+                        <ng-container *ngFor="let notification of this.allNotifications">
+                            <li role="menuitem" (mouseover)="notiHover=true" (mouseout)="notiHover=false">
+                                <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}">
+                                    <div class="p-grid">
+                                        <div *ngIf="notification.isRead" class="p-col-10">
+                                            <h5>{{notification.title}}</h5>
+                                            <span>{{notification.message}}</span>
+                                            <br/>
+                                            <p style="font-size:0.8rem; color: #65676b">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                                        </div>
+                                        <div *ngIf="!notification.isRead" class="p-col-10">
+                                            <h5 style="font-weight: bold;">{{notification.title}}</h5>
+                                            <span style="font-weight: bold; white-space: pre-line;" class="ellipsis">{{notification.message}}</span>
+                                            <br/>
+                                            <p style="color: #73acf7; font-weight: bold;">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                                        </div>
+                                        <div class="p-col-2" style="display: flex; align-items: center; justify-content: center;">
+                                            <div class="p-grid">
+                                                <div class="p-col">
+                                                    <button pButton pRipple (click)="deleteNotification(notification)" type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined" style="width: 25px; height: 25px"></button>
+                                                </div>
+                                                <div class="p-col">
+                                                    <button pButton pRipple (click)="showDialog(notification)" type="button" icon="pi pi-info-circle" class="p-button-rounded p-button-outlined" style="width: 25px; height: 25px"></button>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
                                     </div>
-                                    <div *ngIf="!notification.isRead" class="p-col-10">
-                                        <h5 style="font-weight: bold;">{{notification.title}}</h5>
-                                        <span style="font-weight: bold;">{{notification.message}}</span>
-                                        <br/>
-                                        <p style="color: #73acf7; font-weight: bold;">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
-                                    </div>
-                                    <div class="p-col-2" style="display: flex; align-items: center; justify-content: center;">
-                                        <button pButton pRipple (click)="deleteNotification(notification)" type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined"></button>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ng-container>
+                                </a>
+                            </li>
+                        </ng-container>
+                    </p-scrollPanel>
+                    
                 </ul>
             </li>
         </ul>
     </div>
 </div>
+<p-dialog header="{{displayNotfication.title}}" [(visible)]="display">
+    <h4>
+       {{displayNotfication.message}} 
+    </h4>
+
+</p-dialog>
 
 
