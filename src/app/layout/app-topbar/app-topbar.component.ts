@@ -37,7 +37,7 @@ export class AppTopbarComponent implements OnInit {
     public appForTimer: AppComponent) { }
 
   ngOnInit() {
-    
+    this.displayNotfication = new Notification
     this.loadHomeContent()
     this.pollInterval = 3000
 
@@ -82,7 +82,7 @@ export class AppTopbarComponent implements OnInit {
   }
 
   loadHomeContent() {
-    this.displayNotfication = new Notification
+    
     this.unreadCounter = 0;
     this.notiHover = false
     this.serviceman = this.sessionService.getCurrentServiceman()
