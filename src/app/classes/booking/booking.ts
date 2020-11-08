@@ -15,6 +15,7 @@ export class Booking{
     bookingStatusEnum: BookingStatusEnum
     bookingComment: string
     cancellationComment: string
+    isForReview: boolean
 
     constructor(bookingId?: number, serviceman?: Serviceman, consultationPurpose?: ConsultationPurpose,
         consultation?: Consultation, bookingSlot?: BookingSlot, formInstances?: FormInstance[], bookingStatusEnum?: BookingStatusEnum,
@@ -28,5 +29,6 @@ export class Booking{
             this.bookingStatusEnum = bookingStatusEnum
             this.bookingComment = bookingComment
             this.cancellationComment = cancellationComment
+            this.isForReview = this.isForReview
     }
 }

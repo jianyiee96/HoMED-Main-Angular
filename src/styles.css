@@ -11,7 +11,9 @@
 .messageOveride2 .p-inline-message {
     justify-content: left;
 }
-
+.triangleOverride .layout-wrapper .layout-main .layout-topbar .layout-topbar-menu-wrapper .topbar-menu > li > ul:before {
+    left: 382px;
+}
 /* #overrideAccordion .p-accordion-content {
     background:#ffb0b0 !important;
 }

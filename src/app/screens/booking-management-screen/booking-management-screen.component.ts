@@ -41,6 +41,7 @@ export class BookingManagementScreenComponent implements OnInit {
   bookingComment: string
   cancellationComment: string
   displayCancelDialog: boolean
+  isForReview: boolean
 
   constructor(private breadcrumbService: BreadcrumbService, private consultationService: ConsultationService,
     private medicalCentreService: MedicalCentreService, private schedulerService: SchedulerService,
@@ -137,7 +138,7 @@ export class BookingManagementScreenComponent implements OnInit {
   createBooking() {
     console.log(this.bookingComment)
     this.schedulerService.scheduleBooking(this.sessionService.getCurrentServiceman().servicemanId,
-      this.selectedConsultationPurpose.consultationPurposeId, this.selectedSlot.slotId, this.bookingComment).subscribe(
+      this.selectedConsultationPurpose.consultationPurposeId, this.selectedSlot.slotId, this.bookingComment, this.isForReview).subscribe(
         async response => {
 
           this.createdBookingId = response.bookingId
