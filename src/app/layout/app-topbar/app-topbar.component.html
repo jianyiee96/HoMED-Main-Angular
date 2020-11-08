@@ -39,13 +39,25 @@
                     </li>
                 </ul>
             </li>
-            <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" style="cursor: pointer;"(click)="app.onTopbarRootItemClick($event, notifications)">
+            <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}" style="cursor: pointer;">
                 <a href="#">
-                    <i class="topbar-icon pi pi-bell"></i>
+                    <i class="topbar-icon pi pi-bell" (click)="app.onTopbarRootItemClick($event, notifications)"></i>
                     <span class="topbar-badge animated rubberBand">{{unreadCounter}}</span>
                     <span class="topbar-item-name">Notifications</span>
                 </a>
+                    
+                
                 <ul class="triangleOverride fadeInDown" style="width: 500px;">
+                    <li role="menuitem">
+                        <div style="padding: 10px 10px 10px 10px;
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        color: #909090;
+                        background: #e1e1e1">
+                        <button class="astext" (click)="app.onTopbarRootItemClick($event, notifications)" style="padding-right: 10px;"><i class="pi pi-times"></i></button>
+                        </div>
+                    </li>
                     <li role="menuitem">
                         <div style="padding: 10px 10px 10px 10px;
                         display: block;
@@ -70,7 +82,9 @@
                         </ng-container>
                         <ng-container *ngFor="let notification of this.allNotifications">
                             <li role="menuitem" (mouseover)="notiHover=true" (mouseout)="notiHover=false">
-                                <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}">
+                                <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}" pTooltip="{{notification.message}}" tooltipPosition="bottom" 
+                                [tooltipDisabled]="numLines(notification.message) <= 3">
+                                
                                     <div class="p-grid">
                                         <div *ngIf="notification.isRead" class="p-col-10">
                                             <h5>{{notification.title}}</h5>
@@ -83,16 +97,17 @@
                                             <span style="font-weight: bold; white-space: pre-line;" class="ellipsis">{{notification.message}}</span>
                                             <br/>
                                             <p style="color: #73acf7; font-weight: bold;">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                                            
                                         </div>
                                         <div class="p-col-2" style="display: flex; align-items: center; justify-content: center;">
-                                            <!-- <div class="p-grid">
-                                                <div class="p-col"> -->
-                                                    <button pButton pRipple (click)="deleteNotification(notification)" type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined"></button>
+                                            <div class="p-grid">
+                                                <!-- <div class="p-col"> -->
+                                                    
                                                 <!-- </div> -->
-                                                <!-- <div class="p-col">
-                                                    <button pButton pRipple (click)="showDialog(notification)" type="button" icon="pi pi-info-circle" class="p-button-rounded p-button-outlined" style="width: 25px; height: 25px"></button>
-                                                </div> -->
-                                            <!-- </div> -->
+                                                <div class="p-col">
+                                                    <button pButton pRipple (click)="deleteNotification(notification)" type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined"></button>
+                                                </div>
+                                            </div>
                                             
                                         </div>
                                         

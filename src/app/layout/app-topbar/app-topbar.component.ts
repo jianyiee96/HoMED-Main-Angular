@@ -63,6 +63,10 @@ export class AppTopbarComponent implements OnInit {
     this.displayNotfication = notification
   }
 
+  numLines(str: String) {
+    return str.split(/\r\n|\r|\n/).length
+  }
+
   getMenuItems(notification: Notification): MenuItem[] {
     return [{
       label: 'Update',
