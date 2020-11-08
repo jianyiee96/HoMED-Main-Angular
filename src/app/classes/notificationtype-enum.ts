@@ -1,5 +1,6 @@
 export enum NotificationTypeEnum{
   BOOKING = ('BOOKING'),
   CONSULTATION = ("CONSULTATION"),
-  FORM = ("FORM")
+  FORM = ("FORM"),
+  GENERAL = ("GENERAL")
 }
