@@ -87,6 +87,13 @@ export class ServicemanService {
     );
   }
 
+  retrieveServicemanDetails(): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl + "/retrieveServicemanDetails?servicemanId=" + this.sessionService.getCurrentServiceman().servicemanId, this.sessionService.getSecuredHttpOptions()).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage: string = "";
 

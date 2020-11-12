@@ -8,36 +8,35 @@
 <body>
   <div class=p-grid>
     <div class="p-col-12 p-lg-6">
-      <p-card header="Current Pes Status: {{serviceman.pesStatus}}">
+      <p-card header="Current Pes Status: {{currentServiceman?.pesStatus}}">
         <p-table #dt [value]="allConditionStatusWrappers" [paginator]="true" [rows]="10"
-                    *ngIf="allConditionStatusWrappers.length !== 0" 
-                    styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="conditionStatus.description">Status Name <p-sortIcon
-                                    field="conditionStatus.description">
-                                </p-sortIcon>
-                            </th>
-                            <th pSortableColumn="conditionStartDate">Status Date <p-sortIcon
-                                    field="conditionStartDate">
-                                </p-sortIcon>
-                            </th>
-                            <th pSortableColumn="isActive">Status Validity <p-sortIcon
-                                    field="conditionStatus.isActive">
-                                </p-sortIcon>
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-condition>
-                        <tr>
-                            <td>{{condition.conditionStatus.description}}</td>
-                            <td>{{condition.conditionStartDate | date:'dd/MM/yyyy'}} - {{condition.conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
-                            <td *ngIf="condition.conditionStatus.isActive">Valid</td>
-                            <td *ngIf="!condition.conditionStatus.isActive">Invalid</td>
+          *ngIf="allConditionStatusWrappers.length !== 0"
+          styleClass="p-datatable p-datatable-gridlines p-datatable-striped p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="conditionStatus.description">Status Name <p-sortIcon
+                  field="conditionStatus.description">
+                </p-sortIcon>
+              </th>
+              <th pSortableColumn="conditionStartDate">Status Date <p-sortIcon field="conditionStartDate">
+                </p-sortIcon>
+              </th>
+              <th pSortableColumn="isActive">Status Validity <p-sortIcon field="conditionStatus.isActive">
+                </p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-condition>
+            <tr>
+              <td>{{condition.conditionStatus.description}}</td>
+              <td>{{condition.conditionStartDate | date:'dd/MM/yyyy'}} -
+                {{condition.conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
+              <td *ngIf="condition.conditionStatus.isActive">Valid</td>
+              <td *ngIf="!condition.conditionStatus.isActive">Invalid</td>
 
-                        </tr>
-                    </ng-template>
-                </p-table>
+            </tr>
+          </ng-template>
+        </p-table>
 
       </p-card>
     </div>
@@ -47,60 +46,96 @@
         <p-tabView>
           <p-tabPanel header="Upcoming">
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length === 0">
-              <h4>You have no upcoming medical review</h4>
+              <p-messages severity="warn">
+                <ng-template pTemplate>
+                  <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-exclamation-triangle"
+                      style="font-size: 1.5rem"></i> You have no upcoming medical review</div>
+                </ng-template>
+              </p-messages>
             </ng-container>
             <ng-container *ngIf="medicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
                 <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
-                <h4>Status: <span class="form-instance-status-badge-draft form-status-badge">{{indivCase.medicalBoardCase.medicalBoardCaseStatus}}</span></h4>
+                <h4>Status: <span
+                    class="form-instance-status-badge-draft form-status-badge">{{indivCase.medicalBoardCase.medicalBoardCaseStatus}}</span>
+                </h4>
                 <h4>Assigned Chairman: {{indivCase.chairman}}</h4>
                 <h4>Date: {{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
-                <h4>Time: {{indivCase.scheduledStartDate | date:'HH:mm' }} - {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                <h4>Time: {{indivCase.scheduledStartDate | date:'HH:mm' }} -
+                  {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
                 <h4>Board Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h4>
               </p-card>
-              <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length" (onPageChange)="paginateUpcoming($event)"></p-paginator>
+              <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length"
+                (onPageChange)="paginateUpcoming($event)"></p-paginator>
             </ng-container>
           </p-tabPanel>
           <p-tabPanel header="Completed">
             <ng-container *ngIf="completedMedicalBoardCaseWrappers.length === 0">
-              <h4>You have no completed medical review</h4>
+              <p-messages severity="warn">
+                <ng-template pTemplate>
+                  <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-exclamation-triangle"
+                      style="font-size: 1.5rem"></i> You have no completed medical review</div>
+                </ng-template>
+              </p-messages>
             </ng-container>
             <ng-container *ngIf="medicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of completedMedicalBoardCaseWrappers">
-                <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
-                <h4>Assigned Chairman: {{indivCase.chairman}}</h4>
-                <h4>Date: {{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
-                <h4>Time: {{indivCase.scheduledStartDate | date:'HH:mm' }} - {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
-                <h4>Board Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h4>
-                <h4>Pes Status: {{indivCase.medicalBoardCase.finalPesStatus}}</h4>
+                <h1>Medical Case ID: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
+                    <h4>{{indivCase.chairman}}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
+                    <h4>{{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
+                    <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
+                      {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-user" style="font-size: 1rem"></i> Pes Status</h4>
+                    <h4>{{indivCase.medicalBoardCase.finalPesStatus}}</h4>
+                  </div>
+                </div>
+
                 <ng-container *ngIf="indivCase.conditionStatuses.length === 0">
-                  You have no status
+                  <p-messages severity="error">
+                    <ng-template pTemplate>
+                      <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-times-circle"
+                          style="font-size: 1.5rem"></i> No status given</div>
+                    </ng-template>
+                  </p-messages>
                 </ng-container>
                 <ng-container *ngIf="indivCase.conditionStatuses.length !== 0">
                   <p-table [value]="indivCase.conditionStatuses">
                     <ng-template pTemplate="header">
-                        <tr>
-                            <th>Status Name</th>
-                            <th>Status Date</th>
-                            
-                        </tr>
+                      <tr>
+                        <th>Status Name</th>
+                        <th>Status Date</th>
+
+                      </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-conditionStatusWrapper>
-                        <tr>
-                            <td>{{conditionStatusWrapper.conditionStatus.description}}</td>
-                            <td>{{conditionStatusWrapper.conditionStartDate | date:'dd/MM/yyyy'}} - {{conditionStatusWrapper.conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
-                            
-                        </tr>
+                      <tr>
+                        <td>{{conditionStatusWrapper.conditionStatus.description}}</td>
+                        <td>{{conditionStatusWrapper.conditionStartDate | date:'dd/MM/yyyy'}} -
+                          {{conditionStatusWrapper.conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
+
+                      </tr>
                     </ng-template>
-                </p-table>
-                
+                  </p-table>
+
                 </ng-container>
               </p-card>
-              <p-paginator [rows]="5" [totalRecords]="completedMedicalBoardCaseWrappers.length" (onPageChange)="paginateCompleted($event)"></p-paginator>
+              <p-paginator [rows]="5" [totalRecords]="completedMedicalBoardCaseWrappers.length"
+                (onPageChange)="paginateCompleted($event)"></p-paginator>
             </ng-container>
           </p-tabPanel>
         </p-tabView>
-        
+
       </div>
     </div>
   </div>

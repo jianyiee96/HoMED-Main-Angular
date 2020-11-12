@@ -24,7 +24,7 @@ export class MedicalReviewScreenComponent implements OnInit {
   allConditionStatusWrappers: ConditionStatusWrapper[] = []
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
-  serviceman: Serviceman
+  currentServiceman: Serviceman
 
   
   constructor(private breadcrumbService: BreadcrumbService, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
@@ -35,7 +35,15 @@ export class MedicalReviewScreenComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    this.serviceman = this.sessionService.getCurrentServiceman()
+    this.servicemanService.retrieveServicemanDetails().subscribe(
+      response => {
+        this.currentServiceman = response.serviceman
+        this.sessionService.setCurrentServiceman(this.currentServiceman)
+      },
+      error => {
+        console.log(error);
+      }
+    )
     this.medicalReviewService.retrieveAllServicemanMedicalBoardCases().subscribe(
       response => {
         this.medicalBoardCaseWrappers = response.medicalBoardCases
