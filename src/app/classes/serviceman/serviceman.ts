@@ -1,5 +1,6 @@
 import { BloodTypeEnum } from '../bloodtype-enum'
 import { GenderEnum } from '../gender-enum'
+import { PesStatusEnum } from '../pes-status-enum.enum'
 import { ServicemanRoleEnum } from '../servicemanrole-enum'
 
 
@@ -16,10 +17,11 @@ export class Serviceman {
     address: Address
     isActivated: boolean
     role : ServicemanRoleEnum
+    pesStatus: PesStatusEnum
     token : string
 
     constructor(servicemanId?: number, name?: string, email?: string , phoneNumber?: string, rod?: Date, 
-            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean, role?: ServicemanRoleEnum, 
+            gender?: GenderEnum, bloodType?: BloodTypeEnum, password?: string, address?: Address, isActivated?: boolean, role?: ServicemanRoleEnum, pesStatus?: PesStatusEnum,
             token?: string) {
 
         this.servicemanId = servicemanId
@@ -33,6 +35,7 @@ export class Serviceman {
         this.address = address
         this.isActivated = isActivated
         this.role = role
+        this.pesStatus = pesStatus
         this.token = token
     }
 
