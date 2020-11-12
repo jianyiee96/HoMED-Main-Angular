@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Medical Reviews</title>
+</head>
+
+<body>
+  <div class=p-grid>
+    <div class="p-col-12 p-lg-6">
+      <div class="card">
+        <h1>My Medical Reviews</h1>
+        <p-tabView>
+          <p-tabPanel header="Upcoming">
+            <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length === 0">
+              <h4>You have no upcoming medical review</h4>
+            </ng-container>
+            <ng-container *ngIf="medicalBoardCaseWrappers.length !== 0">
+              <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
+                <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <h4>Status: <span class="form-instance-status-badge-draft form-status-badge">{{indivCase.medicalBoardCase.medicalBoardCaseStatus}}</span></h4>
+                <h4>Assigned Chairman: {{indivCase.chairman}}</h4>
+                <h4>Start Date: {{indivCase.scheduledStartDate | date:'dd/MM/yyyy HH:mm' }}</h4>
+                <h4>End Date: {{indivCase.scheduledEndDate | date:'dd/MM/yyyy HH:mm' }}</h4>
+                <h4>Board Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h4>
+              </p-card>
+              <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length" (onPageChange)="paginateUpcoming($event)"></p-paginator>
+            </ng-container>
+          </p-tabPanel>
+          <p-tabPanel header="Completed">
+            <ng-container *ngIf="completedMedicalBoardCaseWrappers.length === 0">
+              <h4>You have no completed medical review</h4>
+            </ng-container>
+            <ng-container *ngIf="medicalBoardCaseWrappers.length !== 0">
+              <p-card class="marginCard" *ngFor="let indivCase of completedMedicalBoardCaseWrappers">
+                <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <h4>Status: <span class="form-instance-status-badge-draft form-status-badge">{{indivCase.medicalBoardCase.medicalBoardCaseStatus}}</span></h4>
+                <h4>Assigned Chairman: {{indivCase.chairman}}</h4>
+                <h4>Start Date: {{indivCase.scheduledStartDate | date:'dd/MM/yyyy HH:mm' }}</h4>
+                <h4>End Date: {{indivCase.scheduledEndDate | date:'dd/MM/yyyy HH:mm' }}</h4>
+                <h4>Board Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h4>
+                <ng-container *ngIf="indivCase.conditionStatuses.length === 0">
+                  You have no status
+                </ng-container>
+                <ng-container *ngIf="indivCase.conditionStatuses.length !== 0">
+                  <p-table [value]="indivCase.conditionStatuses">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Status Name</th>
+                            <th>Status End Date</th>
+                            
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-conditionStatus>
+                        <tr>
+                            <td>{{conditionStatus.description}}</td>
+                            <td>{{conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
+                            
+                        </tr>
+                    </ng-template>
+                </p-table>
+                
+                </ng-container>
+              </p-card>
+              <p-paginator [rows]="5" [totalRecords]="completedMedicalBoardCaseWrappers.length" (onPageChange)="paginateCompleted($event)"></p-paginator>
+            </ng-container>
+          </p-tabPanel>
+        </p-tabView>
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 import { Booking } from '../booking/booking';
+import { MedicalBoardSlotStatusEnum } from '../medical-board-slot-status-enum.enum';
 import { MedicalCentre } from '../medical-centre/medical-center';
 
 export abstract class Slot {
@@ -14,5 +15,22 @@ export class BookingSlot extends Slot{
         super()
         this.booking = booking
         this.medicalCentre = medicalCentre
+    }
+}
+
+export class MedicalBoardSlot extends Slot {
+    medicalBoardSlotStatusEnum: MedicalBoardSlotStatusEnum
+    estimatedTimeForEachBoardInPresenceCase: number
+    estimatedTimeForEachBoardInAbsenceCase: number
+    medicalOfficerOneKey: string
+    medicalOfficerTwoKey: string
+    constructor(medicalBoardSlotStatusEnum?: MedicalBoardSlotStatusEnum, estimatedTimeForEachBoardInPresenceCase?: number,
+        estimatedTimeForEachBoardInAbsenceCase?: number, medicalOfficerOneKey?: string, medicalOfficerTwoKey?: string) {
+        super();
+        this.medicalBoardSlotStatusEnum = medicalBoardSlotStatusEnum
+        this.estimatedTimeForEachBoardInAbsenceCase = estimatedTimeForEachBoardInAbsenceCase
+        this.estimatedTimeForEachBoardInPresenceCase = estimatedTimeForEachBoardInPresenceCase
+        this.medicalOfficerOneKey = medicalOfficerOneKey
+        this.medicalOfficerTwoKey = medicalOfficerTwoKey
     }
 }
