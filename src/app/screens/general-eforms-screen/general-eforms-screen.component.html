@@ -27,7 +27,6 @@
                             style="float:right;"></button>
                     </div>
                 </div>
-
                 <p-table #dt [value]="formInstances" selectionMode="single" [(selection)]="selectedFormInstance"
                 [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"    
                     dataKey="formInstanceId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
