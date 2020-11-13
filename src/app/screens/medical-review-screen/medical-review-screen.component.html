@@ -31,8 +31,8 @@
               <td>{{condition.conditionStatus.description}}</td>
               <td>{{condition.conditionStartDate | date:'dd/MM/yyyy'}} -
                 {{condition.conditionStatus.statusEndDate | date:'dd/MM/yyyy'}}</td>
-              <td *ngIf="condition.conditionStatus.isActive">Valid</td>
-              <td *ngIf="!condition.conditionStatus.isActive">Invalid</td>
+              <td *ngIf="condition.conditionStatus.isActive"><span class="status-badge status-badge-active">Active</span></td>
+              <td *ngIf="!condition.conditionStatus.isActive"><span  class="status-badge status-badge-expired">Expired</span></td>
 
             </tr>
           </ng-template>
@@ -56,14 +56,21 @@
             <ng-container *ngIf="medicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
                 <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
-                <h4>Status: <span
-                    class="form-instance-status-badge-draft form-status-badge">{{indivCase.medicalBoardCase.medicalBoardCaseStatus}}</span>
-                </h4>
-                <h4>Assigned Chairman: {{indivCase.chairman}}</h4>
-                <h4>Date: {{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
-                <h4>Time: {{indivCase.scheduledStartDate | date:'HH:mm' }} -
-                  {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
-                <h4>Board Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h4>
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
+                    <h4>{{indivCase.chairman}}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
+                    <h4>{{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
+                    <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
+                      {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                  </div>
+                </div>
               </p-card>
               <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length"
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>

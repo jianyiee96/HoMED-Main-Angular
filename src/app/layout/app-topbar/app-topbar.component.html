@@ -79,13 +79,13 @@
                         </ng-container>
                         <ng-container *ngFor="let notification of this.allNotifications">
                             <li role="menuitem" (mouseover)="notiHover=true" (mouseout)="notiHover=false">
-                                <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}" pTooltip="{{notification.message}}" tooltipPosition="bottom" 
-                                [tooltipDisabled]="numLines(notification.message) <= 3">
+                                <a (click)="redirecting(notification)" style="width:500px;" [ngClass]="{ 'unread' : !notification.isRead}" pTooltip="{{notification.message}}"
+                                [tooltipDisabled]="false">
                                 
                                     <div class="p-grid">
                                         <div *ngIf="notification.isRead" class="p-col-10">
                                             <h5>{{notification.title}}</h5>
-                                            <span>{{notification.message}}</span>
+                                            <span id="msg">{{notification.message}}</span>
                                             <br/>
                                             <p style="font-size:0.8rem; color: #65676b">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
                                         </div>
