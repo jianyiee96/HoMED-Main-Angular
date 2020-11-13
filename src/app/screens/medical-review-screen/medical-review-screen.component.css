@@ -6,6 +6,11 @@
   letter-spacing: .3px;
 }
 
+.type-status {
+  float: right;
+  margin-right: 5px;
+}
+
 .status-badge {
   font-size: 15px;
   margin: 3px;
@@ -38,22 +43,22 @@
   padding: 2px 6px;
   margin: 3px;
   background: #607D8B;
-  color: #000000;
+  color: #FFFFFF;
 }
 
 .absense-badge {
   border-radius: 5px;
-  padding: 2px;
+  padding: 2px 6px;
   margin: 3px;
-  background: #c26868;
-  color: #000000;
+  background: #607D8B;
+  color: #FFFFFF;
 }
 
 
 .presence-badge {
   border-radius: 5px;
-  padding: 2px;
+  padding: 2px 6px;
   margin: 3px;
-  background: #8cd637;
-  color: #000000;
+  background: #607D8B;
+  color: #FFFFFF;
 }

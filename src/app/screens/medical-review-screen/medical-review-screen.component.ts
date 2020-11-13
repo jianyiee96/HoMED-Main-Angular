@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ConditionStatusWrapper } from 'src/app/classes/condition-status/condition-status';
 import { MedicalBoardCaseWrapper } from 'src/app/classes/medical-board-case-wrapper/medical-board-case-wrapper';
 import { MedicalBoardCaseStatusEnum } from 'src/app/classes/medicalboardcase-enum';
@@ -26,7 +27,9 @@ export class MedicalReviewScreenComponent implements OnInit {
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
   currentServiceman: Serviceman
-  displayUpcoming: boolean = false
+  displayCompleted: boolean
+  index: number
+  trueboolean: boolean
   
   constructor(private breadcrumbService: BreadcrumbService, private activatedRoute: ActivatedRoute, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
     private sessionService: SessionService) {
@@ -50,9 +53,12 @@ export class MedicalReviewScreenComponent implements OnInit {
       response => {
         this.medicalBoardCaseWrappers = response.medicalBoardCases
         this.medicalBoardCaseWrappers.forEach(mbCase => {
+          console.log(parseInt(tempString))
           if (parseInt(tempString) === mbCase.medicalBoardCase.medicalBoardCaseId) {
-            if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED' || mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'WAITING') {
-              this.displayUpcoming = true
+            if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'COMPLETED') {
+              console.log("here")
+              this.displayCompleted = true
+              console.log(this.displayCompleted)
             }
           }
           mbCase.scheduledStartDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledStartDate)
@@ -68,6 +74,13 @@ export class MedicalReviewScreenComponent implements OnInit {
           } 
         
         });
+        if (this.displayCompleted) {
+          this.index = 1
+        } else {
+          this.index = 0
+        }
+        console.log("final")
+        console.log(this.displayCompleted)
         this.upcomingMedicalBoardCaseWrappers.sort((x, y) => (y.scheduledStartDate.getTime() - x.scheduledStartDate.getTime()))
         this.completedMedicalBoardCaseWrappers.sort((x, y) => (y.scheduledStartDate.getTime() - x.scheduledStartDate.getTime()))
         this.upcomingMedicalBoardCaseWrappers = this.upcomingMedicalBoardCaseWrappers.slice(0,5)

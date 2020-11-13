@@ -10,9 +10,9 @@
     <div class="p-col-12 p-lg-6">
       <div class="card">
         <h1>My Medical Reviews</h1>
-        <p-tabView>
+        <p-tabView [activeIndex]="index"> 
 
-          <p-tabPanel header="Upcoming" [selected]="displayUpcoming">
+          <p-tabPanel header="Upcoming">
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length === 0">
               <p-messages severity="warn">
                 <ng-template pTemplate>
@@ -24,13 +24,14 @@
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
                 <h1>Medical Case ID: <span class="pes-badge">{{indivCase.medicalBoardCase.medicalBoardCaseId}}</span>
-                  <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'PRESENCE'" class="presence-badge" style="float: right; margin-right: 5px;">MBIP</span>
-                  <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'" class="absense-badge" style="float: right; margin-right: 5px;">MBIA</span>
+                  <p-message pTooltip="*NOTE: This is a Medical Board in Presence Case. You are required to be present during the board for your case." tooltipPosition="top"
+                  *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'PRESENCE'" severity="info" text="PRESENCE" styleClass="p-mr-2" class="type-status"></p-message>
+                  <p-message pTooltip="*NOTE: This is a Medical Board in Absence Case. You will not be present during the board for your case." tooltipPosition="top"
+                  *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'" severity="info" text="ABSENCE" styleClass="p-mr-2" class="type-status"></p-message>
                 </h1>
-                <h3>Medical Review Type: {{indivCase.medicalBoardCase.medicalBoardType}}</h3>
                 <ng-container
                   *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'SCHEDULED'">
-                  
+
                   <div class="p-grid">
                     <div class="p-col-12 p-md-4">
                       <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
@@ -42,8 +43,7 @@
                     </div>
                     <div class="p-col-12 p-md-4">
                       <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
-                      <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
-                        {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                      <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }}</h4>
                     </div>
                   </div>
                 </ng-container>
@@ -86,7 +86,7 @@
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>
             </ng-container>
           </p-tabPanel> -->
-          <p-tabPanel header="Completed" [selected]="!displayUpcoming"> 
+          <p-tabPanel header="Completed">
             <ng-container *ngIf="completedMedicalBoardCaseWrappers.length === 0">
               <p-messages severity="warn">
                 <ng-template pTemplate>
@@ -96,12 +96,31 @@
               </p-messages>
             </ng-container>
             <ng-container *ngIf="completedMedicalBoardCaseWrappers.length !== 0">
-              
+
               <p-card class="marginCard" *ngFor="let indivCase of completedMedicalBoardCaseWrappers">
                 <h1>Medical Case ID: <span class="pes-badge">{{indivCase.medicalBoardCase.medicalBoardCaseId}}</span>
-                  <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'PRESENCE'" class="presence-badge" style="float: right; margin-right: 5px;">MBIP</span>
-                  <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'" class="absense-badge" style="float: right; margin-right: 5px;">MBIA</span>
+                  <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'PRESENCE'">
+                    <p-message pTooltip="*NOTE: This is a Medical Board in Absence Case. You will not be present during the board for your case." tooltipPosition="top"
+                   severity="info" text="PRESENCE" styleClass="p-mr-2" class="type-status"></p-message>
+                  </ng-container>
+                  <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'">
+                    <p-message pTooltip="*NOTE: This is a Medical Board in Absence Case. You will not be present during the board for your case." tooltipPosition="top"
+                     severity="info" text="ABSENCE" styleClass="p-mr-2" class="type-status"></p-message>
+                  </ng-container>
+                  
+                  <!-- <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'PRESENCE'" class="presence-badge" style="float: right; margin-right: 5px;">PRESENE</span>
+                  <span *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'" class="absense-badge" style="float: right; margin-right: 5px;">ABSENCE</span> -->
                 </h1>
+                <!-- <ng-container
+                  *ngIf="indivCase.medicalBoardCase.medicalBoardType.toString().toUpperCase() === 'ABSENCE'">
+                  <p-messages severity="info">
+                    <ng-template pTemplate>
+                      <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-info-circle"
+                          style="font-size: 1.5rem; margin-top: 3px;"></i> Type: Presence You do not have to come down
+                      </div>
+                    </ng-template>
+                  </p-messages>
+                </ng-container> -->
                 <div class="p-grid">
                   <div class="p-col-12 p-md-6">
                     <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
@@ -109,8 +128,7 @@
                   </div>
                   <div class="p-col-12 p-md-6">
                     <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
-                    <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
-                      {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                    <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }}</h4>
                   </div>
                   <div class="p-col-12 p-md-6">
                     <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
@@ -161,7 +179,8 @@
     </div>
     <div class="p-col-12 p-lg-6">
       <p-card>
-        <h1><i class="pi pi-user" style="font-size: 2rem"></i> Current Pes Status: <span class="pes-badge">{{currentServiceman?.pesStatus}}</span></h1>
+        <h1><i class="pi pi-user" style="font-size: 2rem"></i> Current Pes Status: <span
+            class="pes-badge">{{currentServiceman?.pesStatus}}</span></h1>
         <h1>My Statuses</h1>
         <ng-container *ngIf="allConditionStatusWrappers.length === 0">
           <p-messages severity="warn">

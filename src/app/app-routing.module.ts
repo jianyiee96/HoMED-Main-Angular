@@ -70,7 +70,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'medical-review-screen/:mbID',
+        path: 'medical-review-screen/:mbId',
         loadChildren: () => import('./screens/medical-review-screen/medical-review-screen.module').then(m => m.MedicalReviewScreenModule),
         canActivate: [AuthGuard]
       }
