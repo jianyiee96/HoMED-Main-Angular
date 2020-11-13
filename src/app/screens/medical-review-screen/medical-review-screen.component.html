@@ -23,7 +23,7 @@
             </ng-container>
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
-                <h1>Medical Case ID: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <h1>Medical Case ID: <span class="pes-badge">{{indivCase.medicalBoardCase.medicalBoardCaseId}}</span></h1>
                 <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'SCHEDULED'">
                 
                 <div class="p-grid">
@@ -48,7 +48,7 @@
                   <p-messages severity="warn">
                     <ng-template pTemplate>
                       <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-exclamation-triangle"
-                          style="font-size: 1.5rem"></i> Please wait until you are allocared a medical review</div>
+                          style="font-size: 1.5rem"></i> Please wait for your medical review is allocated</div>
                     </ng-template>
                   </p-messages>
                 
@@ -92,12 +92,8 @@
             </ng-container>
             <ng-container *ngIf="completedMedicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of completedMedicalBoardCaseWrappers">
-                <h1>Medical Case ID: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <h1>Medical Case ID: <span class="pes-badge">{{indivCase.medicalBoardCase.medicalBoardCaseId}}</span></h1>
                 <div class="p-grid">
-                  <div class="p-col-12 p-md-6">
-                    <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
-                    <h4>{{indivCase.chairman}}</h4>
-                  </div>
                   <div class="p-col-12 p-md-6">
                     <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
                     <h4>{{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
@@ -106,6 +102,10 @@
                     <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
                     <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
                       {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                  </div>
+                  <div class="p-col-12 p-md-6">
+                    <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
+                    <h4>Dr. {{indivCase.chairman}}</h4>
                   </div>
                   <div class="p-col-12 p-md-6">
                     <h4><i class="pi pi-user" style="font-size: 1rem"></i> Pes Status</h4>
@@ -150,7 +150,8 @@
       </div>
     </div>
       <div class="p-col-12 p-lg-6">
-        <p-card header="Current Pes Status: {{currentServiceman?.pesStatus}}">
+        <p-card>
+          <h1>Current Pes Status: <span class="pes-badge">{{currentServiceman?.pesStatus}}</span></h1>
           <h1>My Statuses</h1>
           <ng-container *ngIf="allConditionStatusWrappers.length === 0">
             <p-messages severity="warn">

@@ -32,3 +32,11 @@
   background: #ff4d4d;
   color: #FFFFFF;
 }
+
+.pes-badge {
+  border-radius: 5px;
+  padding: 2px;
+  margin: 3px;
+  background: #607D8B;
+  color: #000000;
+}
