@@ -107,6 +107,10 @@ export class AppTopbarComponent implements OnInit {
 
   }
 
+  toDisable() {
+    return document.getElementById('msg').innerHTML.includes('...')
+  }
+
   deleteNotification(notification) {
     this.notificationService.deleteNotification(notification.notificationId).subscribe(
       response => {
@@ -144,6 +148,13 @@ export class AppTopbarComponent implements OnInit {
         url = url + "/" + notification.dynamicId
       }
     }
+    if (notification.notificationTypeEnum === NotificationTypeEnum.MEDICAL_BOARD) {
+      url = url + "/medical-review-screen"
+      if (notification.dynamicId !== undefined) {
+        url = url + "/" + notification.dynamicId
+      }
+    }
+
     this.router.navigate([url])
   }
 

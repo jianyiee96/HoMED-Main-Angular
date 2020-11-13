@@ -19,7 +19,7 @@ export class ConsultationScreenComponent implements OnInit {
 
     constructor(private breadcrumbService: BreadcrumbService, private consultationService: ConsultationService) {
         this.breadcrumbService.setItems([
-            { label: 'Manage Booking' }
+            { label: 'Manage Consultation' }
         ])
     }
 

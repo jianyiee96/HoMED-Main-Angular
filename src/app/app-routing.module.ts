@@ -59,6 +59,11 @@ const routes: Routes = [
         loadChildren: () => import('./screens/consultation-screen/consultation-screen.module').then(m => m.ConsultationScreenComponentModule),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'medical-review-screen',
+        loadChildren: () => import('./screens/medical-review-screen/medical-review-screen.module').then(m => m.MedicalReviewScreenModule),
+        canActivate: [AuthGuard]
+      }
     ]
   },
   {
