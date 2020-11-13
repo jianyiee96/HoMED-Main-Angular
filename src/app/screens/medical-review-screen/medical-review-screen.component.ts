@@ -24,7 +24,6 @@ export class MedicalReviewScreenComponent implements OnInit {
   allConditionStatusWrappers: ConditionStatusWrapper[] = []
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
-  waitingMedicalBoardCaseWrappers: MedicalBoardCaseWrapper[] = []
   currentServiceman: Serviceman
 
   
@@ -51,7 +50,7 @@ export class MedicalReviewScreenComponent implements OnInit {
         this.medicalBoardCaseWrappers.forEach(mbCase => {
           mbCase.scheduledStartDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledStartDate)
           mbCase.scheduledEndDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledEndDate)
-          if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED') {
+          if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED' || mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'WAITING') {
             this.upcomingMedicalBoardCaseWrappers.push(mbCase)
           } else if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'COMPLETED'){
             mbCase.conditionStatuses.forEach(conStatWrapper => {
@@ -59,9 +58,7 @@ export class MedicalReviewScreenComponent implements OnInit {
               conStatWrapper.conditionStartDate = this.convertUTCStringToSingaporeDate(conStatWrapper.conditionStartDate)
             });
             this.completedMedicalBoardCaseWrappers.push(mbCase)
-          } else {
-            this.waitingMedicalBoardCaseWrappers.push(mbCase)
-          }
+          } 
         
         });
         this.upcomingMedicalBoardCaseWrappers.sort((x, y) => (y.scheduledStartDate.getTime() - x.scheduledStartDate.getTime()))

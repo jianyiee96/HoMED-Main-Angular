@@ -24,6 +24,8 @@
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
                 <h1>Medical Case ID: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
+                <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'SCHEDULED'">
+                
                 <div class="p-grid">
                   <div class="p-col-12 p-md-4">
                     <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
@@ -39,6 +41,18 @@
                       {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
                   </div>
                 </div>
+              </ng-container>
+
+                <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'WAITING'">
+                  
+                  <p-messages severity="warn">
+                    <ng-template pTemplate>
+                      <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-exclamation-triangle"
+                          style="font-size: 1.5rem"></i> Please wait until you are allocared a medical review</div>
+                    </ng-template>
+                  </p-messages>
+                
+              </ng-container>
               </p-card>
               <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length"
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>
