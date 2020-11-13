@@ -66,21 +66,36 @@
             <ng-container *ngIf="upcomingMedicalBoardCaseWrappers.length !== 0">
               <p-card class="marginCard" *ngFor="let indivCase of upcomingMedicalBoardCaseWrappers">
                 <h1>Medical Case Id: {{indivCase.medicalBoardCase.medicalBoardCaseId}}</h1>
-                <div class="p-grid">
-                  <div class="p-col-12 p-md-6">
-                    <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
-                    <h4>{{indivCase.chairman}}</h4>
+                <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'SCHEDULED'">
+                  <div class="p-grid">
+                    <div class="p-col-12 p-md-6">
+                      <h4><i class="pi pi-id-card" style="font-size: 1rem"></i> Assigned Chairman</h4>
+                      <h4>{{indivCase.chairman}}</h4>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                      <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
+                      <h4>{{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                      <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
+                      <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
+                        {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
+                    </div>
                   </div>
-                  <div class="p-col-12 p-md-6">
-                    <h4><i class="pi pi-calendar" style="font-size: 1rem"></i> Date</h4>
-                    <h4>{{indivCase.scheduledStartDate | date:'dd/MM/yyyy' }}</h4>
-                  </div>
-                  <div class="p-col-12 p-md-6">
-                    <h4><i class="pi pi-clock" style="font-size: 1rem"></i> Time</h4>
-                    <h4>{{indivCase.scheduledStartDate | date:'HH:mm' }} -
-                      {{indivCase.scheduledEndDate | date:'HH:mm' }}</h4>
-                  </div>
-                </div>
+                </ng-container>
+                <ng-container *ngIf="indivCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() === 'WAITING'">
+                  
+                    <p-messages severity="warn">
+                      <ng-template pTemplate>
+                        <div class="p-ml-2" style="font-size: 1.5rem;"><i class="pi pi-exclamation-triangle"
+                            style="font-size: 1.5rem"></i> Please wait until you are allocared a medical review</div>
+                      </ng-template>
+                    </p-messages>
+                  
+                </ng-container>
+
+                
+                
               </p-card>
               <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length"
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>

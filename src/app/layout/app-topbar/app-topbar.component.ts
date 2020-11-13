@@ -108,13 +108,13 @@ export class AppTopbarComponent implements OnInit {
   }
 
   toDisable() {
+    
     return document.getElementById('msg').innerHTML.includes('...')
   }
 
   deleteNotification(notification) {
     this.notificationService.deleteNotification(notification.notificationId).subscribe(
       response => {
-        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Notification Deleted' });
       }, error => {
         console.error(error)
       }
