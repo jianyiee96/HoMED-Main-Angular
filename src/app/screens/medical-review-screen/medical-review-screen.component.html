@@ -86,7 +86,7 @@
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>
             </ng-container>
           </p-tabPanel>
-          <p-tabPanel header="Unscheduled">
+          <!-- <p-tabPanel header="Unscheduled">
             <ng-container *ngIf="waitingMedicalBoardCaseWrappers.length === 0">
               <p-messages severity="warn">
                 <ng-template pTemplate>
@@ -108,7 +108,7 @@
               <p-paginator [rows]="5" [totalRecords]="upcomingMedicalBoardCaseWrappers.length"
                 (onPageChange)="paginateUpcoming($event)"></p-paginator>
             </ng-container>
-          </p-tabPanel>
+          </p-tabPanel> -->
           <p-tabPanel header="Completed">
             <ng-container *ngIf="completedMedicalBoardCaseWrappers.length === 0">
               <p-messages severity="warn">
