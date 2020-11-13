@@ -150,6 +150,10 @@ export class AppTopbarComponent implements OnInit {
     }
     if (notification.notificationTypeEnum === NotificationTypeEnum.MEDICAL_BOARD) {
       url = url + "/medical-review-screen"
+      if (notification.dynamicId !== undefined) {
+        url = url + "/" + notification.dynamicId
+      }
+      
     }
 
     this.router.navigate([url])

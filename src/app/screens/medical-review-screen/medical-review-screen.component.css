@@ -35,8 +35,25 @@
 
 .pes-badge {
   border-radius: 5px;
-  padding: 2px;
+  padding: 2px 6px;
   margin: 3px;
   background: #607D8B;
+  color: #000000;
+}
+
+.absense-badge {
+  border-radius: 5px;
+  padding: 2px;
+  margin: 3px;
+  background: #c26868;
+  color: #000000;
+}
+
+
+.presence-badge {
+  border-radius: 5px;
+  padding: 2px;
+  margin: 3px;
+  background: #8cd637;
   color: #000000;
 }

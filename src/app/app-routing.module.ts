@@ -68,6 +68,11 @@ const routes: Routes = [
         path: 'medical-review-screen',
         loadChildren: () => import('./screens/medical-review-screen/medical-review-screen.module').then(m => m.MedicalReviewScreenModule),
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'medical-review-screen/:mbID',
+        loadChildren: () => import('./screens/medical-review-screen/medical-review-screen.module').then(m => m.MedicalReviewScreenModule),
+        canActivate: [AuthGuard]
       }
     ]
   },

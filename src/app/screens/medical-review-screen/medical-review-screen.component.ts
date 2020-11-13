@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ConditionStatusWrapper } from 'src/app/classes/condition-status/condition-status';
 import { MedicalBoardCaseWrapper } from 'src/app/classes/medical-board-case-wrapper/medical-board-case-wrapper';
@@ -25,9 +26,9 @@ export class MedicalReviewScreenComponent implements OnInit {
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
   currentServiceman: Serviceman
-
+  displayUpcoming: boolean = false
   
-  constructor(private breadcrumbService: BreadcrumbService, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
+  constructor(private breadcrumbService: BreadcrumbService, private activatedRoute: ActivatedRoute, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
     private sessionService: SessionService) {
     this.breadcrumbService.setItems([
         { label: 'Medical Review' }
@@ -35,6 +36,7 @@ export class MedicalReviewScreenComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    let tempString = this.activatedRoute.snapshot.paramMap.get('mbId')
     this.servicemanService.retrieveServicemanDetails().subscribe(
       response => {
         this.currentServiceman = response.serviceman
@@ -48,6 +50,11 @@ export class MedicalReviewScreenComponent implements OnInit {
       response => {
         this.medicalBoardCaseWrappers = response.medicalBoardCases
         this.medicalBoardCaseWrappers.forEach(mbCase => {
+          if (parseInt(tempString) === mbCase.medicalBoardCase.medicalBoardCaseId) {
+            if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED' || mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'WAITING') {
+              this.displayUpcoming = true
+            }
+          }
           mbCase.scheduledStartDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledStartDate)
           mbCase.scheduledEndDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledEndDate)
           if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED' || mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'WAITING') {
