@@ -24,6 +24,7 @@ export class MedicalReviewScreenComponent implements OnInit {
   allConditionStatusWrappers: ConditionStatusWrapper[] = []
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
+  waitingMedicalBoardCaseWrappers: MedicalBoardCaseWrapper[] = []
   currentServiceman: Serviceman
 
   
@@ -58,6 +59,8 @@ export class MedicalReviewScreenComponent implements OnInit {
               conStatWrapper.conditionStartDate = this.convertUTCStringToSingaporeDate(conStatWrapper.conditionStartDate)
             });
             this.completedMedicalBoardCaseWrappers.push(mbCase)
+          } else {
+            this.waitingMedicalBoardCaseWrappers.push(mbCase)
           }
         
         });
