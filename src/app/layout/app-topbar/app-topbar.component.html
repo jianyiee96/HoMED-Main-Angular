@@ -85,7 +85,7 @@
                                     <div class="p-grid">
                                         <div *ngIf="notification.isRead" class="p-col-10">
                                             <h5>{{notification.title}}</h5>
-                                            <span id="msg">{{notification.message}}</span>
+                                            <span id="msg" style="white-space: pre-line" class="ellipsis">{{notification.message}}</span>
                                             <br/>
                                             <p style="font-size:0.8rem; color: #65676b">{{notification.notificationDate | date:'dd/MM/yyyy HH:mm'}}</p>
                                         </div>
