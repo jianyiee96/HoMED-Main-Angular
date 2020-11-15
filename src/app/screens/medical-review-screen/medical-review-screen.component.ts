@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ConditionStatusWrapper } from 'src/app/classes/condition-status/condition-status';
 import { MedicalBoardCaseWrapper } from 'src/app/classes/medical-board-case-wrapper/medical-board-case-wrapper';
 import { MedicalBoardCaseStatusEnum } from 'src/app/classes/medicalboardcase-enum';
@@ -24,11 +26,12 @@ export class MedicalReviewScreenComponent implements OnInit {
   allConditionStatusWrappers: ConditionStatusWrapper[] = []
   activeConditionStatusWrappers: ConditionStatusWrapper[]
   expiredConditionStatusWrappers: ConditionStatusWrapper[]
-  waitingMedicalBoardCaseWrappers: MedicalBoardCaseWrapper[] = []
   currentServiceman: Serviceman
-
+  displayCompleted: boolean
+  index: number
+  trueboolean: boolean
   
-  constructor(private breadcrumbService: BreadcrumbService, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
+  constructor(private breadcrumbService: BreadcrumbService, private activatedRoute: ActivatedRoute, private medicalReviewService: MedicalReviewService, private servicemanService: ServicemanService,
     private sessionService: SessionService) {
     this.breadcrumbService.setItems([
         { label: 'Medical Review' }
@@ -36,6 +39,7 @@ export class MedicalReviewScreenComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    let tempString = this.activatedRoute.snapshot.paramMap.get('mbId')
     this.servicemanService.retrieveServicemanDetails().subscribe(
       response => {
         this.currentServiceman = response.serviceman
@@ -49,9 +53,17 @@ export class MedicalReviewScreenComponent implements OnInit {
       response => {
         this.medicalBoardCaseWrappers = response.medicalBoardCases
         this.medicalBoardCaseWrappers.forEach(mbCase => {
+          console.log(parseInt(tempString))
+          if (parseInt(tempString) === mbCase.medicalBoardCase.medicalBoardCaseId) {
+            if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'COMPLETED') {
+              console.log("here")
+              this.displayCompleted = true
+              console.log(this.displayCompleted)
+            }
+          }
           mbCase.scheduledStartDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledStartDate)
           mbCase.scheduledEndDate = this.convertUTCStringToSingaporeDate(mbCase.scheduledEndDate)
-          if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED') {
+          if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'SCHEDULED' || mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'WAITING') {
             this.upcomingMedicalBoardCaseWrappers.push(mbCase)
           } else if (mbCase.medicalBoardCase.medicalBoardCaseStatus.toString().toUpperCase() == 'COMPLETED'){
             mbCase.conditionStatuses.forEach(conStatWrapper => {
@@ -59,11 +71,16 @@ export class MedicalReviewScreenComponent implements OnInit {
               conStatWrapper.conditionStartDate = this.convertUTCStringToSingaporeDate(conStatWrapper.conditionStartDate)
             });
             this.completedMedicalBoardCaseWrappers.push(mbCase)
-          } else {
-            this.waitingMedicalBoardCaseWrappers.push(mbCase)
-          }
+          } 
         
         });
+        if (this.displayCompleted) {
+          this.index = 1
+        } else {
+          this.index = 0
+        }
+        console.log("final")
+        console.log(this.displayCompleted)
         this.upcomingMedicalBoardCaseWrappers.sort((x, y) => (y.scheduledStartDate.getTime() - x.scheduledStartDate.getTime()))
         this.completedMedicalBoardCaseWrappers.sort((x, y) => (y.scheduledStartDate.getTime() - x.scheduledStartDate.getTime()))
         this.upcomingMedicalBoardCaseWrappers = this.upcomingMedicalBoardCaseWrappers.slice(0,5)

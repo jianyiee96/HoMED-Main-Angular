@@ -108,13 +108,13 @@ export class AppTopbarComponent implements OnInit {
   }
 
   toDisable() {
+    
     return document.getElementById('msg').innerHTML.includes('...')
   }
 
   deleteNotification(notification) {
     this.notificationService.deleteNotification(notification.notificationId).subscribe(
       response => {
-        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Notification Deleted' });
       }, error => {
         console.error(error)
       }
@@ -149,10 +149,11 @@ export class AppTopbarComponent implements OnInit {
       }
     }
     if (notification.notificationTypeEnum === NotificationTypeEnum.MEDICAL_BOARD) {
-      url = url + "/medical-review-screen"
+      url = url + "/medical-review-screen"  
       if (notification.dynamicId !== undefined) {
         url = url + "/" + notification.dynamicId
       }
+      
     }
 
     this.router.navigate([url])

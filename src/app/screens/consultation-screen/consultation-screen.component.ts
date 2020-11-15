@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { Consultation } from 'src/app/classes/consultation/consultation';
 import { BreadcrumbService } from 'src/app/services/breadcrum.service';
@@ -14,20 +15,36 @@ import { ConsultationService } from 'src/app/services/consultation/consultation.
 export class ConsultationScreenComponent implements OnInit {
     myConsultations: Consultation[] = []
     selectedConsultation: Consultation
+    passedConsultationId: number
     isSelected: boolean
     queueNumber: number
 
-    constructor(private breadcrumbService: BreadcrumbService, private consultationService: ConsultationService) {
+    constructor(private breadcrumbService: BreadcrumbService, private activatedRoute: ActivatedRoute, private consultationService: ConsultationService) {
         this.breadcrumbService.setItems([
             { label: 'Manage Consultation' }
         ])
     }
 
     ngOnInit() {
+        let tempString = this.activatedRoute.snapshot.paramMap.get('consultationId')
         this.consultationService.retrieveServicemanConsultations().subscribe(
             response => {
                 (async () => {
                     this.myConsultations = response.consultations
+                    if (tempString !== '') {
+                        this.passedConsultationId = parseInt(tempString)
+                        for (var index = 0; index < this.myConsultations.length; index++) {
+                          if (this.myConsultations[index].consultationId === this.passedConsultationId) {
+                            this.selectedConsultation = this.myConsultations[index];
+                            let a = ''
+                            this.onRowSelect(a)
+                            break;
+                          }
+                        }
+                      }
+                      else {
+                        this.isSelected = false
+                      }
                 })();
             }, error => {
                 console.error(error)
